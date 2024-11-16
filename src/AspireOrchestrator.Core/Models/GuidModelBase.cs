@@ -2,19 +2,19 @@
 {
     public abstract class GuidModelBase: Entity<Guid>
     {
-        public GuidModelBase()
+        protected GuidModelBase()
         {
             Id = Guid.NewGuid();
-            TenantÍd = 0;
+            TenantId = 0;
         }
 
-        public GuidModelBase(long tenantÍd)
+        protected GuidModelBase(long tenantÍd)
         {
-            TenantÍd = tenantÍd;
+            TenantId = tenantÍd;
             Id = Guid.NewGuid();
         }
 
-        public long TenantÍd { get; set; }
+        public long TenantId { get; set; }
 
     }
 }
