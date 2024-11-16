@@ -1,36 +1,31 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.Testing" Version="9.0.0" />
-    <PackageReference Include="coverlet.collector" Version="6.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
+    <PackageReference Include="SpecFlow.xUnit" Version="3.9.74" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="FluentAssertions" Version="6.12.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Aspire.Hosting.Testing" />
-    <Using Include="Xunit" />
+    <Folder Include="Support\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\AspireOrchestrator.Core\AspireOrchestrator.Core.csproj" />
-    <ProjectReference Include="..\..\src\AspireOrchestrator.DataAccess\AspireOrchestrator.DataAccess.csproj" />
     <ProjectReference Include="..\..\src\AspireOrchestrator.Orchestrator\AspireOrchestrator.Orchestrator.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.PersistenceTests\AspireOrchestrator.PersistenceTests.csproj" />
   </ItemGroup>
 
 </Project>

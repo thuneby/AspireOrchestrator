@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="BusinessLogic\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AspireOrchestrator.Core\AspireOrchestrator.Core.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.DataAccess\AspireOrchestrator.DataAccess.csproj" />
   </ItemGroup>
