@@ -50,7 +50,7 @@ namespace AspireOrchestrator.Orchestrator.DataAccess
             var existing = context.EventEntity
                 .FirstOrDefault(x => x.TenantId == tenantId && x.ProcessState == ProcessState.Receive && x.EventType == eventType &&
                                      !string.IsNullOrWhiteSpace(x.Parameters) && x.Parameters == fileName);
-            if (existing != null && existing.State != EventState.Completed)
+            if (existing != null && existing.EventState != EventState.Completed)
                 return existing;
             var documentType = GetDocumentType(eventType);
             var eventEntity = new EventEntity
@@ -74,7 +74,7 @@ namespace AspireOrchestrator.Orchestrator.DataAccess
         public EventEntity? GetNextEvent(long flowId)
         {
             var flowEvents = GetEventFlow(flowId);
-            var nextEvent = flowEvents.FirstOrDefault(x => x.State != EventState.Completed);
+            var nextEvent = flowEvents.FirstOrDefault(x => x.EventState != EventState.Completed);
             return nextEvent;
         }
 

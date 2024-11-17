@@ -19,16 +19,34 @@ namespace AspireOrchestrator.ScerarioTests.StepDefinitions
             _scenarioDriver.GivenEvent(eventTable);
         }
 
-        [When(@"the event is processed")]
-        public async void WhenTheEventIsProcessed()
+        [When(@"the next event is processed")]
+        public async Task WhenTheEventIsProcessed()
         {
-            await _scenarioDriver.WhenEventIsProcessed();
+            await _scenarioDriver.WhenEventIsProcessed(); 
+        }
+
+        [When(@"the flow has been processed")]
+        public async Task WhenTheFlowHasBeenProcessed()
+        {
+            await _scenarioDriver.WhenFlowHasBeenProcessed();
         }
 
         [Then(@"the event should be in the following state")]
         public void ThenTheEventShouldHaveTheFollowingState(Table eventTable)
         {
             _scenarioDriver.ThenEventShouldHaveState(eventTable);
+        }
+
+        [Then(@"the following events should be in the event store")]
+        public void ThenTheFollowingEventsShouldBeInTheEventStore(Table eventTable)
+        {
+            _scenarioDriver.ThenEventsShouldBeInTheEventStore(eventTable);
+        }
+
+        [Then(@"(EventEntity|Tenant) table contains rows")]
+        public void ThenTableNameContainsRows(TableName tableName, Table specFlowTable)
+        {
+            _scenarioDriver.ThenTableNameContainsRows(tableName, specFlowTable);
         }
     }
 }

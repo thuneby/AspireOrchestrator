@@ -30,7 +30,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
             do
             {
                 eventEntity = await ProcessEvent(eventEntity);
-                if (eventEntity.State == EventState.Error || eventEntity.State == EventState.Processing)
+                if (eventEntity.EventState == EventState.Error || eventEntity.EventState == EventState.Processing)
                     return eventEntity;
             } while (eventEntity.ProcessState != ProcessState.WorkFlowCompleted);
             return eventEntity;
@@ -48,7 +48,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
         {
             try
             {
-                if (eventEntity.State == EventState.Completed)
+                if (eventEntity.EventState == EventState.Completed)
                 {
                     var newEvent = GetNextEvent(eventEntity);
                     // Update current event
@@ -63,14 +63,14 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
             {
                 _logger.LogError(e.Message, e);
                 eventEntity.ErrorMessage = e.Message;
-                eventEntity.State = EventState.Error;
+                eventEntity.EventState = EventState.Error;
             }
             return eventEntity;
         }
 
         public async Task<EventEntity> DoProcessing(EventEntity entity)
         {
-            if (entity.State == EventState.Completed)
+            if (entity.EventState == EventState.Completed)
                 return entity;
             entity.StartEvent();
             _eventRepository.Update(entity); // make sure nobody else takes it
@@ -78,7 +78,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
             if (processor == null)
             {
                 entity.ErrorMessage = "Processor not found for event!";
-                entity.State = EventState.Error;
+                entity.EventState = EventState.Error;
                 return entity;
             }
             var result = await processor.ProcessEvent(entity);
@@ -92,7 +92,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
             var entity = new EventEntity
             {
                 Id = Guid.NewGuid(),
-                State = EventState.New,
+                EventState = EventState.New,
                 EventType = originalEvent.EventType,
                 FlowId = originalEvent.FlowId,
                 TenantId = originalEvent.TenantId,
@@ -101,7 +101,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
                 Parameters = originalEvent.Result
             };
             if (entity.ProcessState != ProcessState.WorkFlowCompleted) return entity;
-            entity.State = EventState.Completed;
+            entity.EventState = EventState.Completed;
             entity.StartTime = entity.CreatedDate;
             entity.EndTime = entity.CreatedDate;
             entity.Result = "Workflow Completed";

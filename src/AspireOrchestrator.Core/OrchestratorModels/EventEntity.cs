@@ -12,7 +12,7 @@ namespace AspireOrchestrator.Core.OrchestratorModels
 
         public void UpdateProcessResult(EventState state = EventState.Completed)
         {
-            State = state;
+            EventState = state;
             if (state == EventState.Completed)
             {
                 if (!string.IsNullOrWhiteSpace(ErrorMessage))
@@ -23,21 +23,21 @@ namespace AspireOrchestrator.Core.OrchestratorModels
 
         public void StartEvent()
         {
-            State = EventState.Processing;
+            EventState = EventState.Processing;
             StartTime = DateTime.UtcNow;
             ExecutionCount++;
         }
 
         public void AssignResult(EventEntity result)
         {
-            State = result.State;
+            EventState = result.EventState;
             Result = result.Result;
             ErrorMessage = result.ErrorMessage;
         }
 
         public long FlowId { get; set; }
         public EventType EventType { get; set; }
-        public EventState State { get; set; } = EventState.New;
+        public EventState EventState { get; set; } = EventState.New;
         public ProcessState ProcessState { get; set; }
         public DocumentType DocumentType { get; set; }
         public string Parameters { get; set; } = string.Empty;
