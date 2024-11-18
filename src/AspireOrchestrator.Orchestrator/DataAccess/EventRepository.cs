@@ -1,13 +1,12 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
-using AspireOrchestrator.Core.Models;
 using AspireOrchestrator.DataAccess.Repositories;
 using AspireOrchestrator.Orchestrator.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace AspireOrchestrator.Orchestrator.DataAccess
 {
-    public class EventRepository(OrchestratorContext context, ILogger<EventRepository> logger, Tenant tenant)
-        : GuidRepositoryBase<EventEntity>(context, logger, tenant), IEventRepository
+    public class EventRepository(OrchestratorContext context, ILogger<EventRepository> logger)
+        : GuidRepositoryBase<EventEntity>(context, logger), IEventRepository
     {
         public void AddOrUpdateEventEntity(EventEntity eventEntity)
         {
@@ -90,6 +89,11 @@ namespace AspireOrchestrator.Orchestrator.DataAccess
 
                 _ => throw new ArgumentOutOfRangeException(nameof(eventType), eventType, null)
             };
+        }
+
+        public IEnumerable<EventEntity> GetAll(int skip, int take)
+        {
+            return base.GetList(skip, take);
         }
     }
 }

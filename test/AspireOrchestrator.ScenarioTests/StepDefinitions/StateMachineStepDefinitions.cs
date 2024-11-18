@@ -1,18 +1,14 @@
 using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Orchestrator.BusinessLogic;
 
-namespace AspireOrchestrator.ScerarioTests.StepDefinitions
+namespace AspireOrchestrator.ScenarioTests.StepDefinitions
 {
     [Binding]
-    public class StateMachineStepDefinitions
+    public class StateMachineStepDefinitions(ScenarioContext scenarioContext)
     {
-        private readonly ScenarioContext _scenarioContext;
-        private EventEntity _eventEntity;
-        public StateMachineStepDefinitions(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
-        
+        private readonly ScenarioContext _scenarioContext = scenarioContext;
+        private EventEntity _eventEntity = new() {Id = Guid.NewGuid()};
+
         [When(@"the event with EventType (.*) and ProcessState (.*)")]
         public void WhenTheEventWithEventTypeHandleOsInfoAndProcessStateReceive(EventType eventType, ProcessState processState)
         {

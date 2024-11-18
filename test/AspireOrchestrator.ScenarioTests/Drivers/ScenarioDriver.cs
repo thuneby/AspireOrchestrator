@@ -6,12 +6,11 @@ using AspireOrchestrator.PersistenceTests.Common;
 using Microsoft.Extensions.Logging;
 using TechTalk.SpecFlow.Assist;
 
-namespace AspireOrchestrator.ScerarioTests.Drivers
+namespace AspireOrchestrator.ScenarioTests.Drivers
 {
     public class ScenarioDriver: TestBase
     {
         private readonly ScenarioContext _scenarioContext;
-        private readonly Tenant _baseTenant = new Tenant { Id = 1, TenantName = "Test Tenant" };
         private readonly EventRepository _eventRepository;
         private readonly WorkFlowProcessor _workFlowProcessor;
 
@@ -19,9 +18,8 @@ namespace AspireOrchestrator.ScerarioTests.Drivers
         {
             _scenarioContext = scenarioContext;
             var logger = TestLoggerFactory.CreateLogger<EventRepository>();
-            _eventRepository = new EventRepository(OrchestratorContext, logger, _baseTenant);
-            _workFlowProcessor = new WorkFlowProcessor(_eventRepository, new ProcessorFactory(TestLoggerFactory), 
-                TestLoggerFactory.CreateLogger<WorkFlowProcessor>());
+            _eventRepository = new EventRepository(OrchestratorContext, logger);
+            _workFlowProcessor = new WorkFlowProcessor(_eventRepository, TestLoggerFactory);
         }
 
         public void GivenEvent(Table eventTable)

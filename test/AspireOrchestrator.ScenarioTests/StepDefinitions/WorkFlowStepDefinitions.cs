@@ -1,6 +1,6 @@
-﻿using AspireOrchestrator.ScerarioTests.Drivers;
+﻿using AspireOrchestrator.ScenarioTests.Drivers;
 
-namespace AspireOrchestrator.ScerarioTests.StepDefinitions
+namespace AspireOrchestrator.ScenarioTests.StepDefinitions
 {
     [Binding]
     public class WorkFlowStepDefinitions

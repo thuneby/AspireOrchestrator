@@ -14,7 +14,7 @@ namespace AspireOrchestrator.PersistenceTests.RepositoryTests
         public EventRepositoryTests()
         {
             var logger = TestLoggerFactory.CreateLogger<EventRepository>();
-            _eventRepository = new EventRepository(OrchestratorContext, logger, _baseTenant);
+            _eventRepository = new EventRepository(OrchestratorContext, logger);
         }
 
         [Fact]

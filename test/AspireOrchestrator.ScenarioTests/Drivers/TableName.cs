@@ -1,4 +1,4 @@
-﻿namespace AspireOrchestrator.ScerarioTests.Drivers
+﻿namespace AspireOrchestrator.ScenarioTests.Drivers
 {
     public enum TableName
     {

@@ -21,7 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.DataAcce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.PersistenceTests", "test\AspireOrchestrator.PersistenceTests\AspireOrchestrator.PersistenceTests.csproj", "{ADD74876-448F-4839-95DF-C3485512A059}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.ScerarioTests", "test\AspireOrchestrator.ScerarioTests\AspireOrchestrator.ScerarioTests.csproj", "{F3699751-F22A-4D96-BD5B-B7C107119935}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.ScenarioTests", "test\AspireOrchestrator.ScenarioTests\AspireOrchestrator.ScenarioTests.csproj", "{F3699751-F22A-4D96-BD5B-B7C107119935}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Orchestrator.WebApi", "src\AspireOrchestrator.Orchestrator.WebApi\AspireOrchestrator.Orchestrator.WebApi.csproj", "{085ABA89-4CAC-43CB-9A97-8AA0EE9C2B62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.DatabaseMigrations", "src\AspireOrchestrator.DatabaseMigrations\AspireOrchestrator.DatabaseMigrations.csproj", "{1D49F1E7-8237-4ABC-AE23-E0634FFE1C95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +65,14 @@ Global
 		{F3699751-F22A-4D96-BD5B-B7C107119935}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3699751-F22A-4D96-BD5B-B7C107119935}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3699751-F22A-4D96-BD5B-B7C107119935}.Release|Any CPU.Build.0 = Release|Any CPU
+		{085ABA89-4CAC-43CB-9A97-8AA0EE9C2B62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{085ABA89-4CAC-43CB-9A97-8AA0EE9C2B62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{085ABA89-4CAC-43CB-9A97-8AA0EE9C2B62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{085ABA89-4CAC-43CB-9A97-8AA0EE9C2B62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D49F1E7-8237-4ABC-AE23-E0634FFE1C95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D49F1E7-8237-4ABC-AE23-E0634FFE1C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D49F1E7-8237-4ABC-AE23-E0634FFE1C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D49F1E7-8237-4ABC-AE23-E0634FFE1C95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +86,8 @@ Global
 		{ED6633D6-36C6-435B-85A0-5F09053EFA4F} = {A8562D58-773A-4868-9144-BE5889B347C8}
 		{ADD74876-448F-4839-95DF-C3485512A059} = {95E33E16-1898-4A1A-8163-42A68CED2AF5}
 		{F3699751-F22A-4D96-BD5B-B7C107119935} = {95E33E16-1898-4A1A-8163-42A68CED2AF5}
+		{085ABA89-4CAC-43CB-9A97-8AA0EE9C2B62} = {A8562D58-773A-4868-9144-BE5889B347C8}
+		{1D49F1E7-8237-4ABC-AE23-E0634FFE1C95} = {A8562D58-773A-4868-9144-BE5889B347C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C21DF330-5DC3-4524-BFE0-15B1E4EB83EC}

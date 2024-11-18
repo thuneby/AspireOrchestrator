@@ -1,26 +1,18 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
-using AspireOrchestrator.Orchestrator.DataAccess;
+using AspireOrchestrator.Orchestrator.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace AspireOrchestrator.Orchestrator.BusinessLogic
 {
-    public class WorkFlowProcessor
+    public class WorkFlowProcessor(IEventRepository eventRepository, ILoggerFactory loggerFactory)
     {
-        private readonly EventRepository _eventRepository;
-        private readonly ILogger<WorkFlowProcessor> _logger;
-        private readonly ProcessorFactory _processorFactory;
-
-        public WorkFlowProcessor(EventRepository eventRepository, ProcessorFactory processorFactory, ILogger<WorkFlowProcessor> logger)
-        {
-            _eventRepository = eventRepository;
-            _processorFactory = processorFactory;
-            _logger = logger;
-        }
+        private readonly ILogger<WorkFlowProcessor> _logger = loggerFactory.CreateLogger<WorkFlowProcessor>();
+        private readonly ProcessorFactory _processorFactory = new(loggerFactory);
 
 
         public async Task<EventEntity> ProcessFlow(long flowId)
         {
-            var eventEntity = _eventRepository.GetNextEvent(flowId);
+            var eventEntity = eventRepository.GetNextEvent(flowId);
             if (eventEntity == null)
             {
                 _logger.LogError("Event ikke fundet for flowId {0}", flowId);
@@ -52,12 +44,12 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
                 {
                     var newEvent = GetNextEvent(eventEntity);
                     // Update current event
-                    _eventRepository.Update(eventEntity);
+                    eventRepository.Update(eventEntity);
                     // Add new event
-                    _eventRepository.AddOrUpdateEventEntity(newEvent);
+                    eventRepository.AddOrUpdateEventEntity(newEvent);
                     return returnNewEvent ? newEvent : eventEntity;
                 }
-                _eventRepository.Update(eventEntity);
+                eventRepository.Update(eventEntity);
             }
             catch (Exception e)
             {
@@ -73,7 +65,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
             if (entity.EventState == EventState.Completed)
                 return entity;
             entity.StartEvent();
-            _eventRepository.Update(entity); // make sure nobody else takes it
+            eventRepository.Update(entity); // make sure nobody else takes it
             var processor = _processorFactory.GetProcessor(entity);
             if (processor == null)
             {
