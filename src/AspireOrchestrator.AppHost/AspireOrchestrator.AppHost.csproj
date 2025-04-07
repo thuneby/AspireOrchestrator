@@ -19,7 +19,8 @@
   <ItemGroup>
     <ProjectReference Include="..\AspireOrchestrator.DatabaseMigrations\AspireOrchestrator.DatabaseMigrations.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.Orchestrator.WebApi\AspireOrchestrator.Orchestrator.WebApi.csproj" />
-    <ProjectReference Include="..\AspireOrchestrator.ServiceDefaults\AspireOrchestrator.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.ServiceDefaults\AspireOrchestrator.ServiceDefaults.csproj"
+						IsAspireProjectResource="false"/>
   </ItemGroup>
 
 </Project>
