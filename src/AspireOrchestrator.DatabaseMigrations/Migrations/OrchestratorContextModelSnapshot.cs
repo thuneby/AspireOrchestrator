@@ -109,8 +109,6 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
 
                     b.HasIndex("FlowId");
 
-                    b.HasIndex("TenantId");
-
                     b.ToTable("EventEntity");
                 });
 
@@ -138,21 +136,11 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
 
             modelBuilder.Entity("AspireOrchestrator.Core.OrchestratorModels.EventEntity", b =>
                 {
-                    b.HasOne("AspireOrchestrator.Core.OrchestratorModels.Flow", "Flow")
+                    b.HasOne("AspireOrchestrator.Core.OrchestratorModels.Flow", null)
                         .WithMany("Events")
                         .HasForeignKey("FlowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("AspireOrchestrator.Core.Models.Tenant", "Tenant")
-                        .WithMany()
-                        .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Flow");
-
-                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("AspireOrchestrator.Core.OrchestratorModels.Flow", b =>

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using AspireOrchestrator.Core.Models;
 
 namespace AspireOrchestrator.Core.OrchestratorModels
@@ -36,7 +37,7 @@ namespace AspireOrchestrator.Core.OrchestratorModels
         }
 
         public long FlowId { get; set; }
-        public virtual Flow Flow { get; set; } = null!; // Navigation property to Flow entity
+
         public EventType EventType { get; set; }
         public EventState EventState { get; set; } = EventState.New;
         public ProcessState ProcessState { get; set; }

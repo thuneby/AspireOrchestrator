@@ -34,12 +34,14 @@ namespace AspireOrchestrator.Orchestrator.DataAccess
         {
             if (eventEntity.FlowId == 0)
             {
-                //var flow = new Flow // ToDo
-                //{
-                //    CreatedDate = eventEntity.CreatedDate
-                //};
-                //_context.Add(flow);
-                //eventEntity.Flow = flow;
+                var flow = new Flow()
+                {
+                    Id = 0,
+                    CreatedDate = eventEntity.CreatedDate
+                };
+                context.Add(flow);
+                context.SaveChanges(); // FlowId is updated after saving
+                eventEntity.FlowId = flow.Id;
             }
             Add(eventEntity);
         }

@@ -15,7 +15,6 @@
         }
 
         public long TenantId { get; set; }
-        public virtual Tenant Tenant { get; set; } 
 
     }
 }

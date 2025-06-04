@@ -78,20 +78,12 @@ public class OrchestratorDbInitializer(
             IsDefaultTenant = true
         };
 
-        Flow flow = new()
-        {
-            Id = 0, // Automatically set by Database. Seed defaults to 1
-            State = FlowState.Active,
-            TenantId = tenant.Id // Set TenantId to match the seed tenant
-        };
-
         var strategy = dbContext.Database.CreateExecutionStrategy();
         await strategy.ExecuteAsync(async () =>
         {
             if (!await dbContext.Tenant.AnyAsync(cancellationToken))
             {
                 await dbContext.Tenant.AddAsync(tenant, cancellationToken);
-                await dbContext.Flow.AddAsync(flow, cancellationToken);
                 await dbContext.SaveChangesAsync(cancellationToken);
             }
         });
