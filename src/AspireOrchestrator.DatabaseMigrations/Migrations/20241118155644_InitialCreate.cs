@@ -31,7 +31,7 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "0, 1"),
                     TenantName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublicId = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),

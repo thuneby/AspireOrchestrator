@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Diagnostics;
+using AspireOrchestrator.Core.Models;
 using AspireOrchestrator.Orchestrator.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -27,6 +28,7 @@ public class OrchestratorDbInitializer(
 
             await EnsureDatabaseAsync(dbContext, cancellationToken);
             await RunMigrationAsync(dbContext, cancellationToken);
+            await SeedDataAsync(dbContext, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -59,9 +61,30 @@ public class OrchestratorDbInitializer(
         await strategy.ExecuteAsync(async () =>
         {
             // Run migration in a transaction to avoid partial migration if it fails.
-            //await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+            await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
             await dbContext.Database.MigrateAsync(cancellationToken);
-            //await transaction.CommitAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+        });
+    }
+
+    private static async Task SeedDataAsync(OrchestratorContext dbContext, CancellationToken cancellationToken)
+    {
+        Tenant tenant = new()
+        {
+            Id = 0, // Automatically set by Database
+            TenantName = "Default Tenant",
+            IsActive = true,
+            IsDefaultTenant = true
+        };
+
+        var strategy = dbContext.Database.CreateExecutionStrategy();
+        await strategy.ExecuteAsync(async () =>
+        {
+            if (!await dbContext.Tenant.AnyAsync(cancellationToken))
+            {
+                await dbContext.Tenant.AddAsync(tenant, cancellationToken);
+                await dbContext.SaveChangesAsync(cancellationToken);
+            }
         });
     }
 }
