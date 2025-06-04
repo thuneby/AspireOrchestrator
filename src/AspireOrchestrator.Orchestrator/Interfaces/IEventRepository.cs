@@ -12,7 +12,7 @@ namespace AspireOrchestrator.Orchestrator.Interfaces
         IEnumerable<EventEntity> GetEventsByTenant(int tenantId);
         IEnumerable<EventEntity> GetEventFlow(long flowId);
 
-        IEnumerable<EventEntity> GetAll(int skip, int take);
+        IEnumerable<EventEntity> GetAll(int take);
         EventEntity? Get(Guid id);
     }
 }

@@ -3,6 +3,7 @@
 
 using System.Diagnostics;
 using AspireOrchestrator.Core.Models;
+using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Orchestrator.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -71,10 +72,17 @@ public class OrchestratorDbInitializer(
     {
         Tenant tenant = new()
         {
-            Id = 0, // Automatically set by Database
+            Id = 0, // Automatically set by Database. Seed specified to 0
             TenantName = "Default Tenant",
             IsActive = true,
             IsDefaultTenant = true
+        };
+
+        Flow flow = new()
+        {
+            Id = 0, // Automatically set by Database. Seed defaults to 1
+            State = FlowState.Active,
+            TenantId = tenant.Id // Set TenantId to match the seed tenant
         };
 
         var strategy = dbContext.Database.CreateExecutionStrategy();
@@ -83,6 +91,7 @@ public class OrchestratorDbInitializer(
             if (!await dbContext.Tenant.AnyAsync(cancellationToken))
             {
                 await dbContext.Tenant.AddAsync(tenant, cancellationToken);
+                await dbContext.Flow.AddAsync(flow, cancellationToken);
                 await dbContext.SaveChangesAsync(cancellationToken);
             }
         });

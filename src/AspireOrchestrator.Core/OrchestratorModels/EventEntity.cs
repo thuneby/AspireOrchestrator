@@ -36,6 +36,7 @@ namespace AspireOrchestrator.Core.OrchestratorModels
         }
 
         public long FlowId { get; set; }
+        public virtual Flow Flow { get; set; } = null!; // Navigation property to Flow entity
         public EventType EventType { get; set; }
         public EventState EventState { get; set; } = EventState.New;
         public ProcessState ProcessState { get; set; }

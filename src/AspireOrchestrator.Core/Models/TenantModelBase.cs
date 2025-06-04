@@ -9,12 +9,12 @@
         { 
         }
 
-        protected TenantModelBase(long tenantÍd)
+        protected TenantModelBase(long tenantId)
         {
-            TenantÍd = tenantÍd;
+            TenantId = tenantId;
         }
 
-        public long TenantÍd { get; set; }
+        public long TenantId { get; set; } 
 
         //[ForeignKey("TenantId")]
         //public Tenant Tenant { get; set; }

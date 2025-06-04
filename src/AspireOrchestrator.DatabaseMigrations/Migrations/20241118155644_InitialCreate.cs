@@ -19,7 +19,7 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     State = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TenantÍd = table.Column<long>(type: "bigint", nullable: false)
+                    TenantId = table.Column<long>(type: "bigint", nullable: false) 
                 },
                 constraints: table =>
                 {

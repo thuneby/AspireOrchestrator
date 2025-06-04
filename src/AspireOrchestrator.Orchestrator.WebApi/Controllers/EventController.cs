@@ -80,9 +80,9 @@ namespace AspireOrchestrator.Orchestrator.WebApi.Controllers
 
         // GET: api/<EventController>
         [HttpGet("[action]")]
-        public IEnumerable<EventEntity> GetAll(int skip = 0, int take = 100)
+        public IEnumerable<EventEntity> GetAll(int take = 100)
         {
-            return _eventRepository.GetAll(skip, take);
+            return _eventRepository.GetAll(take);
         }
 
         // GET api/<EventController>/5

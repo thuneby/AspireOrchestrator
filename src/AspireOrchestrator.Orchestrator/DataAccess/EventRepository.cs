@@ -91,9 +91,9 @@ namespace AspireOrchestrator.Orchestrator.DataAccess
             };
         }
 
-        public IEnumerable<EventEntity> GetAll(int skip, int take)
+        public IEnumerable<EventEntity> GetAll(int take)
         {
-            return base.GetList(skip, take);
+            return GetList(take);
         }
     }
 }
