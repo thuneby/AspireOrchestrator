@@ -10,7 +10,7 @@ namespace AspireOrchestrator.UnitTests.OrchestratorTests
         public void TestAllStates()
         {
             // Arrange
-            var entity = new EventEntity() { Id = Guid.NewGuid(), ProcessState = ProcessState.Receive, EventType = EventType.HandlePdf};
+            var entity = new EventEntity() { Id = Guid.NewGuid(), ProcessState = ProcessState.Receive, EventType = EventType.HandleReceipt};
 
             var result = StateMap.GetNextStep(entity);
             Assert.Equal(ProcessState.Parse, result);
@@ -25,9 +25,9 @@ namespace AspireOrchestrator.UnitTests.OrchestratorTests
 
             entity.ProcessState = ProcessState.Validate;
             result = StateMap.GetNextStep(entity);
-            Assert.Equal(ProcessState.Process, result);
+            Assert.Equal(ProcessState.ProcessPayment, result);
 
-            entity.ProcessState = ProcessState.Process;
+            entity.ProcessState = ProcessState.ProcessPayment;
             result = StateMap.GetNextStep(entity);
             Assert.Equal(ProcessState.GenerateReceipt, result);
 

@@ -1,4 +1,5 @@
 ﻿using AspireOrchestrator.ScenarioTests.Drivers;
+using Reqnroll;
 
 namespace AspireOrchestrator.ScenarioTests.StepDefinitions
 {
@@ -43,7 +44,7 @@ namespace AspireOrchestrator.ScenarioTests.StepDefinitions
             _scenarioDriver.ThenEventsShouldBeInTheEventStore(eventTable);
         }
 
-        [Then(@"(EventEntity|Tenant) table contains rows")]
+        [Then(@"^(EventEntity|Tenant) table contains rows$")]
         public void ThenTableNameContainsRows(TableName tableName, Table specFlowTable)
         {
             _scenarioDriver.ThenTableNameContainsRows(tableName, specFlowTable);

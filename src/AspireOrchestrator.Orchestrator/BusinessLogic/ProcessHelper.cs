@@ -8,7 +8,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
         {
             return eventType switch
             {
-                EventType.HandlePdf => DocumentType.Pdf,
+                EventType.HandleReceipt => DocumentType.Pdf,
                 _ => throw new ArgumentOutOfRangeException(nameof(eventType), eventType, null)
             };
         }

@@ -4,7 +4,7 @@ using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.DataAccess;
 using AspireOrchestrator.PersistenceTests.Common;
 using Microsoft.Extensions.Logging;
-using TechTalk.SpecFlow.Assist;
+using Reqnroll;
 
 namespace AspireOrchestrator.ScenarioTests.Drivers
 {

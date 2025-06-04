@@ -1,5 +1,6 @@
 using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Orchestrator.BusinessLogic;
+using Reqnroll;
 
 namespace AspireOrchestrator.ScenarioTests.StepDefinitions
 {
@@ -20,7 +21,7 @@ namespace AspireOrchestrator.ScenarioTests.StepDefinitions
             };
         }
 
-        [Then(@"the ProcessState of the next event is (.*)")]
+        [Then(@"^the ProcessState of the next event is (.*)$")]
         public void ThenTheProcessStateOfTheNextEventIsParse(ProcessState processState)
         {
             var result = StateMap.GetNextStep(_eventEntity);

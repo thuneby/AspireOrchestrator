@@ -9,21 +9,40 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
             var currentStep = entity.ProcessState;
             switch (entity.EventType)
             {
-                case EventType.HandlePdf:
+                case EventType.HandleReceipt:
                 {
                     return currentStep switch
                     {
                         ProcessState.Receive => ProcessState.Parse,
                         ProcessState.Parse => ProcessState.Convert,
                         ProcessState.Convert => ProcessState.Validate,
-                        ProcessState.Validate => ProcessState.Process,
-                        ProcessState.Process => ProcessState.GenerateReceipt,
-                        ProcessState.GenerateReceipt => ProcessState.TransferResult,
+                        ProcessState.Validate => ProcessState.ProcessPayment,
+                        ProcessState.ProcessPayment => ProcessState.TransferResult,
                         ProcessState.TransferResult => ProcessState.WorkFlowCompleted,
                         ProcessState.WorkFlowCompleted => ProcessState.WorkFlowCompleted,
                         _ => throw new ArgumentOutOfRangeException()
                     };
                 }
+                case EventType.HandleDeposit:
+                    return currentStep switch
+                    {
+                        ProcessState.Receive => ProcessState.Parse,
+                        ProcessState.Parse => ProcessState.Convert,
+                        ProcessState.Convert => ProcessState.ProcessPayment,
+                        ProcessState.ProcessPayment => ProcessState.TransferResult,
+                        ProcessState.TransferResult => ProcessState.WorkFlowCompleted,
+                        ProcessState.WorkFlowCompleted => ProcessState.WorkFlowCompleted,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                case EventType.ValidateReceipt:
+                    return currentStep switch
+                    {
+                        ProcessState.Validate => ProcessState.ProcessPayment,
+                        ProcessState.ProcessPayment => ProcessState.TransferResult,
+                        ProcessState.TransferResult => ProcessState.WorkFlowCompleted,
+                        ProcessState.WorkFlowCompleted => ProcessState.WorkFlowCompleted,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
                 default:
                     throw new ArgumentOutOfRangeException();
             }

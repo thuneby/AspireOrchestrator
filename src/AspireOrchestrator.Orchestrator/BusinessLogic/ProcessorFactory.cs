@@ -15,7 +15,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
                 ProcessState.Parse => new ParseFileProcessor(loggerFactory),
                 ProcessState.Convert => new ConvertDocumentProcessor(loggerFactory),
                 ProcessState.Validate => new ValidationProcessor(loggerFactory),
-                ProcessState.Process => new ProcessFileProcessor(loggerFactory),
+                ProcessState.ProcessPayment => new ProcessFileProcessor(loggerFactory),
                 ProcessState.GenerateReceipt => new GenerateReceiptProcessor(loggerFactory),
                 ProcessState.TransferResult => new TransferProcessor(loggerFactory),
                 ProcessState.WorkFlowCompleted => null,
