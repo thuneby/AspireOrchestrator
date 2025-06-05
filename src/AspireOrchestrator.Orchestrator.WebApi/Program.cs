@@ -17,6 +17,7 @@ builder.EnrichSqlServerDbContext<OrchestratorContext>(settings =>
     // Disable Aspire default retries as we're using a custom execution strategy
     settings.DisableRetry = true);
 
+builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<TenantRepository>();
 

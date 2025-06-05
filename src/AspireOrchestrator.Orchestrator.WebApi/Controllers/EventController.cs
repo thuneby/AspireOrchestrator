@@ -1,6 +1,5 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Orchestrator.BusinessLogic;
-using AspireOrchestrator.Orchestrator.DataAccess;
 using AspireOrchestrator.Orchestrator.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +15,10 @@ namespace AspireOrchestrator.Orchestrator.WebApi.Controllers
         private readonly WorkFlowProcessor _workflowProcessor;
         private readonly ILogger<EventController> _logger;
 
-        public EventController(IEventRepository eventRepository, ILoggerFactory loggerFactory)
+        public EventController(IEventRepository eventRepository, IFlowRepository flowRepository, ILoggerFactory loggerFactory)
         {
             _eventRepository = eventRepository;
-            _workflowProcessor = new WorkFlowProcessor(_eventRepository, loggerFactory);
+            _workflowProcessor = new WorkFlowProcessor(_eventRepository, flowRepository, loggerFactory);
             _logger = loggerFactory.CreateLogger<EventController>();
         }
 
@@ -30,13 +29,6 @@ namespace AspireOrchestrator.Orchestrator.WebApi.Controllers
             if (entity == null)
                 return NotFound();
             await _workflowProcessor.ProcessEvent(entity);
-            return entity;
-        }
-
-        [HttpPost("[action]")]
-        public async Task<ActionResult<EventEntity>> ExecuteFlow(long flowId)
-        {
-            var entity = await _workflowProcessor.ProcessFlow(flowId);
             return entity;
         }
 

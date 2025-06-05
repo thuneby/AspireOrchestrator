@@ -45,10 +45,10 @@ namespace AspireOrchestrator.Core.OrchestratorModels
         public string Parameters { get; set; } = string.Empty;
         public string Result { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
-        private short ExecutionCount { get; set; }
+        public short ExecutionCount { get; set; }
         public short Priority { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime StartTime { get; set; } = DateTime.MinValue;
+        public DateTime? EndTime { get; set; } = null;
 
 
         //[ForeignKey("FlowId")]
