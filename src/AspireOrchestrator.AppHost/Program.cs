@@ -13,14 +13,16 @@ var migrationservice = builder.AddProject<Projects.AspireOrchestrator_DatabaseMi
     .WithReference(orchestratordb)
     .WaitFor(orchestratordb);
 
-var serviceBus = builder.AddConnectionString("servicebus");
+// Existing Azure Service Bus
+//var serviceBus = builder.AddConnectionString("servicebus");
 
-//var serviceBus = builder.AddAzureServiceBus("servicebus")
-//    .RunAsEmulator();
+// Local emulator for Azure Service Bus
+var serviceBus = builder.AddAzureServiceBus("servicebus")
+    .RunAsEmulator();
 
-//var topic = serviceBus.AddServiceBusTopic("events");
-//topic.AddServiceBusSubscription("eventsubscription")
-//    .WithProperties(subscription => subscription.MaxDeliveryCount = 10);
+var topic = serviceBus.AddServiceBusTopic("events");
+topic.AddServiceBusSubscription("eventsubscription")
+    .WithProperties(subscription => subscription.MaxDeliveryCount = 10);
 
 var apiservice = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestratorapi")
     .WithReference(orchestratordb)

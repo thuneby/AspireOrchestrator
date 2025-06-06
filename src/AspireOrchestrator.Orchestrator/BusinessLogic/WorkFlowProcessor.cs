@@ -49,13 +49,13 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
         {
             try
             {
-                if (eventEntity.EventState == EventState.Completed)
+                if (eventEntity.EventState == EventState.Completed && eventEntity.ProcessState != ProcessState.WorkFlowCompleted)
                 {
                     var newEvent = GetNextEvent(eventEntity);
                     // Update current event
                     eventRepository.Update(eventEntity);
                     // Add new event
-                    eventRepository.AddOrUpdateEventEntity(newEvent);
+                    eventRepository.AddEvent(newEvent);
                     return returnNewEvent ? newEvent : eventEntity;
                 }
                 eventRepository.Update(eventEntity);

@@ -26,15 +26,15 @@ protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         while (!stoppingToken.IsCancellationRequested)
         {
             // Azure Service Bus queue
-            var processor = client.CreateProcessor(
-                TopicName,
-                new ServiceBusProcessorOptions());
-
-            // local
             //var processor = client.CreateProcessor(
             //    TopicName,
-            //    SubscriptionName,
             //    new ServiceBusProcessorOptions());
+
+            // local emulator for Azure Service Bus
+            var processor = client.CreateProcessor(
+                TopicName,
+                SubscriptionName,
+                new ServiceBusProcessorOptions());
 
             // Add handler to process messages
             processor.ProcessMessageAsync += MessageHandler;

@@ -11,10 +11,10 @@ namespace AspireOrchestrator.Orchestrator.DataAccess
     {
         public void AddOrUpdateEventEntity(EventEntity eventEntity)
         {
-            var existing = context.EventEntity.FirstOrDefault(x => x.Id == eventEntity.Id);
-            if (existing != null)
+            var existingEntity = context.EventEntity.Any(x => x.Id == eventEntity.Id);
+            if (existingEntity == true)
             {
-                context.Update(existing);
+                context.Update(eventEntity);
                 context.SaveChanges();
             }
             else
