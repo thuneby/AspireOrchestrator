@@ -1,5 +1,6 @@
 using AspireOrchestrator.Orchestrator.DataAccess;
 using AspireOrchestrator.Orchestrator.Interfaces;
+using Azure.Messaging.ServiceBus;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,8 @@ builder.EnrichSqlServerDbContext<OrchestratorContext>(settings =>
 builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<TenantRepository>();
+
+builder.AddAzureServiceBusClient(connectionName: "servicebus");
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

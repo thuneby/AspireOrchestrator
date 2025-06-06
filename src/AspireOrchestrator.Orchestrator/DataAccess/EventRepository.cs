@@ -1,4 +1,5 @@
-﻿using AspireOrchestrator.Core.OrchestratorModels;
+﻿using AspireOrchestrator.Core.Models;
+using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.DataAccess.Repositories;
 using AspireOrchestrator.Orchestrator.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -13,8 +14,8 @@ namespace AspireOrchestrator.Orchestrator.DataAccess
             var existing = context.EventEntity.FirstOrDefault(x => x.Id == eventEntity.Id);
             if (existing != null)
             {
-                existing = eventEntity;
-                Update(existing);
+                context.Update(existing);
+                context.SaveChanges();
             }
             else
             {

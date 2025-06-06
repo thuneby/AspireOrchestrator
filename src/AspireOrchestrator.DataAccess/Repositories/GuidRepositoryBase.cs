@@ -52,7 +52,7 @@ namespace AspireOrchestrator.DataAccess.Repositories
             var existing = Get(entity.Id);
             if (existing == null)
                 throw new ArgumentException("Entity not found");
-            context.Update(entity);
+            context.Update(existing);
             context.SaveChanges();
         }
 
