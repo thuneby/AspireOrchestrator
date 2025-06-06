@@ -15,9 +15,9 @@ namespace AspireOrchestrator.DataAccess.Repositories
             return Query();
         }
 
-        public IEnumerable<T1> GetList(int take = 100, int skip = 0)
+        public IEnumerable<T1> GetList(int take = 100)
         {
-            var entities = Query(true).Skip(skip).Take(take).ToList();
+            var entities = Query(true).Take(take).ToList();
             return entities;
         }
 

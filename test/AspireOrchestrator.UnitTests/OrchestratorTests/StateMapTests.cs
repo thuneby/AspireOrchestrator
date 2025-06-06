@@ -29,10 +29,6 @@ namespace AspireOrchestrator.UnitTests.OrchestratorTests
 
             entity.ProcessState = ProcessState.ProcessPayment;
             result = StateMap.GetNextStep(entity);
-            Assert.Equal(ProcessState.GenerateReceipt, result);
-
-            entity.ProcessState = ProcessState.GenerateReceipt;
-            result = StateMap.GetNextStep(entity);
             Assert.Equal(ProcessState.TransferResult, result);
 
             entity.ProcessState = ProcessState.TransferResult;

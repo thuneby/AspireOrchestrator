@@ -5,14 +5,14 @@ namespace AspireOrchestrator.Orchestrator.Interfaces
     public interface IEventRepository
     {
         EventEntity? GetEvent(Guid id);
-        EventEntity GetNextEvent(long flowId);
+        EventEntity? GetNextEvent(long flowId);
         void AddEvent(EventEntity entity);
         void Update(EventEntity entity);
         void AddOrUpdateEventEntity(EventEntity eventEntity);
         IEnumerable<EventEntity> GetEventsByTenant(int tenantId);
         IEnumerable<EventEntity> GetEventFlow(long flowId);
 
-        IEnumerable<EventEntity> GetAll(int skip, int take);
+        IEnumerable<EventEntity> GetAll(int take);
         EventEntity? Get(Guid id);
     }
 }

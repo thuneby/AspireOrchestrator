@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
 
@@ -12,15 +12,14 @@
 	</PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.1.0" />
-    <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.1.0" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.0" />
+    <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AspireOrchestrator.DatabaseMigrations\AspireOrchestrator.DatabaseMigrations.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.Orchestrator.WebApi\AspireOrchestrator.Orchestrator.WebApi.csproj" />
-    <ProjectReference Include="..\AspireOrchestrator.ServiceDefaults\AspireOrchestrator.ServiceDefaults.csproj"
-						IsAspireProjectResource="false"/>
+    <ProjectReference Include="..\AspireOrchestrator.ServiceDefaults\AspireOrchestrator.ServiceDefaults.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 
 </Project>

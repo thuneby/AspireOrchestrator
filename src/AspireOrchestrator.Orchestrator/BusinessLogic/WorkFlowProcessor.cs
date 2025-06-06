@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AspireOrchestrator.Orchestrator.BusinessLogic
 {
-    public class WorkFlowProcessor(IEventRepository eventRepository, ILoggerFactory loggerFactory)
+    public class WorkFlowProcessor(IEventRepository eventRepository, IFlowRepository flowRepository, ILoggerFactory loggerFactory)
     {
         private readonly ILogger<WorkFlowProcessor> _logger = loggerFactory.CreateLogger<WorkFlowProcessor>();
         private readonly ProcessorFactory _processorFactory = new(loggerFactory);
@@ -18,13 +18,22 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
                 _logger.LogError("Event ikke fundet for flowId {0}", flowId);
                 return null;
             }
-
+            var flow = flowRepository.Get(flowId);
+            if (flow?.State == FlowState.New)
+            {
+                flow.State = FlowState.Active;
+                flowRepository.Update(flow);
+            }
             do
             {
                 eventEntity = await ProcessEvent(eventEntity);
-                if (eventEntity.EventState == EventState.Error || eventEntity.EventState == EventState.Processing)
+                if (eventEntity.EventState is EventState.Error or EventState.Processing)
                     return eventEntity;
             } while (eventEntity.ProcessState != ProcessState.WorkFlowCompleted);
+
+            if (eventEntity.EventState != EventState.Completed || flow?.State != FlowState.Active) return eventEntity;
+            flow.State = FlowState.Completed;
+            flowRepository.Update(flow);
             return eventEntity;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using AspireOrchestrator.Core.Models;
 
 namespace AspireOrchestrator.Core.OrchestratorModels
@@ -36,6 +37,7 @@ namespace AspireOrchestrator.Core.OrchestratorModels
         }
 
         public long FlowId { get; set; }
+
         public EventType EventType { get; set; }
         public EventState EventState { get; set; } = EventState.New;
         public ProcessState ProcessState { get; set; }
@@ -43,10 +45,10 @@ namespace AspireOrchestrator.Core.OrchestratorModels
         public string Parameters { get; set; } = string.Empty;
         public string Result { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
-        private short ExecutionCount { get; set; }
+        public short ExecutionCount { get; set; }
         public short Priority { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime StartTime { get; set; } = DateTime.MinValue;
+        public DateTime? EndTime { get; set; } = null;
 
 
         //[ForeignKey("FlowId")]

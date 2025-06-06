@@ -18,8 +18,9 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
         {
             _scenarioContext = scenarioContext;
             var logger = TestLoggerFactory.CreateLogger<EventRepository>();
+            var flowRepository = new FlowRepository(OrchestratorContext, TestLoggerFactory.CreateLogger<FlowRepository>());
             _eventRepository = new EventRepository(OrchestratorContext, logger);
-            _workFlowProcessor = new WorkFlowProcessor(_eventRepository, TestLoggerFactory);
+            _workFlowProcessor = new WorkFlowProcessor(_eventRepository, flowRepository, TestLoggerFactory);
         }
 
         public void GivenEvent(Table eventTable)

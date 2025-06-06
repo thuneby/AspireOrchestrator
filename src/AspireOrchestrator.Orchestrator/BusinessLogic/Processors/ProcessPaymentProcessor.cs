@@ -4,9 +4,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AspireOrchestrator.Orchestrator.BusinessLogic.Processors
 {
-    public class ProcessFileProcessor(ILoggerFactory loggerFactory): IProcessor
+    public class ProcessPaymentProcessor(ILoggerFactory loggerFactory): IProcessor
     {
-        private readonly ILogger<ProcessFileProcessor> _logger = loggerFactory.CreateLogger<ProcessFileProcessor>();
+        private readonly ILogger<ProcessPaymentProcessor> _logger = loggerFactory.CreateLogger<ProcessPaymentProcessor>();
 
         public async Task<EventEntity> ProcessEvent(EventEntity entity)
         {
