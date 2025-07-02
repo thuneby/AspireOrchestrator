@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var sqlserver = builder.AddSqlServer("sqlserver")
+var sqlserver = builder.AddSqlServer("sqlserver", port: 63015)
     .WithLifetime(ContainerLifetime.Persistent);
 
 var orchestratordb = sqlserver.AddDatabase("orchestratordb");
@@ -13,9 +13,27 @@ var migrationservice = builder.AddProject<Projects.AspireOrchestrator_DatabaseMi
     .WithReference(orchestratordb)
     .WaitFor(orchestratordb);
 
-builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestrator")
+// Existing Azure Service Bus
+//var serviceBus = builder.AddConnectionString("servicebus");
+
+// Local emulator for Azure Service Bus
+var serviceBus = builder.AddAzureServiceBus("servicebus")
+    .RunAsEmulator();
+
+var topic = serviceBus.AddServiceBusTopic("events");
+topic.AddServiceBusSubscription("eventsubscription")
+    .WithProperties(subscription => subscription.MaxDeliveryCount = 10);
+
+var apiservice = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestratorapi")
     .WithReference(orchestratordb)
+    .WithReference(serviceBus)
     .WaitForCompletion(migrationservice);
+
+
+builder.AddProject<Projects.AspireOrchestrator_MessagingWorker>("messagingworker")
+    .WithReference(serviceBus)
+    .WithReference(apiservice)
+    .WaitFor(apiservice);
 
 
 builder.Build().Run();

@@ -1,7 +1,10 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.Interfaces;
+using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,13 +16,23 @@ namespace AspireOrchestrator.Orchestrator.WebApi.Controllers
     {
         private readonly IEventRepository _eventRepository;
         private readonly WorkFlowProcessor _workflowProcessor;
+        private readonly ServiceBusClient _serviceBusClient;
         private readonly ILogger<EventController> _logger;
+        private readonly JsonSerializerOptions _options;
 
-        public EventController(IEventRepository eventRepository, IFlowRepository flowRepository, ILoggerFactory loggerFactory)
+        public EventController(IEventRepository eventRepository, IFlowRepository flowRepository, ServiceBusClient client, ILoggerFactory loggerFactory)
         {
             _eventRepository = eventRepository;
             _workflowProcessor = new WorkFlowProcessor(_eventRepository, flowRepository, loggerFactory);
+            _serviceBusClient = client;
             _logger = loggerFactory.CreateLogger<EventController>();
+            _options = new JsonSerializerOptions
+            {
+                Converters =
+                {
+                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                }
+            };
         }
 
         [HttpPost("[action]")]
@@ -28,8 +41,8 @@ namespace AspireOrchestrator.Orchestrator.WebApi.Controllers
             var entity = Get(id);
             if (entity == null)
                 return NotFound();
-            await _workflowProcessor.ProcessEvent(entity);
-            return entity;
+            var result = await _workflowProcessor.ProcessEvent(entity);
+            return result;
         }
 
         //[HttpPost("[action]")]
@@ -89,6 +102,34 @@ namespace AspireOrchestrator.Orchestrator.WebApi.Controllers
         public void Add([FromBody] EventEntity entity)
         {
             _eventRepository.AddEvent(entity);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult<EventEntity>> SaveAndExecuteEvent([FromBody] EventEntity entity)
+        {
+            _eventRepository.AddOrUpdateEventEntity(entity);
+            var result = await _workflowProcessor.ProcessEvent(entity);
+            if (result.EventState == EventState.Error)
+            {
+                _logger.LogError($"Error processing event {entity.Id}: {result.ErrorMessage}");
+                return BadRequest(result);
+            }
+            if (result.ProcessState != ProcessState.WorkFlowCompleted)
+                await PublishEvent(result);
+            return result;
+        }
+
+        [HttpPost("[action]")]
+        public async Task PublishEvent(EventEntity eventEntity, string topicName = "events")
+        {
+            var sender = _serviceBusClient.CreateSender(topicName);
+
+            var messageJson = JsonSerializer.Serialize(eventEntity, _options);
+            // create a message that we can send
+            var sbMessage = new ServiceBusMessage(messageJson);
+
+            // send the message
+            await sender.SendMessageAsync(sbMessage);
         }
 
     }

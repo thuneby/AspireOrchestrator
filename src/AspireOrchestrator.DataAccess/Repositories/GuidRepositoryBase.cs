@@ -49,8 +49,8 @@ namespace AspireOrchestrator.DataAccess.Repositories
 
         public void Update(T1 entity)
         {
-            var existing = Get(entity.Id);
-            if (existing == null)
+            var existingEntity = context.Set<T1>().Any(x => x.Id == entity.Id);
+            if (!existingEntity)
                 throw new ArgumentException("Entity not found");
             context.Update(entity);
             context.SaveChanges();
