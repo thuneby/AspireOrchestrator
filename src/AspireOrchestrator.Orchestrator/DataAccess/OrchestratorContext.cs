@@ -4,12 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AspireOrchestrator.Orchestrator.DataAccess
 {
-    public class OrchestratorContext : DbContext
+    public class OrchestratorContext(DbContextOptions<OrchestratorContext> options) : DbContext(options)
     {
-        public OrchestratorContext(DbContextOptions<OrchestratorContext> options) : base(options)
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }
