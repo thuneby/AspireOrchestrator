@@ -56,6 +56,23 @@ namespace AspireOrchestrator.DataAccess.Repositories
             context.SaveChanges();
         }
 
+        public async Task AddRange(IEnumerable<T1> entities)
+        {
+            if (entities == null || !entities.Any())
+                throw new ArgumentException("No entities to add");
+            await context.AddRangeAsync(entities.ToList());
+            await context.SaveChangesAsync();
+            return;
+        }
+
+        public async Task UpdateRange(IEnumerable<T1> entities)
+        {
+            if (!entities.Any())
+                throw new ArgumentException("No entities to update");
+            context.UpdateRange(entities.ToList());
+            await context.SaveChangesAsync();
+        }
+
         protected IQueryable<T1> Query(bool eager = false)
         {
             var query = context.Set<T1>().AsQueryable();
