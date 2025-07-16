@@ -8,12 +8,12 @@ namespace AspireOrchestrator.Validation.Business.ValidationRules
 {
     public class ValidateCvr : IValidationRule
     {
-        private Regex regex = new Regex(@"^[1-9][0-9]{7}");
+        private Regex _regex = new(@"^[1-9][0-9]{7}");
 
         public ValidationError? Validate(ReceiptDetail receiptDetail, ConcurrentBag<ValidationError> existingErrors)
         {
             const string errorMessage = "Ugyldigt Cvr-nummer";
-            if (string.IsNullOrWhiteSpace(receiptDetail.Cvr) || !regex.IsMatch(receiptDetail.Cvr) ||
+            if (string.IsNullOrWhiteSpace(receiptDetail.Cvr) || !_regex.IsMatch(receiptDetail.Cvr) ||
                 receiptDetail.Cvr.Length != 8)
             {
                 return ValidationHelper.AddValidationError(receiptDetail, existingErrors, ErrorCode.InvalidCvr,
@@ -21,7 +21,7 @@ namespace AspireOrchestrator.Validation.Business.ValidationRules
             }
             else
             {
-                ValidationHelper.ResolveValidationError(existingErrors, ErrorCode.InvalidCvr);
+                ValidationHelper.ResolveValidationError(receiptDetail, existingErrors, ErrorCode.InvalidCvr);
                 return null; // No error found, return null
             }
         }

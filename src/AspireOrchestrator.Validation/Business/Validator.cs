@@ -55,7 +55,19 @@ namespace AspireOrchestrator.Validation.Business
 
         public async Task<List<ValidationResult>> ValidateManyAsync(List<ReceiptDetail> receiptDetails)
         {
-            throw new NotImplementedException();
+            var tenantId = receiptDetails.FirstOrDefault()?.TenantId; // ToDo
+            var allExistingErrors = _validationErrorRepository.GetOpenErrors(tenantId.Value);
+            var validationRules = LoadValidationRules();
+            var validationResults = new ConcurrentBag<ValidationResult>();
+            Parallel.ForEach(receiptDetails, async void (receiptDetail) =>
+            {
+                var existingErrors = 
+                    new ConcurrentBag<ValidationError>(allExistingErrors.Where(x => x.ReceiptDetailId == receiptDetail.Id));
+                var foundErrors = new ConcurrentBag<ValidationError>();
+                var validationResult = await ValidateReceiptDetail(receiptDetail, validationRules, existingErrors, foundErrors);
+                validationResults.Add(validationResult);
+            });
+            return validationResults.ToList();
         }
 
         private List<IValidationRule> LoadValidationRules()

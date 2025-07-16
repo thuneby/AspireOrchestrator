@@ -9,7 +9,7 @@ namespace AspireOrchestrator.Validation.Business
     {
         public static ValidationError? AddValidationError(ReceiptDetail receiptDetail, ConcurrentBag<ValidationError> existingErrors, ErrorCode errorCode, string errorMessage)
         {
-            var exitingError = existingErrors.FirstOrDefault(e => e.ErrorCode == errorCode);
+            var exitingError = existingErrors.FirstOrDefault(e => e.ReceiptDetailId == receiptDetail.Id && e.ErrorCode == errorCode);
             if (exitingError != null && (!exitingError.IsFixed || !exitingError.Override))
             {
                 return null; // Error already exists and is not fixed or overridden
@@ -31,9 +31,9 @@ namespace AspireOrchestrator.Validation.Business
 
         }
 
-        public static void ResolveValidationError(ConcurrentBag<ValidationError> existingErrors, ErrorCode errorCode)
+        public static void ResolveValidationError(ReceiptDetail receiptDetail, ConcurrentBag<ValidationError> existingErrors, ErrorCode errorCode)
         {
-            var errors = existingErrors.Where(e => e.ErrorCode == errorCode).ToList();
+            var errors = existingErrors.Where(e => e.ReceiptDetailId == receiptDetail.Id && e.ErrorCode == errorCode).ToList();
             foreach (var error in errors)
             {
                 error.IsFixed = true; // Mark the error as fixed
