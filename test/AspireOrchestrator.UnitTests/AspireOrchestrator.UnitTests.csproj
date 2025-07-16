@@ -30,7 +30,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AspireOrchestrator.Core\AspireOrchestrator.Core.csproj" />
     <ProjectReference Include="..\..\src\AspireOrchestrator.DataAccess\AspireOrchestrator.DataAccess.csproj" />
+    <ProjectReference Include="..\..\src\AspireOrchestrator.Domain\AspireOrchestrator.Domain.csproj" />
+    <ProjectReference Include="..\..\src\AspireOrchestrator.MasterData\AspireOrchestrator.MasterData.csproj" />
+    <ProjectReference Include="..\..\src\AspireOrchestrator.Orchestrator.WebApi\AspireOrchestrator.Orchestrator.WebApi.csproj" />
     <ProjectReference Include="..\..\src\AspireOrchestrator.Orchestrator\AspireOrchestrator.Orchestrator.csproj" />
+    <ProjectReference Include="..\..\src\AspireOrchestrator.Validation\AspireOrchestrator.Validation.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.PersistenceTests\AspireOrchestrator.PersistenceTests.csproj" />
   </ItemGroup>
 
 </Project>

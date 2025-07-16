@@ -2,12 +2,25 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ValidationContext = AspireOrchestrator.Validation.DataAccess.ValidationContext;
 
 namespace AspireOrchestrator.PersistenceTests.Common
 {
     public class TestBase
     {
-        protected OrchestratorContext OrchestratorContext = InitializeOrchestratorContext();
+        protected readonly OrchestratorContext OrchestratorContext = InitializeOrchestratorContext();
+        protected readonly ValidationContext ValidationContext = InitializeValidationContect();
+
+        private static ValidationContext InitializeValidationContect()
+        {
+            var options = new DbContextOptionsBuilder<ValidationContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+            var context = new ValidationContext(options);
+            return context;
+        }
+
         protected ILoggerFactory TestLoggerFactory = InitializeLoggerFactory();
 
 

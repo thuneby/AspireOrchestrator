@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\src\AspireOrchestrator.Core\AspireOrchestrator.Core.csproj" />
     <ProjectReference Include="..\..\src\AspireOrchestrator.DataAccess\AspireOrchestrator.DataAccess.csproj" />
     <ProjectReference Include="..\..\src\AspireOrchestrator.Orchestrator\AspireOrchestrator.Orchestrator.csproj" />
+    <ProjectReference Include="..\..\src\AspireOrchestrator.Validation\AspireOrchestrator.Validation.csproj" />
   </ItemGroup>
 
 </Project>

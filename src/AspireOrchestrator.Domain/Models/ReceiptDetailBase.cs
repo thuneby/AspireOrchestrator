@@ -4,7 +4,7 @@ using AspireOrchestrator.Core.Models;
 
 namespace AspireOrchestrator.Domain.Models
 {
-    public abstract class ReceiptDetailBase: GuidModelBase
+    public abstract class ReceiptDetailBase : GuidModelBase
     {
         [Display(Name = "Periode fra")]
         [Column(TypeName = "Date")]
@@ -31,5 +31,7 @@ namespace AspireOrchestrator.Domain.Models
 
         [Display(Name = "Afstemningsstatus")]
         public ReconcileStatus ReconcileStatus { get; set; } = ReconcileStatus.Open;
+
+        public string ValidationErrors { get; set; } = "";
     }
 }
