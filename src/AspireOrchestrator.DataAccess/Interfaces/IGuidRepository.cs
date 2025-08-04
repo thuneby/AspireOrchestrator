@@ -11,5 +11,8 @@ namespace AspireOrchestrator.DataAccess.Interfaces
         void Add(T entity);
         void Delete(Guid id);
         void Update(T entity);
+
+        Task AddRange(IEnumerable<T> entities);
+        Task UpdateRange(IEnumerable<T> entities);
     }
 }

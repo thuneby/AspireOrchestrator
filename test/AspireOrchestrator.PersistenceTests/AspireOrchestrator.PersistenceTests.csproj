@@ -12,10 +12,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.0">
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\src\AspireOrchestrator.Core\AspireOrchestrator.Core.csproj" />
     <ProjectReference Include="..\..\src\AspireOrchestrator.DataAccess\AspireOrchestrator.DataAccess.csproj" />
     <ProjectReference Include="..\..\src\AspireOrchestrator.Orchestrator\AspireOrchestrator.Orchestrator.csproj" />
+    <ProjectReference Include="..\..\src\AspireOrchestrator.Validation\AspireOrchestrator.Validation.csproj" />
   </ItemGroup>
 
 </Project>
