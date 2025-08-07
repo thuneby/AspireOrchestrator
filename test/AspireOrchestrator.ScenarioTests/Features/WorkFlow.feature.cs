@@ -209,7 +209,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "123"});
                 table3.AddRow(new string[] {
                             "HandleReceipt",
-                            "Convert",
+                            "Validate",
                             "1",
                             "New",
                             "123"});
@@ -239,13 +239,13 @@ this.ScenarioInitialize(scenarioInfo);
                             "123"});
                 table4.AddRow(new string[] {
                             "HandleReceipt",
-                            "Convert",
+                            "Validate",
                             "1",
                             "Completed",
                             "123"});
                 table4.AddRow(new string[] {
                             "HandleReceipt",
-                            "Validate",
+                            "ProcessPayment",
                             "1",
                             "New",
                             "123"});
@@ -275,12 +275,6 @@ this.ScenarioInitialize(scenarioInfo);
                             "123"});
                 table5.AddRow(new string[] {
                             "HandleReceipt",
-                            "Convert",
-                            "1",
-                            "Completed",
-                            "123"});
-                table5.AddRow(new string[] {
-                            "HandleReceipt",
                             "Validate",
                             "1",
                             "Completed",
@@ -288,6 +282,12 @@ this.ScenarioInitialize(scenarioInfo);
                 table5.AddRow(new string[] {
                             "HandleReceipt",
                             "ProcessPayment",
+                            "1",
+                            "Completed",
+                            "123"});
+                table5.AddRow(new string[] {
+                            "HandleReceipt",
+                            "TransferResult",
                             "1",
                             "New",
                             "123"});
@@ -317,12 +317,6 @@ this.ScenarioInitialize(scenarioInfo);
                             "123"});
                 table6.AddRow(new string[] {
                             "HandleReceipt",
-                            "Convert",
-                            "1",
-                            "Completed",
-                            "123"});
-                table6.AddRow(new string[] {
-                            "HandleReceipt",
                             "Validate",
                             "1",
                             "Completed",
@@ -337,64 +331,16 @@ this.ScenarioInitialize(scenarioInfo);
                             "HandleReceipt",
                             "TransferResult",
                             "1",
-                            "New",
-                            "123"});
-#line 46
- await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table6, "Then ");
-#line hidden
-#line 55
- await testRunner.WhenAsync("the next event is processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
-                            "Event_Type",
-                            "Process_State",
-                            "TenantId",
-                            "EventState",
-                            "FlowId"});
-                table7.AddRow(new string[] {
-                            "HandleReceipt",
-                            "Receive",
-                            "1",
                             "Completed",
                             "123"});
-                table7.AddRow(new string[] {
-                            "HandleReceipt",
-                            "Parse",
-                            "1",
-                            "Completed",
-                            "123"});
-                table7.AddRow(new string[] {
-                            "HandleReceipt",
-                            "Convert",
-                            "1",
-                            "Completed",
-                            "123"});
-                table7.AddRow(new string[] {
-                            "HandleReceipt",
-                            "Validate",
-                            "1",
-                            "Completed",
-                            "123"});
-                table7.AddRow(new string[] {
-                            "HandleReceipt",
-                            "ProcessPayment",
-                            "1",
-                            "Completed",
-                            "123"});
-                table7.AddRow(new string[] {
-                            "HandleReceipt",
-                            "TransferResult",
-                            "1",
-                            "Completed",
-                            "123"});
-                table7.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "HandleReceipt",
                             "WorkFlowCompleted",
                             "1",
                             "Completed",
                             "123"});
-#line 57
- await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table7, "Then ");
+#line 46
+ await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table6, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -410,7 +356,7 @@ this.ScenarioInitialize(scenarioInfo);
                     "tag1"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receipt Workflow by FlowId", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 68
+#line 56
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -420,6 +366,24 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
+                            "Event_Type",
+                            "Process_State",
+                            "TenantId",
+                            "EventState",
+                            "FlowId"});
+                table7.AddRow(new string[] {
+                            "HandleReceipt",
+                            "Receive",
+                            "1",
+                            "New",
+                            "124"});
+#line 57
+ await testRunner.GivenAsync("the following event", ((string)(null)), table7, "Given ");
+#line hidden
+#line 61
+ await testRunner.WhenAsync("the flow has been processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
                 global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
                             "Event_Type",
                             "Process_State",
@@ -430,64 +394,40 @@ this.ScenarioInitialize(scenarioInfo);
                             "HandleReceipt",
                             "Receive",
                             "1",
-                            "New",
-                            "124"});
-#line 69
- await testRunner.GivenAsync("the following event", ((string)(null)), table8, "Given ");
-#line hidden
-#line 73
- await testRunner.WhenAsync("the flow has been processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
-                            "Event_Type",
-                            "Process_State",
-                            "TenantId",
-                            "EventState",
-                            "FlowId"});
-                table9.AddRow(new string[] {
-                            "HandleReceipt",
-                            "Receive",
-                            "1",
                             "Completed",
                             "124"});
-                table9.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "HandleReceipt",
                             "Parse",
                             "1",
                             "Completed",
                             "124"});
-                table9.AddRow(new string[] {
-                            "HandleReceipt",
-                            "Convert",
-                            "1",
-                            "Completed",
-                            "124"});
-                table9.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "HandleReceipt",
                             "Validate",
                             "1",
                             "Completed",
                             "124"});
-                table9.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "HandleReceipt",
                             "ProcessPayment",
                             "1",
                             "Completed",
                             "124"});
-                table9.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "HandleReceipt",
                             "TransferResult",
                             "1",
                             "Completed",
                             "124"});
-                table9.AddRow(new string[] {
+                table8.AddRow(new string[] {
                             "HandleReceipt",
                             "WorkFlowCompleted",
                             "1",
                             "Completed",
                             "124"});
-#line 75
- await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table9, "Then ");
+#line 63
+ await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table8, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -501,7 +441,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Deposit Workflow by FlowId", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 85
+#line 72
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -511,6 +451,24 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
+                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
+                            "Event_Type",
+                            "Process_State",
+                            "TenantId",
+                            "EventState",
+                            "FlowId"});
+                table9.AddRow(new string[] {
+                            "HandleDeposit",
+                            "Receive",
+                            "1",
+                            "New",
+                            "124"});
+#line 73
+ await testRunner.GivenAsync("the following event", ((string)(null)), table9, "Given ");
+#line hidden
+#line 77
+ await testRunner.WhenAsync("the flow has been processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
                 global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
                             "Event_Type",
                             "Process_State",
@@ -521,58 +479,34 @@ this.ScenarioInitialize(scenarioInfo);
                             "HandleDeposit",
                             "Receive",
                             "1",
-                            "New",
-                            "124"});
-#line 86
- await testRunner.GivenAsync("the following event", ((string)(null)), table10, "Given ");
-#line hidden
-#line 90
- await testRunner.WhenAsync("the flow has been processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
-                            "Event_Type",
-                            "Process_State",
-                            "TenantId",
-                            "EventState",
-                            "FlowId"});
-                table11.AddRow(new string[] {
-                            "HandleDeposit",
-                            "Receive",
-                            "1",
                             "Completed",
                             "124"});
-                table11.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "HandleDeposit",
                             "Parse",
                             "1",
                             "Completed",
                             "124"});
-                table11.AddRow(new string[] {
-                            "HandleDeposit",
-                            "Convert",
-                            "1",
-                            "Completed",
-                            "124"});
-                table11.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "HandleDeposit",
                             "ProcessPayment",
                             "1",
                             "Completed",
                             "124"});
-                table11.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "HandleDeposit",
                             "TransferResult",
                             "1",
                             "Completed",
                             "124"});
-                table11.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "HandleDeposit",
                             "WorkFlowCompleted",
                             "1",
                             "Completed",
                             "124"});
-#line 92
- await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table11, "Then ");
+#line 79
+ await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table10, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

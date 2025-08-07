@@ -24,6 +24,14 @@ var topic = serviceBus.AddServiceBusTopic("events");
 topic.AddServiceBusSubscription("eventsubscription")
     .WithProperties(subscription => subscription.MaxDeliveryCount = 10);
 
+var blobs = builder.AddAzureStorage("storage").RunAsEmulator(
+    azurite =>
+    {
+        azurite.WithLifetime(ContainerLifetime.Persistent);
+    })
+    .AddBlobs("blobs");
+
+
 var apiservice = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestratorapi")
     .WithReference(orchestratordb)
     .WithReference(serviceBus)
@@ -34,6 +42,12 @@ builder.AddProject<Projects.AspireOrchestrator_MessagingWorker>("messagingworker
     .WithReference(serviceBus)
     .WithReference(apiservice)
     .WaitFor(apiservice);
+
+
+builder.AddProject<Projects.AspireOrchestrator_Administration>("aspireorchestrator-administration")
+    .WithReference(apiservice)
+    .WithReference(blobs)
+    .WaitFor(blobs);
 
 
 builder.Build().Run();

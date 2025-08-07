@@ -20,15 +20,6 @@ Scenario: Receipt Workflow by event
 		| Event_Type    | Process_State | TenantId | EventState | FlowId |
 		| HandleReceipt | Receive       | 1        | Completed  | 123    |
 		| HandleReceipt | Parse         | 1        | Completed  | 123    |
-		| HandleReceipt | Convert       | 1        | New        | 123    |
-
-	When the next event is processed
-
-	Then EventEntity table contains rows
-		| Event_Type    | Process_State | TenantId | EventState | FlowId |
-		| HandleReceipt | Receive       | 1        | Completed  | 123    |
-		| HandleReceipt | Parse         | 1        | Completed  | 123    |
-		| HandleReceipt | Convert       | 1        | Completed  | 123    |
 		| HandleReceipt | Validate      | 1        | New        | 123    |
 
 	When the next event is processed
@@ -37,7 +28,6 @@ Scenario: Receipt Workflow by event
 		| Event_Type    | Process_State  | TenantId | EventState | FlowId |
 		| HandleReceipt | Receive        | 1        | Completed  | 123    |
 		| HandleReceipt | Parse          | 1        | Completed  | 123    |
-		| HandleReceipt | Convert        | 1        | Completed  | 123    |
 		| HandleReceipt | Validate       | 1        | Completed  | 123    |
 		| HandleReceipt | ProcessPayment | 1        | New        | 123    |
 
@@ -47,7 +37,6 @@ Scenario: Receipt Workflow by event
 		| Event_Type    | Process_State   | TenantId | EventState | FlowId |
 		| HandleReceipt | Receive         | 1        | Completed  | 123    |
 		| HandleReceipt | Parse           | 1        | Completed  | 123    |
-		| HandleReceipt | Convert         | 1        | Completed  | 123    |
 		| HandleReceipt | Validate        | 1        | Completed  | 123    |
 		| HandleReceipt | ProcessPayment  | 1        | Completed  | 123    |
 		| HandleReceipt | TransferResult  | 1        | New        | 123    |
@@ -58,7 +47,6 @@ Scenario: Receipt Workflow by event
 		| Event_Type    | Process_State     | TenantId | EventState | FlowId |
 		| HandleReceipt | Receive           | 1        | Completed  | 123    |
 		| HandleReceipt | Parse             | 1        | Completed  | 123    |
-		| HandleReceipt | Convert           | 1        | Completed  | 123    |
 		| HandleReceipt | Validate          | 1        | Completed  | 123    |
 		| HandleReceipt | ProcessPayment    | 1        | Completed  | 123    |
 		| HandleReceipt | TransferResult    | 1        | Completed  | 123    |
@@ -76,7 +64,6 @@ Scenario: Receipt Workflow by FlowId
 		| Event_Type    | Process_State     | TenantId | EventState | FlowId |
 		| HandleReceipt | Receive           | 1        | Completed  | 124    |
 		| HandleReceipt | Parse             | 1        | Completed  | 124    |
-		| HandleReceipt | Convert           | 1        | Completed  | 124    |
 		| HandleReceipt | Validate          | 1        | Completed  | 124    |
 		| HandleReceipt | ProcessPayment    | 1        | Completed  | 124    |
 		| HandleReceipt | TransferResult    | 1        | Completed  | 124    |
@@ -93,7 +80,6 @@ Scenario: Deposit Workflow by FlowId
 		| Event_Type    | Process_State     | TenantId | EventState | FlowId |
 		| HandleDeposit | Receive           | 1        | Completed  | 124    |
 		| HandleDeposit | Parse             | 1        | Completed  | 124    |
-		| HandleDeposit | Convert           | 1        | Completed  | 124    |
 		| HandleDeposit | ProcessPayment    | 1        | Completed  | 124    |
 		| HandleDeposit | TransferResult    | 1        | Completed  | 124    |
 		| HandleDeposit | WorkFlowCompleted | 1        | Completed  | 124    |

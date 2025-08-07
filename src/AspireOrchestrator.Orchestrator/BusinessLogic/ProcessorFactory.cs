@@ -13,7 +13,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
             {
                 ProcessState.Receive => new ReceiveFileProcessor(loggerFactory),
                 ProcessState.Parse => new ParseFileProcessor(loggerFactory),
-                ProcessState.Convert => new ConvertDocumentProcessor(loggerFactory),
+                //ProcessState.Convert => new ConvertDocumentProcessor(loggerFactory),
                 ProcessState.Validate => new ValidationProcessor(loggerFactory),
                 ProcessState.ProcessPayment => new ProcessPaymentProcessor(loggerFactory),
                 ProcessState.GenerateReceipt => new GenerateReceiptProcessor(loggerFactory),

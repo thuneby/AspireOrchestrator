@@ -10,15 +10,13 @@ Scenario Outline: GetNextState
 	Examples: 
 	| Event_Type      | Process_State     | Next_Process_State |
 	| HandleReceipt   | Receive           | Parse              |
-	| HandleReceipt   | Parse             | Convert            |
-	| HandleReceipt   | Convert           | Validate           |
+	| HandleReceipt   | Parse             | Validate           |
 	| HandleReceipt   | Validate          | ProcessPayment     |
 	| HandleReceipt   | ProcessPayment    | TransferResult     |
 	| HandleReceipt   | TransferResult    | WorkFlowCompleted  |
 	| HandleReceipt   | WorkFlowCompleted | WorkFlowCompleted  |
 	| HandleDeposit   | Receive           | Parse              |
-	| HandleDeposit   | Parse             | Convert            |
-	| HandleDeposit   | Convert           | ProcessPayment     |
+	| HandleDeposit   | Parse             | ProcessPayment     |
 	| HandleDeposit   | ProcessPayment    | TransferResult     |
 	| HandleDeposit   | TransferResult    | WorkFlowCompleted  |
 	| HandleDeposit   | WorkFlowCompleted | WorkFlowCompleted  |

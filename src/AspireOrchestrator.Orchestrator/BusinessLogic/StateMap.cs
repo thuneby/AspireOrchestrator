@@ -14,8 +14,8 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
                     return currentStep switch
                     {
                         ProcessState.Receive => ProcessState.Parse,
-                        ProcessState.Parse => ProcessState.Convert,
-                        ProcessState.Convert => ProcessState.Validate,
+                        ProcessState.Parse => ProcessState.Validate,
+                        //ProcessState.Convert => ProcessState.Validate,
                         ProcessState.Validate => ProcessState.ProcessPayment,
                         ProcessState.ProcessPayment => ProcessState.TransferResult,
                         ProcessState.TransferResult => ProcessState.WorkFlowCompleted,
@@ -27,8 +27,8 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
                     return currentStep switch
                     {
                         ProcessState.Receive => ProcessState.Parse,
-                        ProcessState.Parse => ProcessState.Convert,
-                        ProcessState.Convert => ProcessState.ProcessPayment,
+                        ProcessState.Parse => ProcessState.ProcessPayment,
+                        //ProcessState.Convert => ProcessState.ProcessPayment,
                         ProcessState.ProcessPayment => ProcessState.TransferResult,
                         ProcessState.TransferResult => ProcessState.WorkFlowCompleted,
                         ProcessState.WorkFlowCompleted => ProcessState.WorkFlowCompleted,

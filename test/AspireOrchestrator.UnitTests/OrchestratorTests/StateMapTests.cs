@@ -17,11 +17,11 @@ namespace AspireOrchestrator.UnitTests.OrchestratorTests
 
             entity.ProcessState = ProcessState.Parse;
             result = StateMap.GetNextStep(entity);
-            Assert.Equal(ProcessState.Convert, result);
-
-            entity.ProcessState = ProcessState.Convert;
-            result = StateMap.GetNextStep(entity);
             Assert.Equal(ProcessState.Validate, result);
+
+            //entity.ProcessState = ProcessState.Convert;
+            //result = StateMap.GetNextStep(entity);
+            //Assert.Equal(ProcessState.Validate, result);
 
             entity.ProcessState = ProcessState.Validate;
             result = StateMap.GetNextStep(entity);
