@@ -22,8 +22,10 @@
   <ItemGroup>
     <ProjectReference Include="..\AspireOrchestrator.Administration\AspireOrchestrator.Administration.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.DatabaseMigrations\AspireOrchestrator.DatabaseMigrations.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Domain.DatabaseMigrations\AspireOrchestrator.Domain.DatabaseMigrations.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.MessagingWorker\AspireOrchestrator.MessagingWorker.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.Orchestrator.WebApi\AspireOrchestrator.Orchestrator.WebApi.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Parsing.WebApi\AspireOrchestrator.Parsing.WebApi.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.ServiceDefaults\AspireOrchestrator.ServiceDefaults.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 

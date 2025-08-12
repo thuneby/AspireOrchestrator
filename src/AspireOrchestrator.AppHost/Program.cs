@@ -50,4 +50,17 @@ builder.AddProject<Projects.AspireOrchestrator_Administration>("aspireorchestrat
     .WithReference(apiservice);
 
 
+var domaindb = sqlserver.AddDatabase("domaindb");
+
+var domainmigrationservice = builder.AddProject<Projects.AspireOrchestrator_Domain_DatabaseMigrations>("domainmigration")
+    .WithReference(domaindb)
+    .WaitFor(domaindb);
+
+
+
+builder.AddProject<Projects.AspireOrchestrator_Parsing_WebApi>("aspireorchestrator-parsing-webapi")
+    .WithReference(domaindb)
+    .WaitForCompletion(domainmigrationservice);
+
+
 builder.Build().Run();

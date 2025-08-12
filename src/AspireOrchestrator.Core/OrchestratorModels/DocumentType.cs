@@ -38,8 +38,8 @@ namespace AspireOrchestrator.Core.OrchestratorModels
         NetsMasterData = 19,
         [Display(Name = "Nordea virksomhedsdata")]
         CompanyData = 20,
-        [Display(Name = "BMS")]
-        Bms = 21,
+        [Display(Name = "JSON")]
+        ReceiptDetailJson = 21,
         [Display(Name = "Ukendt")]
         Unknown = 99,
     }
