@@ -33,11 +33,10 @@ namespace AspireOrchestrator.Orchestrator.DataAccess
 
         public void AddEvent(EventEntity eventEntity)
         {
-            if (eventEntity.FlowId == 0)
+            if (eventEntity.FlowId == null)
             {
                 var flow = new Flow()
                 {
-                    Id = 0,
                     CreatedDate = eventEntity.CreatedDate
                 };
                 context.Add(flow);
@@ -73,14 +72,14 @@ namespace AspireOrchestrator.Orchestrator.DataAccess
             return Get(id);
         }
 
-        public EventEntity? GetNextEvent(long flowId)
+        public EventEntity? GetNextEvent(Guid flowId)
         {
             var flowEvents = GetEventFlow(flowId);
             var nextEvent = flowEvents.FirstOrDefault(x => x.EventState != EventState.Completed);
             return nextEvent;
         }
 
-        public IEnumerable<EventEntity> GetEventFlow(long flowId)
+        public IEnumerable<EventEntity> GetEventFlow(Guid flowId)
         {
             return context.EventEntity.Where(x => x.FlowId == flowId).OrderBy(x => x.ProcessState);
         }

@@ -85,7 +85,7 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
         public async Task WhenFlowHasBeenProcessed()
         {
             _scenarioContext.TryGetValue("event", out EventEntity entity);
-            var flowId = entity.FlowId;
+            var flowId = entity.FlowId.Value;
             _scenarioContext["event"] = await _workFlowProcessor.ProcessFlow(flowId);
         }
     }

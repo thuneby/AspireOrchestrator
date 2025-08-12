@@ -1,5 +1,6 @@
 using AspireOrchestrator.Orchestrator.DataAccess;
 using AspireOrchestrator.Orchestrator.Interfaces;
+using AspireOrchestrator.Orchestrator.WebApi.Services;
 using Azure.Messaging.ServiceBus;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,7 @@ builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<TenantRepository>();
 
 builder.AddAzureServiceBusClient(connectionName: "servicebus");
+builder.Services.AddScoped<EventPublisherService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

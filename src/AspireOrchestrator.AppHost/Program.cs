@@ -1,7 +1,3 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-
 var builder = DistributedApplication.CreateBuilder(args);
 
 var sqlserver = builder.AddSqlServer("sqlserver", port: 63015)
@@ -22,7 +18,9 @@ var serviceBus = builder.AddAzureServiceBus("servicebus")
 
 var topic = serviceBus.AddServiceBusTopic("events");
 topic.AddServiceBusSubscription("eventsubscription")
-    .WithProperties(subscription => subscription.MaxDeliveryCount = 10);
+    .WithProperties(subscription => subscription.MaxDeliveryCount = 5)
+    .WithProperties(subscription => subscription.DefaultMessageTimeToLive = TimeSpan.FromMinutes(10))
+    .WithProperties(subscription => subscription.LockDuration = TimeSpan.FromMinutes(5));
 
 var blobs = builder.AddAzureStorage("storage").RunAsEmulator(
     azurite =>
@@ -41,13 +39,15 @@ var apiservice = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_Web
 builder.AddProject<Projects.AspireOrchestrator_MessagingWorker>("messagingworker")
     .WithReference(serviceBus)
     .WithReference(apiservice)
+    .WaitFor(serviceBus)
     .WaitFor(apiservice);
 
 
 builder.AddProject<Projects.AspireOrchestrator_Administration>("aspireorchestrator-administration")
-    .WithReference(apiservice)
+    .WithReference(serviceBus)
     .WithReference(blobs)
-    .WaitFor(blobs);
+    .WaitFor(blobs)
+    .WithReference(apiservice);
 
 
 builder.Build().Run();

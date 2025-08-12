@@ -6,9 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AspireOrchestrator.Orchestrator.DataAccess
 {
-    public class FlowRepository(OrchestratorContext context, ILogger<ModelRepositoryBase<Flow>> logger) : ModelRepositoryBase<Flow>(context, logger), IFlowRepository
+    public class FlowRepository(OrchestratorContext context, ILogger<GuidRepositoryBase<Flow>> logger) : GuidRepositoryBase<Flow>(context, logger), IFlowRepository
     {
-        public new Flow? Get(long id)
+        public new Flow? Get(Guid id)
         {
             return context.Flow
                 .Include(x => x.Events.OrderBy(e => e.ProcessState))

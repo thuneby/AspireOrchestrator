@@ -15,11 +15,10 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
                 name: "Flow",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     State = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TenantId = table.Column<long>(type: "bigint", nullable: false) 
+                    TenantId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,7 +30,7 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "0, 1"),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TenantName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublicId = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -49,7 +48,7 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FlowId = table.Column<long>(type: "bigint", nullable: false),
+                    FlowId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     EventType = table.Column<int>(type: "int", nullable: false),
                     EventState = table.Column<int>(type: "int", nullable: false),
                     ProcessState = table.Column<int>(type: "int", nullable: false),
@@ -57,6 +56,7 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
                     Parameters = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Result = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExecutionCount = table.Column<short>(type: "smallint", nullable: false),
                     Priority = table.Column<short>(type: "smallint", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -70,8 +70,7 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
                         name: "FK_EventEntity_Flow_FlowId",
                         column: x => x.FlowId,
                         principalTable: "Flow",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

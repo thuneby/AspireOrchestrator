@@ -8,12 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Azure.Storage.Blobs" Version="9.4.0" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.19.0" />
+    <PackageReference Include="Aspire.Azure.Messaging.ServiceBus" Version="9.3.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AspireOrchestrator.Core\AspireOrchestrator.Core.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.Domain\AspireOrchestrator.Domain.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Messaging\AspireOrchestrator.Messaging.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.ServiceDefaults\AspireOrchestrator.ServiceDefaults.csproj" />
   </ItemGroup>
 

@@ -36,7 +36,7 @@ namespace AspireOrchestrator.Core.OrchestratorModels
             ErrorMessage = result.ErrorMessage;
         }
 
-        public long FlowId { get; set; }
+        public Guid? FlowId { get; set; }
 
         public EventType EventType { get; set; }
         public EventState EventState { get; set; } = EventState.New;

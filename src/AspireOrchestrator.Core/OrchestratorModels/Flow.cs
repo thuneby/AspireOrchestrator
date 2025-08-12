@@ -2,7 +2,7 @@
 
 namespace AspireOrchestrator.Core.OrchestratorModels
 {
-    public class Flow : TenantModelBase
+    public class Flow : GuidModelBase
     {
         public FlowState State { get; set; }
         public ICollection<EventEntity> Events { get; set; } = new List<EventEntity>();

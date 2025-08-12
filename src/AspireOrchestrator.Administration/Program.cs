@@ -1,3 +1,4 @@
+using AspireOrchestrator.Administration.Services;
 using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,9 +7,13 @@ builder.AddAzureBlobServiceClient("blobs");
 
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
+builder.AddAzureServiceBusClient(connectionName: "servicebus");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<EventPublisherService>();
+builder.Services.AddHttpClient<OrchestratorApiService>(
+    static client => client.BaseAddress = new("https+http://orchestratorapi"));
 
 var app = builder.Build();
 

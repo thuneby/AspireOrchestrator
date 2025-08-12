@@ -1,11 +1,14 @@
-﻿using AspireOrchestrator.Core.OrchestratorModels;
+﻿using System.Globalization;
+using System.Text.Json;
+using AspireOrchestrator.Administration.Services;
+using AspireOrchestrator.Core.OrchestratorModels;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
 namespace AspireOrchestrator.Administration.Controllers
 {
-    public class AdminController(BlobServiceClient blobClient) : Controller
+    public class AdminController(BlobServiceClient blobClient, EventPublisherService eventPublisherService) : Controller
     {
         private readonly BlobServiceClient _blobClient = blobClient ?? throw new ArgumentNullException(nameof(blobClient));
 
@@ -60,9 +63,7 @@ namespace AspireOrchestrator.Administration.Controllers
                 return View("Index");
             }
 
-
             const string result = "File uploaded";
-
             return new ObjectResult(result);
 
         }
@@ -72,26 +73,46 @@ namespace AspireOrchestrator.Administration.Controllers
             using var payload = new MemoryStream(content);
             var docsContainer = _blobClient.GetBlobContainerClient("fileuploads");
 
+            var fileId = Guid.NewGuid().ToString();
+
             IDictionary<string, string> metadata = new Dictionary<string, string>
             {
+                { "id", fileId},
                 { "documentType", documentType.ToString() },
                 { "size", fileLength.ToString()}, 
                 { "fileName", fileName },
                 { "fileType", filetype }
 
             };
+
             // upload the file to Azure Blob Storage
-            await docsContainer.UploadBlobAsync(fileName, payload);
+            await docsContainer.UploadBlobAsync(fileId, payload);
                 
             // set metadata for the uploaded file
-            var blobClient = docsContainer.GetBlobClient(fileName);
-            await blobClient.SetMetadataAsync(metadata);
+            var blobClient = docsContainer.GetBlobClient(fileId);
+            var uri = blobClient.Uri.ToString();
+            //await blobClient.SetMetadataAsync(metadata);
+            // consider using Cosmos DB for metadata storage instead of blob metadata
+            // publish an event for the uploaded file
+            metadata.Add("uri", uri);
+            var parameters = JsonSerializer.Serialize(metadata);
+            await PutEvent(documentType, parameters);
         }
 
-        private async Task PutEvent()
+        private async Task PutEvent(DocumentType documentType, string parameters)
         {
-            var receiveEvent = new EventEntity();
-
+            var receiveEvent = new EventEntity
+            {
+                EventType = EventType.HandleReceipt,
+                ProcessState = ProcessState.Parse,
+                EventState = EventState.New,
+                FlowId = null, // set by handling logic
+                DocumentType = documentType,
+                CreatedDate = DateTime.UtcNow,
+                Parameters = parameters
+                
+            };
+            await eventPublisherService.PublishEvent(receiveEvent, "events");
         }
     }
 }

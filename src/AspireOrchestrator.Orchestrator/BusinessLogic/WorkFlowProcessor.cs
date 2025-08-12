@@ -10,7 +10,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
         private readonly ProcessorFactory _processorFactory = new(loggerFactory);
 
 
-        public async Task<EventEntity> ProcessFlow(long flowId)
+        public async Task<EventEntity> ProcessFlow(Guid flowId)
         {
             var eventEntity = eventRepository.GetNextEvent(flowId);
             if (eventEntity == null)
