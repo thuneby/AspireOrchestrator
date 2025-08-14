@@ -29,6 +29,11 @@ var blobs = builder.AddAzureStorage("storage").RunAsEmulator(
     })
     .AddBlobs("blobs");
 
+var domaindb = sqlserver.AddDatabase("domaindb");
+
+var domainmigrationservice = builder.AddProject<Projects.AspireOrchestrator_Domain_DatabaseMigrations>("domainmigration")
+    .WithReference(domaindb)
+    .WaitFor(domaindb);
 
 var apiservice = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestratorapi")
     .WithReference(orchestratordb)
@@ -44,23 +49,18 @@ builder.AddProject<Projects.AspireOrchestrator_MessagingWorker>("messagingworker
 
 
 builder.AddProject<Projects.AspireOrchestrator_Administration>("aspireorchestrator-administration")
+    .WithReference(domaindb)
+    .WaitForCompletion(domainmigrationservice)
     .WithReference(serviceBus)
     .WithReference(blobs)
     .WaitFor(blobs)
     .WithReference(apiservice);
 
-
-var domaindb = sqlserver.AddDatabase("domaindb");
-
-var domainmigrationservice = builder.AddProject<Projects.AspireOrchestrator_Domain_DatabaseMigrations>("domainmigration")
-    .WithReference(domaindb)
-    .WaitFor(domaindb);
-
-
-
 builder.AddProject<Projects.AspireOrchestrator_Parsing_WebApi>("aspireorchestrator-parsing-webapi")
     .WithReference(domaindb)
-    .WaitForCompletion(domainmigrationservice);
+    .WaitForCompletion(domainmigrationservice)
+    .WithReference(blobs)
+    .WaitFor(blobs);
 
 
 builder.Build().Run();
