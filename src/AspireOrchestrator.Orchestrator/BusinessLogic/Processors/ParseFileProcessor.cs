@@ -10,11 +10,20 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic.Processors
 
         public async Task<EventEntity> ProcessEvent(EventEntity entity)
         {
-            // Todo: Implement the logic
-            _logger.LogInformation("Parsing file");
-            await Task.Delay(1);
-            entity.UpdateProcessResult();
-            return entity;
+            try
+            {
+                var result = await ServiceInvoker.InvokeService<EventEntity, EventEntity>(HttpMethod.Post, "parseapi",
+                    "api/parse/parseasync", entity);
+                result.UpdateProcessResult();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error processing event: {EventId}", entity.Id);
+                entity.ErrorMessage = ex.Message;
+                entity.UpdateProcessResult(EventState.Error);
+                return entity;
+            }
         }
     }
 }

@@ -2,8 +2,8 @@
 using AspireOrchestrator.Domain.DataAccess;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Text.Json;
+using AspireOrchestrator.Parsing.Business;
 
 namespace AspireOrchestrator.Parsing.WebApi.Controllers
 {
@@ -25,21 +25,37 @@ namespace AspireOrchestrator.Parsing.WebApi.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult<EventEntity>> ParseAsync([FromBody] EventEntity eventEntity)
         {
+            
             _logger.LogInformation("Received parse request: {@Request}", eventEntity);
+            eventEntity.StartEvent();
 
             // Simulate parsing logic
             var fileInfo = GetFileInfoFromParameters(eventEntity);
             if (!fileInfo.TryGetValue("id", out var fileId))
             {
                 _logger.LogError("Invalid parameters for event: {@EventEntity}", eventEntity);
-                throw new ArgumentException("Parameters must contain 'id''");
+                eventEntity.ErrorMessage = "Parameters must contain 'id'";
+                eventEntity.Result = "Parsing failed due to missing file id parameter";
+                eventEntity.UpdateProcessResult(EventState.Error);
+                return eventEntity;
+                //return BadRequest(eventEntity); // Uncomment if you want to return BadRequest instead of returning the eventEntity
             }
-
-            eventEntity.StartTime = DateTime.Now;
-            eventEntity.Result = "Parsing completed successfully";
-            eventEntity.EventState = EventState.Completed;
-            eventEntity.ExecutionCount++;
-            eventEntity.EndTime = DateTime.Now.AddSeconds(1); // Simulate processing time
+            var fileStream = await GetFilestreamFromBlob(fileId);
+            var parser = ParserFactory.GetParser(eventEntity.DocumentType, loggerFactory);
+            var receiptDetails = await parser.ParseAsync(fileStream, eventEntity.DocumentType);
+            if (receiptDetails.Any())
+            {
+                // ToDo: add document ID to receiptDetails
+                await repository.AddRange(receiptDetails.ToList());
+            }
+            var result = new Dictionary<string, string>
+            {
+                {"documentId", fileId },
+                {"documentType", eventEntity.DocumentType.ToString()},
+                {"receiptDetailCount", receiptDetails.Count().ToString()}
+            };
+            eventEntity.Result = JsonSerializer.Serialize(result);
+            eventEntity.UpdateProcessResult();
             return eventEntity;
         }
 

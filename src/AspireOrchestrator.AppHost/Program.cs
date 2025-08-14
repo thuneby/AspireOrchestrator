@@ -35,9 +35,16 @@ var domainmigrationservice = builder.AddProject<Projects.AspireOrchestrator_Doma
     .WithReference(domaindb)
     .WaitFor(domaindb);
 
+var parseapi = builder.AddProject<Projects.AspireOrchestrator_Parsing_WebApi>("parseapi")
+    .WithReference(domaindb)
+    .WaitForCompletion(domainmigrationservice)
+    .WithReference(blobs)
+    .WaitFor(blobs);
+
 var apiservice = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestratorapi")
     .WithReference(orchestratordb)
     .WithReference(serviceBus)
+    .WithReference(parseapi)
     .WaitForCompletion(migrationservice);
 
 
@@ -48,7 +55,7 @@ builder.AddProject<Projects.AspireOrchestrator_MessagingWorker>("messagingworker
     .WaitFor(apiservice);
 
 
-builder.AddProject<Projects.AspireOrchestrator_Administration>("aspireorchestrator-administration")
+builder.AddProject<Projects.AspireOrchestrator_Administration>("administration")
     .WithReference(domaindb)
     .WaitForCompletion(domainmigrationservice)
     .WithReference(serviceBus)
@@ -56,11 +63,7 @@ builder.AddProject<Projects.AspireOrchestrator_Administration>("aspireorchestrat
     .WaitFor(blobs)
     .WithReference(apiservice);
 
-builder.AddProject<Projects.AspireOrchestrator_Parsing_WebApi>("aspireorchestrator-parsing-webapi")
-    .WithReference(domaindb)
-    .WaitForCompletion(domainmigrationservice)
-    .WithReference(blobs)
-    .WaitFor(blobs);
+
 
 
 builder.Build().Run();
