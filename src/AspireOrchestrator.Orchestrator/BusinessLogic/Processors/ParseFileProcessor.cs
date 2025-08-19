@@ -1,10 +1,12 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Orchestrator.Interfaces;
 using Microsoft.Extensions.Logging;
+using System.Net.Http.Json;
+using AspireOrchestrator.Orchestrator.Services;
 
 namespace AspireOrchestrator.Orchestrator.BusinessLogic.Processors
 {
-    public class ParseFileProcessor(ILoggerFactory loggerFactory) : IProcessor
+    public class ParseFileProcessor(ParseService parseClient, ILoggerFactory loggerFactory) : IProcessor
     {
         private readonly ILogger<ParseFileProcessor> _logger = loggerFactory.CreateLogger<ParseFileProcessor>();
 
@@ -12,10 +14,10 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic.Processors
         {
             try
             {
-                var result = await ServiceInvoker.InvokeService<EventEntity, EventEntity>(HttpMethod.Post, "parseapi",
-                    "api/parse/parseasync", entity);
-                result.UpdateProcessResult();
-                return result;
+                var result = await parseClient.HandleEventAsync(entity, CancellationToken.None);
+                entity.UpdateProcessResult(result.EventState);
+                entity.Result = result.Result;
+                return entity;
             }
             catch (Exception ex)
             {

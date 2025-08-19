@@ -1,7 +1,8 @@
 ﻿using System.Net.Http.Json;
 using AspireOrchestrator.Core.OrchestratorModels;
+using Microsoft.Extensions.Logging;
 
-namespace AspireOrchestrator.MessagingWorker.Services
+namespace AspireOrchestrator.Orchestrator.Services
 {
     public class EventService(HttpClient httpClient, ILogger<EventService> logger)
     {
@@ -10,7 +11,7 @@ namespace AspireOrchestrator.MessagingWorker.Services
             logger.LogInformation("Handling event: {EventId}", eventEntity.Id);
 
             // for debugging purposes, increase timeout from default 30 seconds to 5 minutes
-            //httpClient.Timeout = TimeSpan.FromMinutes(5);
+            httpClient.Timeout = TimeSpan.FromMinutes(5);
 
             // call orchestrator
             //var test = await httpClient.GetAsync("/api/event/GetAll");

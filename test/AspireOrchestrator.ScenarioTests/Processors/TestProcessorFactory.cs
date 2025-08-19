@@ -1,19 +1,19 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Orchestrator.BusinessLogic.Processors;
 using AspireOrchestrator.Orchestrator.Interfaces;
-using AspireOrchestrator.Orchestrator.Services;
+using AspireOrchestrator.Parsing.WebApi.Controllers;
 using Microsoft.Extensions.Logging;
 
-namespace AspireOrchestrator.Orchestrator.BusinessLogic
+namespace AspireOrchestrator.ScenarioTests.Processors
 {
-    public class ProcessorFactory(ParseService parseService, ILoggerFactory loggerFactory): IProcessorFactory
+    public class TestProcessorFactory(ParseController parseController, ILoggerFactory loggerFactory): IProcessorFactory
     {
         public IProcessor? GetProcessor(EventEntity entity)
         {
             return entity.ProcessState switch
             {
                 ProcessState.Receive => new ReceiveFileProcessor(loggerFactory),
-                ProcessState.Parse => new ParseFileProcessor(parseService, loggerFactory),
+                ProcessState.Parse => new TestParseProcessor(parseController),
                 //ProcessState.Convert => new ConvertDocumentProcessor(loggerFactory),
                 ProcessState.Validate => new ValidationProcessor(loggerFactory),
                 ProcessState.ProcessPayment => new ProcessPaymentProcessor(loggerFactory),

@@ -1,5 +1,7 @@
+using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.DataAccess;
 using AspireOrchestrator.Orchestrator.Interfaces;
+using AspireOrchestrator.Orchestrator.Services;
 using AspireOrchestrator.Orchestrator.WebApi.Services;
 using Azure.Messaging.ServiceBus;
 using Microsoft.EntityFrameworkCore;
@@ -23,8 +25,12 @@ builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<TenantRepository>();
 
+builder.Services.AddHttpClient<ParseService>(
+    static client => client.BaseAddress = new("https://parseapi"));
+
 builder.AddAzureServiceBusClient(connectionName: "servicebus");
 builder.Services.AddScoped<EventPublisherService>();
+builder.Services.AddScoped<IProcessorFactory, ProcessorFactory>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

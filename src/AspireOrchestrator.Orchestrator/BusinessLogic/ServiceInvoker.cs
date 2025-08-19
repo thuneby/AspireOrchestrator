@@ -10,11 +10,9 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
 {
     public static class ServiceInvoker
     {
-        public static async Task<T2> InvokeService<T1, T2>(HttpMethod serviceMethod, string appId, string methodName, T1 entity)
+        public static async Task<T2> InvokeService<T1, T2>(HttpClient client, HttpMethod serviceMethod, string methodName, T1 entity)
         {
             var cancellationToken = new CancellationTokenSource().Token;
-            using var client = new HttpClient();
-            client.BaseAddress = new Uri($"https://{appId}");
             var request = new HttpRequestMessage(serviceMethod, methodName)
             {
                 Content = new StringContent(JsonSerializer.Serialize(entity), Encoding.UTF8, "application/json")

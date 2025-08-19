@@ -1,4 +1,5 @@
-﻿using AspireOrchestrator.Orchestrator.DataAccess;
+﻿using AspireOrchestrator.Domain.DataAccess;
+using AspireOrchestrator.Orchestrator.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
@@ -9,20 +10,9 @@ namespace AspireOrchestrator.PersistenceTests.Common
     public class TestBase
     {
         protected readonly OrchestratorContext OrchestratorContext = InitializeOrchestratorContext();
+        protected readonly DomainContext DomainContext = InitializeDomainContext();
         protected readonly ValidationContext ValidationContext = InitializeValidationContect();
-
-        private static ValidationContext InitializeValidationContect()
-        {
-            var options = new DbContextOptionsBuilder<ValidationContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
-                .Options;
-            var context = new ValidationContext(options);
-            return context;
-        }
-
-        protected ILoggerFactory TestLoggerFactory = InitializeLoggerFactory();
-
+        protected readonly ILoggerFactory TestLoggerFactory = InitializeLoggerFactory();
 
         private static OrchestratorContext InitializeOrchestratorContext()
         {
@@ -31,6 +21,26 @@ namespace AspireOrchestrator.PersistenceTests.Common
                 .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                 .Options;
             var context = new OrchestratorContext(options);
+            return context;
+        }
+
+        private static DomainContext InitializeDomainContext()
+        {
+            var options = new DbContextOptionsBuilder<DomainContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+            var context = new DomainContext(options);
+            return context;
+        }
+
+        private static ValidationContext InitializeValidationContect()
+        {
+            var options = new DbContextOptionsBuilder<ValidationContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+            var context = new ValidationContext(options);
             return context;
         }
 

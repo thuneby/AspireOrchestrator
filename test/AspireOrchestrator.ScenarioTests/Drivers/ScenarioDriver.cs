@@ -1,8 +1,13 @@
 ﻿using AspireOrchestrator.Core.Models;
 using AspireOrchestrator.Core.OrchestratorModels;
+using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.DataAccess;
+using AspireOrchestrator.Parsing.WebApi.Controllers;
 using AspireOrchestrator.PersistenceTests.Common;
+using AspireOrchestrator.ScenarioTests.Processors;
+using Azure.Identity;
+using Azure.Storage.Blobs;
 using Microsoft.Extensions.Logging;
 using Reqnroll;
 
@@ -20,7 +25,21 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             var logger = TestLoggerFactory.CreateLogger<EventRepository>();
             var flowRepository = new FlowRepository(OrchestratorContext, TestLoggerFactory.CreateLogger<FlowRepository>());
             _eventRepository = new EventRepository(OrchestratorContext, logger);
-            _workFlowProcessor = new WorkFlowProcessor(_eventRepository, flowRepository, TestLoggerFactory);
+            var receiptDetailRepository = new ReceiptDetailRepository(DomainContext,
+                TestLoggerFactory.CreateLogger<ReceiptDetailRepository>());
+            var containerClient = GetContainerClient().Result;
+            var parseController = new ParseController(containerClient, receiptDetailRepository, TestLoggerFactory);
+            var processorFactory = new TestProcessorFactory(parseController, TestLoggerFactory);
+            _workFlowProcessor = new WorkFlowProcessor(processorFactory, _eventRepository, flowRepository, TestLoggerFactory);
+        }
+
+        private async Task<BlobServiceClient> GetContainerClient()
+        {
+            var endpoint = new Uri("https://127.0.0.1:64537/devstoreaccount1");
+            var credential = new DefaultAzureCredential();
+            var blobServiceClient = new BlobServiceClient(endpoint, credential, new BlobClientOptions());
+            var properties = await blobServiceClient.GetPropertiesAsync().ConfigureAwait(false);
+            return blobServiceClient;
         }
 
         public void GivenEvent(Table eventTable)

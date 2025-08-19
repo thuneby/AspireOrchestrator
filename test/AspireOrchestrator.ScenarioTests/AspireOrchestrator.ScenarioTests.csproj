@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AspireOrchestrator.Core\AspireOrchestrator.Core.csproj" />
     <ProjectReference Include="..\..\src\AspireOrchestrator.Orchestrator\AspireOrchestrator.Orchestrator.csproj" />
+    <ProjectReference Include="..\..\src\AspireOrchestrator.Parsing.WebApi\AspireOrchestrator.Parsing.WebApi.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.PersistenceTests\AspireOrchestrator.PersistenceTests.csproj" />
   </ItemGroup>
 

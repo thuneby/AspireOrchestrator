@@ -1,7 +1,6 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.Interfaces;
-using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -21,10 +20,11 @@ namespace AspireOrchestrator.Orchestrator.WebApi.Controllers
         private readonly ILogger<EventController> _logger;
         private readonly JsonSerializerOptions _options;
 
-        public EventController(IEventRepository eventRepository, IFlowRepository flowRepository, EventPublisherService service, ILoggerFactory loggerFactory)
+        public EventController(IProcessorFactory processorFactory, IEventRepository eventRepository, IFlowRepository flowRepository, EventPublisherService service, ILoggerFactory loggerFactory)
         {
+            
             _eventRepository = eventRepository;
-            _workflowProcessor = new WorkFlowProcessor(_eventRepository, flowRepository, loggerFactory);
+            _workflowProcessor = new WorkFlowProcessor(processorFactory, _eventRepository, flowRepository, loggerFactory);
             _eventPublisherService = service;
             _logger = loggerFactory.CreateLogger<EventController>();
             _options = new JsonSerializerOptions
