@@ -13,7 +13,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic.Processors
             // Todo: Implement the logic
             _logger.LogInformation("Receiving file");
             await Task.Delay(1);
-            entity.UpdateProcessResult();
+            entity.UpdateProcessResult(entity.Parameters);
             return entity;
         }
     }

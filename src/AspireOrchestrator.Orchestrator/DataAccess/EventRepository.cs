@@ -56,7 +56,6 @@ namespace AspireOrchestrator.Orchestrator.DataAccess
             var documentType = GetDocumentType(eventType);
             var eventEntity = new EventEntity
             {
-                Id = Guid.NewGuid(),
                 EventType = eventType,
                 TenantId = tenantId,
                 ProcessState = ProcessState.Receive,

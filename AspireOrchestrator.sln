@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Domain.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Parsing.WebApi", "src\AspireOrchestrator.Parsing.WebApi\AspireOrchestrator.Parsing.WebApi.csproj", "{DBF31323-9B8D-8708-A22E-ADDB5BD92197}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Validation.WebApi", "src\AspireOrchestrator.Validation.WebApi\AspireOrchestrator.Validation.WebApi.csproj", "{2FA16CC2-FB00-6577-187D-CF886F16D29D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,10 @@ Global
 		{DBF31323-9B8D-8708-A22E-ADDB5BD92197}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBF31323-9B8D-8708-A22E-ADDB5BD92197}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBF31323-9B8D-8708-A22E-ADDB5BD92197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FA16CC2-FB00-6577-187D-CF886F16D29D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FA16CC2-FB00-6577-187D-CF886F16D29D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FA16CC2-FB00-6577-187D-CF886F16D29D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FA16CC2-FB00-6577-187D-CF886F16D29D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +157,7 @@ Global
 		{65815FD6-F393-4B38-9DAA-B3CABBE6B1A5} = {A8562D58-773A-4868-9144-BE5889B347C8}
 		{25F34947-E00D-2104-5AFA-B1E954374542} = {A8562D58-773A-4868-9144-BE5889B347C8}
 		{DBF31323-9B8D-8708-A22E-ADDB5BD92197} = {A8562D58-773A-4868-9144-BE5889B347C8}
+		{2FA16CC2-FB00-6577-187D-CF886F16D29D} = {A8562D58-773A-4868-9144-BE5889B347C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C21DF330-5DC3-4524-BFE0-15B1E4EB83EC}

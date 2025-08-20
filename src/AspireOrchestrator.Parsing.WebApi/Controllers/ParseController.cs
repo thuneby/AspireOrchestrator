@@ -30,46 +30,38 @@ namespace AspireOrchestrator.Parsing.WebApi.Controllers
             eventEntity.StartEvent();
 
             // Simulate parsing logic
-            var fileInfo = GetFileInfoFromParameters(eventEntity);
+            var fileInfo = eventEntity.GetParameterDictionary();
             if (!fileInfo.TryGetValue("id", out var fileId))
             {
                 _logger.LogError("Invalid parameters for event: {@EventEntity}", eventEntity);
                 eventEntity.ErrorMessage = "Parameters must contain 'id'";
-                eventEntity.Result = "Parsing failed due to missing file id parameter";
-                eventEntity.UpdateProcessResult(EventState.Error);
+                const string message = "Parsing failed due to missing file id parameter";
+                eventEntity.UpdateProcessResult(message, EventState.Error);
                 return eventEntity;
                 //return BadRequest(eventEntity); // Uncomment if you want to return BadRequest instead of returning the eventEntity
             }
             var fileStream = await GetFilestreamFromBlob(fileId);
             var parser = ParserFactory.GetParser(eventEntity.DocumentType, loggerFactory);
-            var receiptDetails = await parser.ParseAsync(fileStream, eventEntity.DocumentType);
-            if (receiptDetails.Any())
+            var receiptDetails = (await parser.ParseAsync(fileStream, eventEntity.DocumentType)).ToList();
+            if (receiptDetails.Count > 0)
             {
-                // ToDo: add document ID to receiptDetails
-                await repository.AddRange(receiptDetails.ToList());
+                var documentId = Guid.Parse(fileId);
+                foreach (var receiptDetail in receiptDetails)
+                {
+                    receiptDetail.DocumentId = documentId;
+                    receiptDetail.TenantId = eventEntity.TenantId;
+                }
+                await repository.AddRange(receiptDetails);
             }
             var result = new Dictionary<string, string>
             {
                 {"documentId", fileId },
                 {"documentType", eventEntity.DocumentType.ToString()},
-                {"receiptDetailCount", receiptDetails.Count().ToString()}
+                {"receiptDetailCount", receiptDetails.Count.ToString()}
             };
-            eventEntity.Result = JsonSerializer.Serialize(result);
-            eventEntity.UpdateProcessResult();
+            var jsonResult = JsonSerializer.Serialize(result);
+            eventEntity.UpdateProcessResult(jsonResult);
             return eventEntity;
-        }
-
-        private Dictionary<string, string> GetFileInfoFromParameters(EventEntity eventEntity)
-        {
-            var parameters = eventEntity.Parameters;
-            if (string.IsNullOrWhiteSpace(parameters))
-            {
-                _logger.LogError("Parameters are empty for event: {@EventEntity}", eventEntity);
-                throw new ArgumentException("Parameters cannot be empty");
-            }
-
-            var dictionary = JsonSerializer.Deserialize<Dictionary<string, string>>(parameters);
-            return dictionary ?? throw new ArgumentException("Parameters must be a valid JSON object");
         }
 
         private async Task<Stream> GetFilestreamFromBlob(string fileId)

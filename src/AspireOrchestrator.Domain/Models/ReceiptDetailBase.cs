@@ -32,6 +32,9 @@ namespace AspireOrchestrator.Domain.Models
         [Display(Name = "Afstemningsstatus")]
         public ReconcileStatus ReconcileStatus { get; set; } = ReconcileStatus.Open;
 
+        [Display(Name = "DokumentId")]
+        public Guid DocumentId { get; set; }
+
         public string ValidationErrors { get; set; } = "";
     }
 }

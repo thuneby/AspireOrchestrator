@@ -1,7 +1,6 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Orchestrator.Interfaces;
 using Microsoft.Extensions.Logging;
-using System.Net.Http.Json;
 using AspireOrchestrator.Orchestrator.Services;
 
 namespace AspireOrchestrator.Orchestrator.BusinessLogic.Processors
@@ -15,15 +14,15 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic.Processors
             try
             {
                 var result = await parseClient.HandleEventAsync(entity, CancellationToken.None);
-                entity.UpdateProcessResult(result.EventState);
-                entity.Result = result.Result;
+                entity.UpdateProcessResult(result.Result, result.EventState);
                 return entity;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error processing event: {EventId}", entity.Id);
+                const string error = "Error processing event: {EventId}";
+                _logger.LogError(ex, error, entity.Id);
                 entity.ErrorMessage = ex.Message;
-                entity.UpdateProcessResult(EventState.Error);
+                entity.UpdateProcessResult(error, EventState.Error);
                 return entity;
             }
         }

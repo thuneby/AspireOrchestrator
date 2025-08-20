@@ -41,18 +41,22 @@ var parseapi = builder.AddProject<Projects.AspireOrchestrator_Parsing_WebApi>("p
     .WithReference(blobs)
     .WaitFor(blobs);
 
-var apiservice = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestratorapi")
+var validationapi = builder.AddProject<Projects.AspireOrchestrator_Validation_WebApi>("validationapi")
+    .WithReference(domaindb)
+    .WaitForCompletion(domainmigrationservice);
+
+var orchestratorapi = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestratorapi")
     .WithReference(orchestratordb)
     .WithReference(serviceBus)
     .WithReference(parseapi)
+    .WithReference(validationapi)
     .WaitForCompletion(migrationservice);
-
 
 builder.AddProject<Projects.AspireOrchestrator_MessagingWorker>("messagingworker")
     .WithReference(serviceBus)
-    .WithReference(apiservice)
+    .WithReference(orchestratorapi)
     .WaitFor(serviceBus)
-    .WaitFor(apiservice);
+    .WaitFor(orchestratorapi);
 
 
 builder.AddProject<Projects.AspireOrchestrator_Administration>("administration")
@@ -61,7 +65,9 @@ builder.AddProject<Projects.AspireOrchestrator_Administration>("administration")
     .WithReference(serviceBus)
     .WithReference(blobs)
     .WaitFor(blobs)
-    .WithReference(apiservice);
+    .WithReference(orchestratorapi);
+
+
 
 
 

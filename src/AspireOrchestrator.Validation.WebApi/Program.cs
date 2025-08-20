@@ -1,39 +1,38 @@
-using AspireOrchestrator.Orchestrator.BusinessLogic;
-using AspireOrchestrator.Orchestrator.DataAccess;
-using AspireOrchestrator.Orchestrator.Interfaces;
-using AspireOrchestrator.Orchestrator.Services;
-using AspireOrchestrator.Orchestrator.WebApi.Services;
-using Azure.Messaging.ServiceBus;
+using AspireOrchestrator.Domain.DataAccess;
+using AspireOrchestrator.Validation.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
 // Add services to the container.
-builder.Services.AddDbContextPool<OrchestratorContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("orchestratordb"), sqlOptions =>
+
+builder.Services.AddDbContextPool<DomainContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("domaindb"), sqlOptions =>
     {
+        sqlOptions.MigrationsAssembly("AspireOrchestrator.Domain.DatabaseMigrations");
         // Workaround for https://github.com/dotnet/aspire/issues/1023
         //sqlOptions.ExecutionStrategy(c => new RetryingSqlServerRetryingExecutionStrategy(c));
     }));
-builder.EnrichSqlServerDbContext<OrchestratorContext>(settings =>
+builder.EnrichSqlServerDbContext<DomainContext>(settings =>
     // Disable Aspire default retries as we're using a custom execution strategy
     settings.DisableRetry = true);
 
-builder.Services.AddScoped<IFlowRepository, FlowRepository>();
-builder.Services.AddScoped<IEventRepository, EventRepository>();
-builder.Services.AddScoped<TenantRepository>();
 
-builder.Services.AddHttpClient<ParseService>(
-    static client => client.BaseAddress = new("https://parseapi"));
+// ToDo: Create database and migration project for ValidationContext
+builder.Services.AddDbContext<ValidationContext>(options =>
+    options.UseInMemoryDatabase(Guid.NewGuid().ToString())
+        .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning)));
 
-builder.Services.AddHttpClient<ValidateService>(
-    static client => client.BaseAddress = new Uri("https://validationapi"));
+builder.Services.AddScoped<ReceiptDetailRepository>();
+builder.Services.AddScoped<ValidationErrorRepository>();
 
-builder.AddAzureServiceBusClient(connectionName: "servicebus");
-builder.Services.AddScoped<EventPublisherService>();
-builder.Services.AddScoped<IProcessorFactory, ProcessorFactory>();
+builder.Services.AddControllers();
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
