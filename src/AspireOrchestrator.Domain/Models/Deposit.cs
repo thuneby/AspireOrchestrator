@@ -46,5 +46,8 @@ namespace AspireOrchestrator.Domain.Models
 
         [Display(Name = "Meddelelse")]
         public string Message { get; set; }
+
+        [Display(Name = "DokumentId")]
+        public Guid DocumentId { get; set; }
     }
 }

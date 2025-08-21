@@ -9,8 +9,7 @@ namespace AspireOrchestrator.Parsing.Business
 {
     public static class ParserFactory
     {
-        public static IAsyncParser GetParser(DocumentType documentType, ILoggerFactory loggerFactory
-        )
+        public static IAsyncParser GetReceiptDetailParser(DocumentType documentType, ILoggerFactory loggerFactory)
         {
             switch (documentType)
             {

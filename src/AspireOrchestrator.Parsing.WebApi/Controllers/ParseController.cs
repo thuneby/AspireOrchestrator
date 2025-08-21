@@ -41,7 +41,7 @@ namespace AspireOrchestrator.Parsing.WebApi.Controllers
                 //return BadRequest(eventEntity); // Uncomment if you want to return BadRequest instead of returning the eventEntity
             }
             var fileStream = await GetFilestreamFromBlob(fileId);
-            var parser = ParserFactory.GetParser(eventEntity.DocumentType, loggerFactory);
+            var parser = ParserFactory.GetReceiptDetailParser(eventEntity.DocumentType, loggerFactory);
             var receiptDetails = (await parser.ParseAsync(fileStream, eventEntity.DocumentType)).ToList();
             if (receiptDetails.Count > 0)
             {
