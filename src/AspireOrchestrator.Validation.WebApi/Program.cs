@@ -22,10 +22,17 @@ builder.EnrichSqlServerDbContext<DomainContext>(settings =>
     settings.DisableRetry = true);
 
 
-// ToDo: Create database and migration project for ValidationContext
-builder.Services.AddDbContext<ValidationContext>(options =>
-    options.UseInMemoryDatabase(Guid.NewGuid().ToString())
-        .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning)));
+builder.Services.AddDbContextPool<ValidationContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("validationdb"), sqlOptions =>
+    {
+        sqlOptions.MigrationsAssembly("AspireOrchestrator.Validation.DatabaseMigrations");
+        // Workaround for https://github.com/dotnet/aspire/issues/1023
+        //sqlOptions.ExecutionStrategy(c => new RetryingSqlServerRetryingExecutionStrategy(c));
+    }));
+builder.EnrichSqlServerDbContext<DomainContext>(settings =>
+    // Disable Aspire default retries as we're using a custom execution strategy
+    settings.DisableRetry = true);
+
 
 builder.Services.AddScoped<ReceiptDetailRepository>();
 builder.Services.AddScoped<ValidationErrorRepository>();

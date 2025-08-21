@@ -5,7 +5,7 @@ var sqlserver = builder.AddSqlServer("sqlserver", port: 63015)
 
 var orchestratordb = sqlserver.AddDatabase("orchestratordb");
 
-var migrationservice = builder.AddProject<Projects.AspireOrchestrator_DatabaseMigrations>("migration")
+var migrationservice = builder.AddProject<Projects.AspireOrchestrator_DatabaseMigrations>("orchestratormigration")
     .WithReference(orchestratordb)
     .WaitFor(orchestratordb);
 
@@ -35,6 +35,12 @@ var domainmigrationservice = builder.AddProject<Projects.AspireOrchestrator_Doma
     .WithReference(domaindb)
     .WaitFor(domaindb);
 
+var validationdb = sqlserver.AddDatabase("validationdb");
+
+var validationmigrationservice = builder.AddProject<Projects.AspireOrchestrator_Validation_DatabaseMigrations>("validationmigration")
+    .WithReference(validationdb)
+    .WaitFor(validationdb);
+
 var parseapi = builder.AddProject<Projects.AspireOrchestrator_Parsing_WebApi>("parseapi")
     .WithReference(domaindb)
     .WaitForCompletion(domainmigrationservice)
@@ -43,7 +49,9 @@ var parseapi = builder.AddProject<Projects.AspireOrchestrator_Parsing_WebApi>("p
 
 var validationapi = builder.AddProject<Projects.AspireOrchestrator_Validation_WebApi>("validationapi")
     .WithReference(domaindb)
-    .WaitForCompletion(domainmigrationservice);
+    .WithReference(validationdb)
+    .WaitForCompletion(domainmigrationservice)
+    .WaitForCompletion(validationmigrationservice);
 
 var orchestratorapi = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestratorapi")
     .WithReference(orchestratordb)
@@ -66,10 +74,5 @@ builder.AddProject<Projects.AspireOrchestrator_Administration>("administration")
     .WithReference(blobs)
     .WaitFor(blobs)
     .WithReference(orchestratorapi);
-
-
-
-
-
 
 builder.Build().Run();
