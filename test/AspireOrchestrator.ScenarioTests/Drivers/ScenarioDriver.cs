@@ -5,7 +5,10 @@ using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.DataAccess;
 using AspireOrchestrator.Parsing.WebApi.Controllers;
 using AspireOrchestrator.PersistenceTests.Common;
+using AspireOrchestrator.ScenarioTests.Helpers;
 using AspireOrchestrator.ScenarioTests.Processors;
+using AspireOrchestrator.Validation.DataAccess;
+using AspireOrchestrator.Validation.WebApi.Controllers;
 using Azure.Identity;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Logging;
@@ -25,11 +28,13 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             var logger = TestLoggerFactory.CreateLogger<EventRepository>();
             var flowRepository = new FlowRepository(OrchestratorContext, TestLoggerFactory.CreateLogger<FlowRepository>());
             _eventRepository = new EventRepository(OrchestratorContext, logger);
-            var receiptDetailRepository = new ReceiptDetailRepository(DomainContext,
-                TestLoggerFactory.CreateLogger<ReceiptDetailRepository>());
-            var containerClient = GetContainerClient().Result;
-            var parseController = new ParseController(containerClient, receiptDetailRepository, TestLoggerFactory);
-            var processorFactory = new TestProcessorFactory(parseController, TestLoggerFactory);
+            var receiptDetailRepository = new ReceiptDetailRepository(DomainContext, TestLoggerFactory.CreateLogger<ReceiptDetailRepository>());
+            var depositRepository = new DepositRepository(DomainContext, TestLoggerFactory.CreateLogger<DepositRepository>());
+            var validationErrorRepository = new ValidationErrorRepository(ValidationContext, TestLoggerFactory.CreateLogger<ValidationErrorRepository>());
+            var storageHelper = new TestStorageHelper();
+            var parseController = new ParseController(storageHelper, receiptDetailRepository, depositRepository, TestLoggerFactory);
+            var validationController = new ValidationController(receiptDetailRepository, validationErrorRepository, TestLoggerFactory);
+            var processorFactory = new TestProcessorFactory(parseController, validationController, TestLoggerFactory);
             _workFlowProcessor = new WorkFlowProcessor(processorFactory, _eventRepository, flowRepository, TestLoggerFactory);
         }
 

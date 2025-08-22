@@ -18,6 +18,7 @@
     <ProjectReference Include="..\AspireOrchestrator.Domain\AspireOrchestrator.Domain.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.Messaging\AspireOrchestrator.Messaging.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.ServiceDefaults\AspireOrchestrator.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Storage\AspireOrchestrator.Storage.csproj" />
   </ItemGroup>
 
 </Project>

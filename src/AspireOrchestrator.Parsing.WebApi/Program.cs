@@ -1,4 +1,6 @@
 using AspireOrchestrator.Domain.DataAccess;
+using AspireOrchestrator.Storage.Helpers;
+using AspireOrchestrator.Storage.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +22,8 @@ builder.EnrichSqlServerDbContext<DomainContext>(settings =>
     settings.DisableRetry = true);
 
 builder.Services.AddScoped<ReceiptDetailRepository>();
+builder.Services.AddScoped<DepositRepository>();
+builder.Services.AddScoped<IStorageHelper, BlobStorageHelper>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

@@ -13,5 +13,7 @@ namespace AspireOrchestrator.Domain.DataAccess
         public DbSet<Tenant> Tenant { get; set; }
         public DbSet<ReceiptDetail> ReceiptDetail { get; set; }
 
+        public DbSet<Deposit> Deposit { get; set; }
+
     }
 }

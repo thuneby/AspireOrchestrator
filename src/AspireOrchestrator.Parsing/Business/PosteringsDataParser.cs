@@ -9,7 +9,7 @@ using AspireOrchestrator.Parsing.Models.NordeaRW;
 namespace AspireOrchestrator.Parsing.Business
 {
     public class PosteringsDataParser(PosteringsDataParserHelper flatParserHelper, PosteringsDataMapper textMapper, PosteringsRecordMapper recordMapper) : 
-        SimpleParser<PosteringsData, PosteringRecord, Deposit>(flatParserHelper, textMapper, recordMapper)
+        SimpleParser<PosteringsData, PosteringRecord, Deposit>(flatParserHelper, textMapper, recordMapper), IDepositParser
     {
     }
 

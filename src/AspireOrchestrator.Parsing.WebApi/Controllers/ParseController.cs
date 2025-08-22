@@ -1,17 +1,18 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Domain.DataAccess;
-using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using AspireOrchestrator.Parsing.Business;
+using AspireOrchestrator.Storage.Interfaces;
 
 namespace AspireOrchestrator.Parsing.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ParseController(
-        BlobServiceClient blobClient,
-        ReceiptDetailRepository repository,
+        IStorageHelper storageHelper,
+        ReceiptDetailRepository receiptDetailRepository,
+        DepositRepository depositRepository,
         ILoggerFactory loggerFactory) : ControllerBase
     {
         private readonly ILogger<ParseController> _logger = loggerFactory.CreateLogger<ParseController>();
@@ -37,10 +38,23 @@ namespace AspireOrchestrator.Parsing.WebApi.Controllers
                 eventEntity.ErrorMessage = "Parameters must contain 'id'";
                 const string message = "Parsing failed due to missing file id parameter";
                 eventEntity.UpdateProcessResult(message, EventState.Error);
-                return eventEntity;
-                //return BadRequest(eventEntity); // Uncomment if you want to return BadRequest instead of returning the eventEntity
+                return NotFound(eventEntity);
             }
             var fileStream = await GetFilestreamFromBlob(fileId);
+
+            var jsonResult = eventEntity.DocumentType switch
+            {
+                DocumentType.IpStandard => await ParseReceiptDetails(eventEntity, fileStream, fileId),
+                DocumentType.ReceiptDetailJson => await ParseReceiptDetails(eventEntity, fileStream, fileId),
+                DocumentType.PosteringsData => await ParseDeposits(eventEntity, fileStream, fileId),
+                _ => string.Empty
+            };
+            eventEntity.UpdateProcessResult(jsonResult);
+            return Ok(eventEntity);
+        }
+
+        private async Task<string> ParseReceiptDetails(EventEntity eventEntity, Stream fileStream, string fileId)
+        {
             var parser = ParserFactory.GetReceiptDetailParser(eventEntity.DocumentType, loggerFactory);
             var receiptDetails = (await parser.ParseAsync(fileStream, eventEntity.DocumentType)).ToList();
             if (receiptDetails.Count > 0)
@@ -51,35 +65,46 @@ namespace AspireOrchestrator.Parsing.WebApi.Controllers
                     receiptDetail.DocumentId = documentId;
                     receiptDetail.TenantId = eventEntity.TenantId;
                 }
-                await repository.AddRange(receiptDetails);
+                await receiptDetailRepository.AddRange(receiptDetails);
             }
+            var jsonResult = GetJsonResult(eventEntity, fileId, receiptDetails.Count);
+            return jsonResult;
+        }
+
+        private async Task<string> ParseDeposits(EventEntity eventEntity, Stream fileStream, string fileId)
+        {
+            var parser = ParserFactory.GetDepositParser(eventEntity.DocumentType, loggerFactory);
+            var deposits = (await parser.ParseAsync(fileStream, eventEntity.DocumentType)).ToList();
+            if (deposits.Count > 0)
+            {
+                var documentId = Guid.Parse(fileId);
+                foreach (var deposit in deposits)
+                {
+                    deposit.DocumentId = documentId;
+                    deposit.TenantId = eventEntity.TenantId;
+                }
+                await depositRepository.AddRange(deposits);
+            }
+            var jsonResult = GetJsonResult(eventEntity, fileId, deposits.Count);
+            return jsonResult;
+        }
+
+
+        private static string GetJsonResult(EventEntity eventEntity, string fileId, int documentCount)
+        {
             var result = new Dictionary<string, string>
             {
                 {"documentId", fileId },
                 {"documentType", eventEntity.DocumentType.ToString()},
-                {"receiptDetailCount", receiptDetails.Count.ToString()}
+                {"documentCount", documentCount.ToString()}
             };
             var jsonResult = JsonSerializer.Serialize(result);
-            eventEntity.UpdateProcessResult(jsonResult);
-            return eventEntity;
+            return jsonResult;
         }
 
         private async Task<Stream> GetFilestreamFromBlob(string fileId)
         {
-            // This method should retrieve the file stream from Azure Blob Storage.
-            // For now, we will return a dummy stream.
-            var docsContainer = blobClient.GetBlobContainerClient("fileuploads");
-            var client = docsContainer.GetBlobClient(fileId);
-            if (await client.ExistsAsync())
-            {
-                var result = await client.DownloadContentAsync();
-                return result.Value.Content.ToStream();
-            }
-            else
-            {
-                _logger.LogError("File with ID {FileId} does not exist in blob storage", fileId);
-                throw new FileNotFoundException($"File with ID {fileId} not found in blob storage");
-            }
+            return await storageHelper.GetPayload(fileId);
         }
     }
 }

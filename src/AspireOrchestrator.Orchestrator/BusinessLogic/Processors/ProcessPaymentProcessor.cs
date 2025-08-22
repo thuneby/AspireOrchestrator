@@ -11,7 +11,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic.Processors
         public async Task<EventEntity> ProcessEvent(EventEntity entity)
         {
             // Todo: Implement the logic
-            _logger.LogInformation("Receiving file");
+            _logger.LogInformation("Processing payment");
             await Task.Delay(1);
             entity.UpdateProcessResult(entity.Parameters);
             return entity;

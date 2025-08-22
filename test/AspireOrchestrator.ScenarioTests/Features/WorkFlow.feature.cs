@@ -152,13 +152,15 @@ this.ScenarioInitialize(scenarioInfo);
                             "Process_State",
                             "TenantId",
                             "EventState",
-                            "FlowId"});
+                            "DocumentType",
+                            "Parameters"});
                 table1.AddRow(new string[] {
                             "HandleReceipt",
                             "Receive",
                             "1",
                             "New",
-                            "123"});
+                            "IpStandard",
+                            "{\"id\":\"71f1d54b-09be-463c-8676-88c5097ce4dd\"}"});
 #line 7
  await testRunner.GivenAsync("the following event", ((string)(null)), table1, "Given ");
 #line hidden
@@ -170,19 +172,22 @@ this.ScenarioInitialize(scenarioInfo);
                             "Process_State",
                             "TenantId",
                             "EventState",
-                            "FlowId"});
+                            "DocumentType",
+                            "Parameters"});
                 table2.AddRow(new string[] {
                             "HandleReceipt",
                             "Receive",
                             "1",
                             "Completed",
-                            "123"});
+                            "IpStandard",
+                            "{\"id\":\"71f1d54b-09be-463c-8676-88c5097ce4dd\"}"});
                 table2.AddRow(new string[] {
                             "HandleReceipt",
                             "Parse",
                             "1",
                             "New",
-                            "123"});
+                            "IpStandard",
+                            "{\"id\":\"71f1d54b-09be-463c-8676-88c5097ce4dd\"}"});
 #line 13
  await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table2, "Then ");
 #line hidden
@@ -193,26 +198,22 @@ this.ScenarioInitialize(scenarioInfo);
                             "Event_Type",
                             "Process_State",
                             "TenantId",
-                            "EventState",
-                            "FlowId"});
+                            "EventState"});
                 table3.AddRow(new string[] {
                             "HandleReceipt",
                             "Receive",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table3.AddRow(new string[] {
                             "HandleReceipt",
                             "Parse",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table3.AddRow(new string[] {
                             "HandleReceipt",
                             "Validate",
                             "1",
-                            "New",
-                            "123"});
+                            "New"});
 #line 19
  await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table3, "Then ");
 #line hidden
@@ -223,32 +224,27 @@ this.ScenarioInitialize(scenarioInfo);
                             "Event_Type",
                             "Process_State",
                             "TenantId",
-                            "EventState",
-                            "FlowId"});
+                            "EventState"});
                 table4.AddRow(new string[] {
                             "HandleReceipt",
                             "Receive",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table4.AddRow(new string[] {
                             "HandleReceipt",
                             "Parse",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table4.AddRow(new string[] {
                             "HandleReceipt",
                             "Validate",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table4.AddRow(new string[] {
                             "HandleReceipt",
                             "ProcessPayment",
                             "1",
-                            "New",
-                            "123"});
+                            "New"});
 #line 27
  await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table4, "Then ");
 #line hidden
@@ -259,38 +255,32 @@ this.ScenarioInitialize(scenarioInfo);
                             "Event_Type",
                             "Process_State",
                             "TenantId",
-                            "EventState",
-                            "FlowId"});
+                            "EventState"});
                 table5.AddRow(new string[] {
                             "HandleReceipt",
                             "Receive",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table5.AddRow(new string[] {
                             "HandleReceipt",
                             "Parse",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table5.AddRow(new string[] {
                             "HandleReceipt",
                             "Validate",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table5.AddRow(new string[] {
                             "HandleReceipt",
                             "ProcessPayment",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table5.AddRow(new string[] {
                             "HandleReceipt",
                             "TransferResult",
                             "1",
-                            "New",
-                            "123"});
+                            "New"});
 #line 36
  await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table5, "Then ");
 #line hidden
@@ -301,44 +291,37 @@ this.ScenarioInitialize(scenarioInfo);
                             "Event_Type",
                             "Process_State",
                             "TenantId",
-                            "EventState",
-                            "FlowId"});
+                            "EventState"});
                 table6.AddRow(new string[] {
                             "HandleReceipt",
                             "Receive",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table6.AddRow(new string[] {
                             "HandleReceipt",
                             "Parse",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table6.AddRow(new string[] {
                             "HandleReceipt",
                             "Validate",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table6.AddRow(new string[] {
                             "HandleReceipt",
                             "ProcessPayment",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table6.AddRow(new string[] {
                             "HandleReceipt",
                             "TransferResult",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
                 table6.AddRow(new string[] {
                             "HandleReceipt",
                             "WorkFlowCompleted",
                             "1",
-                            "Completed",
-                            "123"});
+                            "Completed"});
 #line 46
  await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table6, "Then ");
 #line hidden
@@ -346,17 +329,18 @@ this.ScenarioInitialize(scenarioInfo);
             await this.ScenarioCleanupAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Receipt Workflow by FlowId")]
+        [Xunit.SkippableFactAttribute(DisplayName="Receipt Workflow by FlowId", Skip="Ignored")]
         [Xunit.TraitAttribute("FeatureTitle", "WorkFlow")]
         [Xunit.TraitAttribute("Description", "Receipt Workflow by FlowId")]
         [Xunit.TraitAttribute("Category", "tag1")]
         public async global::System.Threading.Tasks.Task ReceiptWorkflowByFlowId()
         {
             string[] tagsOfScenario = new string[] {
-                    "tag1"};
+                    "tag1",
+                    "ignore"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Receipt Workflow by FlowId", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 56
+#line 57
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -377,11 +361,11 @@ this.ScenarioInitialize(scenarioInfo);
                             "Receive",
                             "1",
                             "New",
-                            "124"});
-#line 57
+                            "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
+#line 58
  await testRunner.GivenAsync("the following event", ((string)(null)), table7, "Given ");
 #line hidden
-#line 61
+#line 62
  await testRunner.WhenAsync("the flow has been processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
@@ -395,53 +379,54 @@ this.ScenarioInitialize(scenarioInfo);
                             "Receive",
                             "1",
                             "Completed",
-                            "124"});
+                            "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
                 table8.AddRow(new string[] {
                             "HandleReceipt",
                             "Parse",
                             "1",
                             "Completed",
-                            "124"});
+                            "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
                 table8.AddRow(new string[] {
                             "HandleReceipt",
                             "Validate",
                             "1",
                             "Completed",
-                            "124"});
+                            "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
                 table8.AddRow(new string[] {
                             "HandleReceipt",
                             "ProcessPayment",
                             "1",
                             "Completed",
-                            "124"});
+                            "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
                 table8.AddRow(new string[] {
                             "HandleReceipt",
                             "TransferResult",
                             "1",
                             "Completed",
-                            "124"});
+                            "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
                 table8.AddRow(new string[] {
                             "HandleReceipt",
                             "WorkFlowCompleted",
                             "1",
                             "Completed",
-                            "124"});
-#line 63
+                            "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
+#line 64
  await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table8, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Deposit Workflow by FlowId")]
+        [Xunit.SkippableFactAttribute(DisplayName="Deposit Workflow by FlowId", Skip="Ignored")]
         [Xunit.TraitAttribute("FeatureTitle", "WorkFlow")]
         [Xunit.TraitAttribute("Description", "Deposit Workflow by FlowId")]
         public async global::System.Threading.Tasks.Task DepositWorkflowByFlowId()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "ignore"};
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Deposit Workflow by FlowId", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 72
+#line 75
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -462,11 +447,11 @@ this.ScenarioInitialize(scenarioInfo);
                             "Receive",
                             "1",
                             "New",
-                            "124"});
-#line 73
+                            "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
+#line 76
  await testRunner.GivenAsync("the following event", ((string)(null)), table9, "Given ");
 #line hidden
-#line 77
+#line 80
  await testRunner.WhenAsync("the flow has been processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
@@ -480,32 +465,32 @@ this.ScenarioInitialize(scenarioInfo);
                             "Receive",
                             "1",
                             "Completed",
-                            "124"});
+                            "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
                 table10.AddRow(new string[] {
                             "HandleDeposit",
                             "Parse",
                             "1",
                             "Completed",
-                            "124"});
+                            "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
                 table10.AddRow(new string[] {
                             "HandleDeposit",
                             "ProcessPayment",
                             "1",
                             "Completed",
-                            "124"});
+                            "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
                 table10.AddRow(new string[] {
                             "HandleDeposit",
                             "TransferResult",
                             "1",
                             "Completed",
-                            "124"});
+                            "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
                 table10.AddRow(new string[] {
                             "HandleDeposit",
                             "WorkFlowCompleted",
                             "1",
                             "Completed",
-                            "124"});
-#line 79
+                            "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
+#line 82
  await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table10, "Then ");
 #line hidden
             }

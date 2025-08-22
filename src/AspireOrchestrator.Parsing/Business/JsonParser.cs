@@ -5,7 +5,7 @@ using AspireOrchestrator.Parsing.Interfaces;
 
 namespace AspireOrchestrator.Parsing.Business
 {
-    public class JsonParser: IAsyncParser
+    public class JsonParser: IReceiptDetailParser
     {
         public async Task<IEnumerable<ReceiptDetail>> ParseAsync(Stream payload, DocumentType documentType)
         {

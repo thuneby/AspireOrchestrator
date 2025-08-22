@@ -35,11 +35,11 @@ namespace AspireOrchestrator.Validation.WebApi.Controllers
                 eventEntity.ErrorMessage = "Parameters must contain 'documentId'";
                 const string message = "Validation failed due to missing document id parameter";
                 eventEntity.UpdateProcessResult(message, EventState.Error);
-                return eventEntity;
+                return NotFound(eventEntity);
             }
-            var documentId = Guid.Parse(id);
+            var documentId = Guid.Parse(id.Trim().ToUpperInvariant());
             var receiptDetails = (await receiptDetailRepository.GetByDocumentIdAsync(documentId)).ToList();
-            if (receiptDetails.Count > 0 || receiptDetails.Any(x => !x.Valid))
+            if (receiptDetails.Count > 0 && receiptDetails.Any(x => !x.Valid))
             {
                 
                 var invalid = receiptDetails.Where(x => !x.Valid).ToList();
@@ -56,7 +56,7 @@ namespace AspireOrchestrator.Validation.WebApi.Controllers
             }
 
             UpdateResult(eventEntity, dictionary, id);
-            return eventEntity;
+            return Ok(eventEntity);
         }
 
         private static void UpdateResult(EventEntity eventEntity, Dictionary<string, string> dictionary, string id)

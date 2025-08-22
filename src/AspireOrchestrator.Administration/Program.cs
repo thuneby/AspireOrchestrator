@@ -1,9 +1,12 @@
 using AspireOrchestrator.Administration.Services;
+using AspireOrchestrator.Storage.Helpers;
+using AspireOrchestrator.Storage.Interfaces;
 using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddAzureBlobServiceClient("blobs");
+builder.Services.AddScoped<IStorageHelper, BlobStorageHelper>();
 
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
@@ -29,10 +32,10 @@ if (!app.Environment.IsDevelopment())
 else
 {
     //In development, create the blob container and queue if they don't exist.
-    var blobService = app.Services.GetRequiredService<BlobServiceClient>();
-    var docsContainer = blobService.GetBlobContainerClient("fileuploads");
+    //var blobService = app.Services.GetRequiredService<BlobServiceClient>();
+    //var docsContainer = blobService.GetBlobContainerClient("fileuploads");
 
-    await docsContainer.CreateIfNotExistsAsync();
+    //await docsContainer.CreateIfNotExistsAsync();
 }
 app.UseHttpsRedirection();
 app.UseRouting();

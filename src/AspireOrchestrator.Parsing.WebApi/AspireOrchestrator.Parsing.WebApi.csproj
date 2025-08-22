@@ -19,6 +19,7 @@
     <ProjectReference Include="..\AspireOrchestrator.Domain\AspireOrchestrator.Domain.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.Parsing\AspireOrchestrator.Parsing.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.ServiceDefaults\AspireOrchestrator.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Storage\AspireOrchestrator.Storage.csproj" />
   </ItemGroup>
 
 </Project>

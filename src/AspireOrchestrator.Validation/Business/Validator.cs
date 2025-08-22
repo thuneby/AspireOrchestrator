@@ -55,6 +55,8 @@ namespace AspireOrchestrator.Validation.Business
 
         public async Task<List<ValidationResult>> ValidateManyAsync(List<ReceiptDetail> receiptDetails)
         {
+            if (receiptDetails.Count == 0)
+                return new List<ValidationResult>();
             var tenantId = receiptDetails.FirstOrDefault()?.TenantId; // ToDo
             var allExistingErrors = _validationErrorRepository.GetOpenErrors(tenantId.Value);
             var validationRules = LoadValidationRules();
