@@ -19,14 +19,14 @@ namespace AspireOrchestrator.Parsing.Business
         public async Task<IEnumerable<T3>> ParseAsync(Stream payload, DocumentType documentType)
         {
             var (textRecords, errors) = flatParserHelper.GetRecordsFromPayload(payload, documentType);
-            var recordList = textRecords?.ToList() ?? [];
+            var recordList = textRecords.ToList();
             var errorList = errors.ToList();
-            if (errorList.Any())
+            if (errorList.Count > 0)
             {
                 var exception = new Exception(errors.FirstOrDefault());
                 throw exception;
             }
-            if (!recordList.Any())
+            if (recordList.Count == 0)
             {
                 var exception = new Exception("Fejl - Formatet er ikke IP Standardformat!");
                 throw exception;
