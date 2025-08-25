@@ -55,19 +55,25 @@ namespace AspireOrchestrator.Parsing.WebApi.Controllers
 
         private async Task<string> ParseReceiptDetails(EventEntity eventEntity, Stream fileStream, string fileId)
         {
-            var parser = ParserFactory.GetReceiptDetailParser(eventEntity.DocumentType, loggerFactory);
-            var receiptDetails = (await parser.ParseAsync(fileStream, eventEntity.DocumentType)).ToList();
-            if (receiptDetails.Count > 0)
+            var documentId = Guid.Parse(fileId);
+            var existing = await receiptDetailRepository.GetByDocumentIdAsync(documentId);
+            var count = existing.Count();
+            if (count == 0) // must be idempotent
             {
-                var documentId = Guid.Parse(fileId);
-                foreach (var receiptDetail in receiptDetails)
+                var parser = ParserFactory.GetReceiptDetailParser(eventEntity.DocumentType, loggerFactory);
+                var receiptDetails = (await parser.ParseAsync(fileStream, eventEntity.DocumentType)).ToList();
+                if (receiptDetails.Count > 0)
                 {
-                    receiptDetail.DocumentId = documentId;
-                    receiptDetail.TenantId = eventEntity.TenantId;
+                    count = receiptDetails.Count;
+                    foreach (var receiptDetail in receiptDetails)
+                    {
+                        receiptDetail.DocumentId = documentId;
+                        receiptDetail.TenantId = eventEntity.TenantId;
+                    }
+                    await receiptDetailRepository.AddRange(receiptDetails);
                 }
-                await receiptDetailRepository.AddRange(receiptDetails);
             }
-            var jsonResult = GetJsonResult(eventEntity, fileId, receiptDetails.Count);
+            var jsonResult = GetJsonResult(eventEntity, fileId, count);
             return jsonResult;
         }
 

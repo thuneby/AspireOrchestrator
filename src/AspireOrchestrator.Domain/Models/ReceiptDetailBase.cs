@@ -29,7 +29,7 @@ namespace AspireOrchestrator.Domain.Models
 
         public long PersonId { get; set; }
 
-        [Display(Name = "Afstemningsstatus")]
+        [Display(Name = "Afstemt")]
         public ReconcileStatus ReconcileStatus { get; set; } = ReconcileStatus.Open;
 
         [Display(Name = "DokumentId")]

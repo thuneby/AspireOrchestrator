@@ -1,5 +1,6 @@
 ﻿using AspireOrchestrator.Administration.Services;
 using AspireOrchestrator.Core.OrchestratorModels;
+using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Storage.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -54,8 +55,18 @@ namespace AspireOrchestrator.Administration.Controllers
                 return View("Index");
             }
 
-            const string result = "File uploaded";
-            return new ObjectResult(result);
+            var eventType = ProcessHelper.GetEventType(documentType);
+
+            return eventType switch
+            {
+                EventType.HandleReceipt => RedirectToAction("Index", "ReceiptDetail"),
+                //EventType.HandleInvoice => RedirectToAction("Index", "Invoice"),
+                EventType.HandleDeposit => RedirectToAction("Index", "Deposit"),
+                _ => RedirectToAction("Index", "ReceiptDetail")
+            };
+
+            //const string result = "File uploaded";
+            //return new ObjectResult(result);
 
         }
 
@@ -70,7 +81,7 @@ namespace AspireOrchestrator.Administration.Controllers
         {
             var receiveEvent = new EventEntity
             {
-                EventType = EventType.HandleReceipt,
+                EventType = ProcessHelper.GetEventType(documentType),
                 ProcessState = ProcessState.Parse,
                 EventState = EventState.New,
                 FlowId = null, // set by handling logic

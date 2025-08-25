@@ -1,0 +1,257 @@
+﻿@model IEnumerable<AspireOrchestrator.Domain.Models.ReceiptDetail>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LaborAgreementNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cvr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonFullName)
+            </th>
+@*             <th>
+                @Html.DisplayNameFor(model => model.PaymentReference)
+            </th>
+ *@            <th>
+                @Html.DisplayNameFor(model => model.PaymentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiptType)
+            </th>
+@*             <th>
+                @Html.DisplayNameFor(model => model.PolicyNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BatchNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalContributionRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerContributionRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerContribution)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContributionRateFromDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NormalContribution)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NormalContributionStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmploymentTerminationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviationStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviationEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviationCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeSalaryStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeSalary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TermsOfSalary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmploymentRateStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmploymentRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmissionDate)
+            </th>
+ *@            <th>
+                @Html.DisplayNameFor(model => model.FromDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cpr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Valid)
+            </th>
+@*             <th>
+                @Html.DisplayNameFor(model => model.PersonId)
+            </th>
+ *@            <th>
+                @Html.DisplayNameFor(model => model.ReconcileStatus)
+            </th>
+@*             <th>
+                @Html.DisplayNameFor(model => model.DocumentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValidationErrors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenantId)
+            </th>
+ *@            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LaborAgreementNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cvr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonFullName)
+            </td>
+@*             <td>
+                @Html.DisplayFor(modelItem => item.PaymentReference)
+            </td>
+ *@            <td>
+                @Html.DisplayFor(modelItem => item.PaymentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceiptType)
+            </td>
+@*             <td>
+                @Html.DisplayFor(modelItem => item.PolicyNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BatchNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalContributionRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerContributionRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerContribution)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContributionRateFromDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NormalContribution)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NormalContributionStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmploymentTerminationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeviationStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeviationEndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeviationCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeSalaryStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TermsOfSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmploymentRateStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmploymentRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubmissionDate)
+            </td>
+ *@            <td>
+                @Html.DisplayFor(modelItem => item.FromDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ToDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cpr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Valid)
+            </td>
+@*             <td>
+                @Html.DisplayFor(modelItem => item.PersonId)
+            </td>
+ *@            <td>
+                @Html.DisplayFor(modelItem => item.ReconcileStatus)
+            </td>
+@*             <td>
+                @Html.DisplayFor(modelItem => item.DocumentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValidationErrors)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenantId)
+            </td>
+ *@            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

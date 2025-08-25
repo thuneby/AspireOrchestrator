@@ -1,5 +1,4 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
-using System.Net.Http;
 
 namespace AspireOrchestrator.Administration.Services
 {

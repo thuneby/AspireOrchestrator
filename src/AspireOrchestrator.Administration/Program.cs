@@ -1,7 +1,8 @@
 using AspireOrchestrator.Administration.Services;
+using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Storage.Helpers;
 using AspireOrchestrator.Storage.Interfaces;
-using Azure.Storage.Blobs;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,20 @@ builder.Services.AddScoped<IStorageHelper, BlobStorageHelper>();
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 builder.AddAzureServiceBusClient(connectionName: "servicebus");
+
+builder.Services.AddDbContextPool<DomainContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("domaindb"), sqlOptions =>
+    {
+        sqlOptions.MigrationsAssembly("AspireOrchestrator.Domain.DatabaseMigrations");
+        // Workaround for https://github.com/dotnet/aspire/issues/1023
+        //sqlOptions.ExecutionStrategy(c => new RetryingSqlServerRetryingExecutionStrategy(c));
+    }));
+builder.EnrichSqlServerDbContext<DomainContext>(settings =>
+    // Disable Aspire default retries as we're using a custom execution strategy
+    settings.DisableRetry = true);
+
+builder.Services.AddScoped<ReceiptDetailRepository>();
+builder.Services.AddScoped<DepositRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

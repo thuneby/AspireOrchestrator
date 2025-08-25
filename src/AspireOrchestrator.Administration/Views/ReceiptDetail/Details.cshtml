@@ -1,0 +1,246 @@
+﻿@model AspireOrchestrator.Domain.Models.ReceiptDetail
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ReceiptDetail</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReceivedDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReceivedDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LaborAgreementNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LaborAgreementNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cvr)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cvr)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PersonFullName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PersonFullName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PaymentReference)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PaymentReference)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PaymentDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PaymentDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReceiptType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReceiptType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PolicyNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PolicyNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BatchNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BatchNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TransactionNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TransactionNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalContributionRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TotalContributionRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployerContributionRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployerContributionRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployerContribution)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployerContribution)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ContributionRateFromDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ContributionRateFromDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NormalContribution)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NormalContribution)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NormalContributionStartDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NormalContributionStartDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmploymentTerminationDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmploymentTerminationDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DeviationStartDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DeviationStartDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DeviationEndDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DeviationEndDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DeviationCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DeviationCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployeeSalaryStartDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployeeSalaryStartDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmployeeSalary)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmployeeSalary)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TermsOfSalary)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TermsOfSalary)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmploymentRateStartDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmploymentRateStartDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmploymentRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmploymentRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CustomerNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CustomerNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SubmissionDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SubmissionDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FromDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FromDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ToDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ToDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cpr)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cpr)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Valid)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Valid)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PersonId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PersonId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReconcileStatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReconcileStatus)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DocumentId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DocumentId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ValidationErrors)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ValidationErrors)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TenantId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenantId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
