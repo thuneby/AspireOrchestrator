@@ -79,19 +79,27 @@ namespace AspireOrchestrator.Parsing.WebApi.Controllers
 
         private async Task<string> ParseDeposits(EventEntity eventEntity, Stream fileStream, string fileId)
         {
-            var parser = ParserFactory.GetDepositParser(eventEntity.DocumentType, loggerFactory);
-            var deposits = (await parser.ParseAsync(fileStream, eventEntity.DocumentType)).ToList();
-            if (deposits.Count > 0)
+            var documentId = Guid.Parse(fileId);
+            var existing = await depositRepository.GetByDocumentIdAsync(documentId);
+            var count = existing.Count();
+            if (count == 0) // must be idempotent
             {
-                var documentId = Guid.Parse(fileId);
-                foreach (var deposit in deposits)
+                var parser = ParserFactory.GetDepositParser(eventEntity.DocumentType, loggerFactory);
+                var deposits = (await parser.ParseAsync(fileStream, eventEntity.DocumentType)).ToList();
+                if (deposits.Count > 0)
                 {
-                    deposit.DocumentId = documentId;
-                    deposit.TenantId = eventEntity.TenantId;
+                    count = deposits.Count;
+                    foreach (var deposit in deposits)
+                    {
+                        deposit.DocumentId = documentId;
+                        deposit.TenantId = eventEntity.TenantId;
+                    }
+                    await depositRepository.AddRange(deposits);
                 }
-                await depositRepository.AddRange(deposits);
+
             }
-            var jsonResult = GetJsonResult(eventEntity, fileId, deposits.Count);
+
+            var jsonResult = GetJsonResult(eventEntity, fileId, count);
             return jsonResult;
         }
 
