@@ -39,6 +39,13 @@ namespace AspireOrchestrator.ScenarioTests.Helpers
             return new MemoryStream(content);
         }
 
+        public async Task<string> UploadFile(string fileName, DocumentType documentType)
+        {
+            var fullPath = Path.Combine(GetFullPath(ContainerName), fileName);
+            await using var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read);
+            return await UploadFile(stream, fileName, documentType);
+        }
+
         public async Task<string> UploadFile(Stream fileStream, string fileName, DocumentType documentType)
         {
             var fullPath = Path.Combine(GetFullPath(ContainerName), fileName);

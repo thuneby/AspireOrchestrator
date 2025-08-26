@@ -1,8 +1,10 @@
 ﻿using AspireOrchestrator.Core.Models;
 using AspireOrchestrator.Core.OrchestratorModels;
+using AspireOrchestrator.DataAccess.Repositories;
 using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.DataAccess;
+using AspireOrchestrator.Parsing.Business;
 using AspireOrchestrator.Parsing.WebApi.Controllers;
 using AspireOrchestrator.PersistenceTests.Common;
 using AspireOrchestrator.ScenarioTests.Helpers;
@@ -11,6 +13,7 @@ using AspireOrchestrator.Validation.DataAccess;
 using AspireOrchestrator.Validation.WebApi.Controllers;
 using Azure.Identity;
 using Azure.Storage.Blobs;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Reqnroll;
 
@@ -21,6 +24,10 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
         private readonly ScenarioContext _scenarioContext;
         private readonly EventRepository _eventRepository;
         private readonly WorkFlowProcessor _workFlowProcessor;
+        private readonly ReceiptDetailRepository _receiptDetailRepository;
+        private readonly DepositRepository _depositRepository;
+        private readonly TestStorageHelper _storageHelper = new();
+        private readonly ParseController _parseController;
 
         public ScenarioDriver(ScenarioContext scenarioContext)
         {
@@ -28,13 +35,12 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             var logger = TestLoggerFactory.CreateLogger<EventRepository>();
             var flowRepository = new FlowRepository(OrchestratorContext, TestLoggerFactory.CreateLogger<FlowRepository>());
             _eventRepository = new EventRepository(OrchestratorContext, logger);
-            var receiptDetailRepository = new ReceiptDetailRepository(DomainContext, TestLoggerFactory.CreateLogger<ReceiptDetailRepository>());
-            var depositRepository = new DepositRepository(DomainContext, TestLoggerFactory.CreateLogger<DepositRepository>());
+            _receiptDetailRepository = new ReceiptDetailRepository(DomainContext, TestLoggerFactory.CreateLogger<ReceiptDetailRepository>());
+            _depositRepository = new DepositRepository(DomainContext, TestLoggerFactory.CreateLogger<DepositRepository>());
             var validationErrorRepository = new ValidationErrorRepository(ValidationContext, TestLoggerFactory.CreateLogger<ValidationErrorRepository>());
-            var storageHelper = new TestStorageHelper();
-            var parseController = new ParseController(storageHelper, receiptDetailRepository, depositRepository, TestLoggerFactory);
-            var validationController = new ValidationController(receiptDetailRepository, validationErrorRepository, TestLoggerFactory);
-            var processorFactory = new TestProcessorFactory(parseController, validationController, TestLoggerFactory);
+            _parseController = new ParseController(_storageHelper, _receiptDetailRepository, _depositRepository, TestLoggerFactory);
+            var validationController = new ValidationController(_receiptDetailRepository, validationErrorRepository, TestLoggerFactory);
+            var processorFactory = new TestProcessorFactory(_parseController, validationController, TestLoggerFactory);
             _workFlowProcessor = new WorkFlowProcessor(processorFactory, _eventRepository, flowRepository, TestLoggerFactory);
         }
 
@@ -52,6 +58,14 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             var entity = eventTable.CreateInstance<EventEntity>();
             _scenarioContext["event"] = entity;
             _eventRepository.AddEvent(entity);
+        }
+
+        public async Task GivenTable<T>(Table reqTable)
+        where T: GuidModelBase
+        {
+            var entities = reqTable.CreateSet<T>();
+            DomainContext.AddRange(entities);
+            await DomainContext.SaveChangesAsync();
         }
 
         public async Task WhenEventIsProcessed()
@@ -92,14 +106,14 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             }
         }
 
-        private static void ThenGuidContainsRows<T>(Table specFlowTable, OrchestratorContext context)
+        private static void ThenGuidContainsRows<T>(Table specFlowTable, DbContext context)
             where T : Entity<Guid>
         {
             var entities = context.Set<T>().ToList();
             specFlowTable.CompareToSet(entities);
         }
 
-        private static void ThenTableContainsRows<T>(Table specFlowTable, OrchestratorContext context)
+        private static void ThenTableContainsRows<T>(Table specFlowTable, DbContext context)
             where T : Entity<long>
         {
             var entities = context.Set<T>().ToList();
@@ -111,6 +125,48 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             _scenarioContext.TryGetValue("event", out EventEntity entity);
             var flowId = entity.FlowId.Value;
             _scenarioContext["event"] = await _workFlowProcessor.ProcessFlow(flowId);
+        }
+
+        public void ThenTableContains<T>(Table resultTable)
+            where T : GuidModelBase
+        {
+            ThenGuidContainsRows<T>(resultTable, DomainContext);
+        }
+
+        public async Task WhenFileUploadedToStorage(DocumentType fileType, string fileName)
+        {
+            _scenarioContext["fileName"] = fileName;
+            _scenarioContext["fileType"] = fileType;
+        }
+
+        public async Task WhenFileParsed()
+        {
+            var documentType = _scenarioContext.Get<DocumentType>("fileType");
+            var fileName = _scenarioContext.Get<string>("fileName");
+            var stream = await _storageHelper.GetPayload(fileName);
+            if (documentType == DocumentType.IpStandard)
+            {
+                await WhenReceiptDetailParsed(documentType, stream);
+            }
+            else if (documentType == DocumentType.Camt53 || documentType == DocumentType.PosteringsData)
+            {
+                await WhenDepositParsed(documentType, stream);
+
+            }
+        }
+
+        private async Task WhenReceiptDetailParsed(DocumentType documentType, Stream fileStream)
+        {
+            var parser = ParserFactory.GetReceiptDetailParser(documentType, TestLoggerFactory);
+            var receiptDetails = await parser.ParseAsync(fileStream, documentType);
+            await _receiptDetailRepository.AddRange(receiptDetails);
+        }
+
+        private async Task WhenDepositParsed(DocumentType documentType, Stream stream)
+        {
+            var parser = ParserFactory.GetDepositParser(documentType, TestLoggerFactory);
+            var deposits = await parser.ParseAsync(stream, documentType);
+            await _depositRepository.AddRange(deposits);
         }
     }
 }

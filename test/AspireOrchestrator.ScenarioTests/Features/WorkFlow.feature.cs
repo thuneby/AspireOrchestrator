@@ -147,26 +147,6 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
-                            "Event_Type",
-                            "Process_State",
-                            "TenantId",
-                            "EventState",
-                            "DocumentType",
-                            "Parameters"});
-                table1.AddRow(new string[] {
-                            "HandleReceipt",
-                            "Receive",
-                            "1",
-                            "New",
-                            "IpStandard",
-                            "{\"id\":\"71f1d54b-09be-463c-8676-88c5097ce4dd\"}"});
-#line 7
- await testRunner.GivenAsync("the following event", ((string)(null)), table1, "Given ");
-#line hidden
-#line 11
- await testRunner.WhenAsync("the next event is processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
                 global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "Event_Type",
                             "Process_State",
@@ -178,10 +158,30 @@ this.ScenarioInitialize(scenarioInfo);
                             "HandleReceipt",
                             "Receive",
                             "1",
+                            "New",
+                            "IpStandard",
+                            "{\"id\":\"71f1d54b-09be-463c-8676-88c5097ce4dd\"}"});
+#line 7
+ await testRunner.GivenAsync("the following event", ((string)(null)), table2, "Given ");
+#line hidden
+#line 11
+ await testRunner.WhenAsync("the next event is processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                            "Event_Type",
+                            "Process_State",
+                            "TenantId",
+                            "EventState",
+                            "DocumentType",
+                            "Parameters"});
+                table3.AddRow(new string[] {
+                            "HandleReceipt",
+                            "Receive",
+                            "1",
                             "Completed",
                             "IpStandard",
                             "{\"id\":\"71f1d54b-09be-463c-8676-88c5097ce4dd\"}"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "HandleReceipt",
                             "Parse",
                             "1",
@@ -189,35 +189,9 @@ this.ScenarioInitialize(scenarioInfo);
                             "IpStandard",
                             "{\"id\":\"71f1d54b-09be-463c-8676-88c5097ce4dd\"}"});
 #line 13
- await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table2, "Then ");
-#line hidden
-#line 17
- await testRunner.WhenAsync("the next event is processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
-                            "Event_Type",
-                            "Process_State",
-                            "TenantId",
-                            "EventState"});
-                table3.AddRow(new string[] {
-                            "HandleReceipt",
-                            "Receive",
-                            "1",
-                            "Completed"});
-                table3.AddRow(new string[] {
-                            "HandleReceipt",
-                            "Parse",
-                            "1",
-                            "Completed"});
-                table3.AddRow(new string[] {
-                            "HandleReceipt",
-                            "Validate",
-                            "1",
-                            "New"});
-#line 19
  await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table3, "Then ");
 #line hidden
-#line 25
+#line 17
  await testRunner.WhenAsync("the next event is processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
@@ -239,16 +213,11 @@ this.ScenarioInitialize(scenarioInfo);
                             "HandleReceipt",
                             "Validate",
                             "1",
-                            "Completed"});
-                table4.AddRow(new string[] {
-                            "HandleReceipt",
-                            "ProcessPayment",
-                            "1",
                             "New"});
-#line 27
+#line 19
  await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table4, "Then ");
 #line hidden
-#line 34
+#line 25
  await testRunner.WhenAsync("the next event is processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
@@ -275,16 +244,11 @@ this.ScenarioInitialize(scenarioInfo);
                             "HandleReceipt",
                             "ProcessPayment",
                             "1",
-                            "Completed"});
-                table5.AddRow(new string[] {
-                            "HandleReceipt",
-                            "TransferResult",
-                            "1",
                             "New"});
-#line 36
+#line 27
  await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table5, "Then ");
 #line hidden
-#line 44
+#line 34
  await testRunner.WhenAsync("the next event is processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
@@ -316,14 +280,50 @@ this.ScenarioInitialize(scenarioInfo);
                             "HandleReceipt",
                             "TransferResult",
                             "1",
+                            "New"});
+#line 36
+ await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table6, "Then ");
+#line hidden
+#line 44
+ await testRunner.WhenAsync("the next event is processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
+                            "Event_Type",
+                            "Process_State",
+                            "TenantId",
+                            "EventState"});
+                table7.AddRow(new string[] {
+                            "HandleReceipt",
+                            "Receive",
+                            "1",
                             "Completed"});
-                table6.AddRow(new string[] {
+                table7.AddRow(new string[] {
+                            "HandleReceipt",
+                            "Parse",
+                            "1",
+                            "Completed"});
+                table7.AddRow(new string[] {
+                            "HandleReceipt",
+                            "Validate",
+                            "1",
+                            "Completed"});
+                table7.AddRow(new string[] {
+                            "HandleReceipt",
+                            "ProcessPayment",
+                            "1",
+                            "Completed"});
+                table7.AddRow(new string[] {
+                            "HandleReceipt",
+                            "TransferResult",
+                            "1",
+                            "Completed"});
+                table7.AddRow(new string[] {
                             "HandleReceipt",
                             "WorkFlowCompleted",
                             "1",
                             "Completed"});
 #line 46
- await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table6, "Then ");
+ await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table7, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -350,24 +350,6 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
-                            "Event_Type",
-                            "Process_State",
-                            "TenantId",
-                            "EventState",
-                            "FlowId"});
-                table7.AddRow(new string[] {
-                            "HandleReceipt",
-                            "Receive",
-                            "1",
-                            "New",
-                            "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
-#line 58
- await testRunner.GivenAsync("the following event", ((string)(null)), table7, "Given ");
-#line hidden
-#line 62
- await testRunner.WhenAsync("the flow has been processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
                 global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
                             "Event_Type",
                             "Process_State",
@@ -378,40 +360,58 @@ this.ScenarioInitialize(scenarioInfo);
                             "HandleReceipt",
                             "Receive",
                             "1",
+                            "New",
+                            "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
+#line 58
+ await testRunner.GivenAsync("the following event", ((string)(null)), table8, "Given ");
+#line hidden
+#line 62
+ await testRunner.WhenAsync("the flow has been processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
+                            "Event_Type",
+                            "Process_State",
+                            "TenantId",
+                            "EventState",
+                            "FlowId"});
+                table9.AddRow(new string[] {
+                            "HandleReceipt",
+                            "Receive",
+                            "1",
                             "Completed",
                             "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "HandleReceipt",
                             "Parse",
                             "1",
                             "Completed",
                             "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "HandleReceipt",
                             "Validate",
                             "1",
                             "Completed",
                             "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "HandleReceipt",
                             "ProcessPayment",
                             "1",
                             "Completed",
                             "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "HandleReceipt",
                             "TransferResult",
                             "1",
                             "Completed",
                             "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "HandleReceipt",
                             "WorkFlowCompleted",
                             "1",
                             "Completed",
                             "f80664bb-fe2c-422e-afc5-17a4eb6529cb"});
 #line 64
- await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table8, "Then ");
+ await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table9, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -436,24 +436,6 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
-                            "Event_Type",
-                            "Process_State",
-                            "TenantId",
-                            "EventState",
-                            "FlowId"});
-                table9.AddRow(new string[] {
-                            "HandleDeposit",
-                            "Receive",
-                            "1",
-                            "New",
-                            "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
-#line 76
- await testRunner.GivenAsync("the following event", ((string)(null)), table9, "Given ");
-#line hidden
-#line 80
- await testRunner.WhenAsync("the flow has been processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
                 global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
                             "Event_Type",
                             "Process_State",
@@ -464,34 +446,52 @@ this.ScenarioInitialize(scenarioInfo);
                             "HandleDeposit",
                             "Receive",
                             "1",
+                            "New",
+                            "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
+#line 76
+ await testRunner.GivenAsync("the following event", ((string)(null)), table10, "Given ");
+#line hidden
+#line 80
+ await testRunner.WhenAsync("the flow has been processed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
+                            "Event_Type",
+                            "Process_State",
+                            "TenantId",
+                            "EventState",
+                            "FlowId"});
+                table11.AddRow(new string[] {
+                            "HandleDeposit",
+                            "Receive",
+                            "1",
                             "Completed",
                             "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "HandleDeposit",
                             "Parse",
                             "1",
                             "Completed",
                             "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "HandleDeposit",
                             "ProcessPayment",
                             "1",
                             "Completed",
                             "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "HandleDeposit",
                             "TransferResult",
                             "1",
                             "Completed",
                             "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "HandleDeposit",
                             "WorkFlowCompleted",
                             "1",
                             "Completed",
                             "eb91261a-f9c0-4722-aa33-2e33d76186d6"});
 #line 82
- await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table10, "Then ");
+ await testRunner.ThenAsync("EventEntity table contains rows", ((string)(null)), table11, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

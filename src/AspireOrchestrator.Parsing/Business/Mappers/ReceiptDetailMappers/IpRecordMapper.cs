@@ -1,4 +1,5 @@
-﻿using AspireOrchestrator.Domain.Models;
+﻿using AspireOrchestrator.Core.OrchestratorModels;
+using AspireOrchestrator.Domain.Models;
 using AspireOrchestrator.Parsing.Business.Helpers;
 using AspireOrchestrator.Parsing.Models.IPModels;
 using AutoMapper;
@@ -17,6 +18,7 @@ namespace AspireOrchestrator.Parsing.Business.Mappers.ReceiptDetailMappers
         private MapperConfiguration GetMapperConfiguration(ILoggerFactory loggerFactory)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<IpRecord, ReceiptDetail>()
+                    .ForMember(dest => dest.DocumentType, opt => opt.MapFrom(src => DocumentType.IpStandard))
                 .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => ConversionHelper.GetDecimal100(src.Pensionsbidrag)))
                 .ForMember(dest => dest.Cpr, opt => opt.MapFrom(src => ConversionHelper.CprHelper(src.Cpr)))
                 .ForMember(dest => dest.Cvr, opt => opt.MapFrom(src => src.Cvr))
@@ -40,7 +42,7 @@ namespace AspireOrchestrator.Parsing.Business.Mappers.ReceiptDetailMappers
         private DateTime? GetTerminationDate(string dateString)
         {
             var terminationDate = ConversionHelper.ParseDate(dateString);
-            if (!ConversionHelper.IsMinDateTime(terminationDate))
+            if (ConversionHelper.IsMinDateTime(terminationDate))
             {
                 return null;
             }
