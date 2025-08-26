@@ -51,6 +51,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Validati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Storage", "src\AspireOrchestrator.Storage\AspireOrchestrator.Storage.csproj", "{BCD839EA-CA35-4DE4-8695-4582F0C653BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.PaymentProcessing", "src\AspireOrchestrator.PaymentProcessing\AspireOrchestrator.PaymentProcessing.csproj", "{384C173A-49E0-4E9F-8DA2-B8BF803E10BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Accounting", "src\AspireOrchestrator.Accounting\AspireOrchestrator.Accounting.csproj", "{667A4605-02CB-4605-A042-FFBC16C62C06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +149,14 @@ Global
 		{BCD839EA-CA35-4DE4-8695-4582F0C653BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCD839EA-CA35-4DE4-8695-4582F0C653BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCD839EA-CA35-4DE4-8695-4582F0C653BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{384C173A-49E0-4E9F-8DA2-B8BF803E10BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{384C173A-49E0-4E9F-8DA2-B8BF803E10BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{384C173A-49E0-4E9F-8DA2-B8BF803E10BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{384C173A-49E0-4E9F-8DA2-B8BF803E10BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{667A4605-02CB-4605-A042-FFBC16C62C06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{667A4605-02CB-4605-A042-FFBC16C62C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{667A4605-02CB-4605-A042-FFBC16C62C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{667A4605-02CB-4605-A042-FFBC16C62C06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +184,8 @@ Global
 		{2FA16CC2-FB00-6577-187D-CF886F16D29D} = {A8562D58-773A-4868-9144-BE5889B347C8}
 		{D2890862-A299-CE79-F055-70F8C3ADD146} = {A8562D58-773A-4868-9144-BE5889B347C8}
 		{BCD839EA-CA35-4DE4-8695-4582F0C653BA} = {A8562D58-773A-4868-9144-BE5889B347C8}
+		{384C173A-49E0-4E9F-8DA2-B8BF803E10BD} = {A8562D58-773A-4868-9144-BE5889B347C8}
+		{667A4605-02CB-4605-A042-FFBC16C62C06} = {A8562D58-773A-4868-9144-BE5889B347C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C21DF330-5DC3-4524-BFE0-15B1E4EB83EC}

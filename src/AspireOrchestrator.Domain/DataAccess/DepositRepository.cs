@@ -13,5 +13,19 @@ namespace AspireOrchestrator.Domain.DataAccess
                 .Where(rd => rd.DocumentId == documentId)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Deposit>> GetByAccountNumberAsync(string accountNumber)
+        {
+            return await context.Deposit
+                .Where(d => d.AccountNumber == accountNumber)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Deposit>> GetByReconcileStatusAsync(ReconcileStatus reconcileStatus)
+        {
+            return await context.Deposit
+                .Where(d => d.ReconcileStatus == reconcileStatus)
+                .ToListAsync();
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AspireOrchestrator.Core.Models;
+using AspireOrchestrator.Core.OrchestratorModels;
 
 namespace AspireOrchestrator.Domain.Models
 {
@@ -31,6 +32,8 @@ namespace AspireOrchestrator.Domain.Models
 
         [Display(Name = "Afstemt")]
         public ReconcileStatus ReconcileStatus { get; set; } = ReconcileStatus.Open;
+
+        public DocumentType DocumentType { get; set; }
 
         [Display(Name = "DokumentId")]
         public Guid DocumentId { get; set; }
