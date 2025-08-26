@@ -9,7 +9,7 @@ namespace AspireOrchestrator.Domain.Models
     {
         [Display(Name = "Kontonr")]
         [StringLength(34)]
-        public string AccountNumber { get; set; }
+        public string AccountNumber { get; set; } = "";
 
         [Display(Name = "Trx.dato")]
         [Column(TypeName = "Date")]
@@ -29,23 +29,23 @@ namespace AspireOrchestrator.Domain.Models
         [DisplayFormat(DataFormatString = "{0:N}")]
         public decimal Amount { get; set; }
 
-        [Display(Name = "Beløb")]
-        public string Belob { get; set; }
+        [Display(Name = "Beløb")] 
+        public string Belob { get; set; } = "";
 
         [Display(Name = "Valuta")]
         [StringLength(3)]
-        public string Currency { get; set; }
+        public string Currency { get; set; } = "DKK";
 
         [StringLength(35)]
         [Display(Name = "Kontoreference")]
-        public string AccountReference { get; set; }
+        public string AccountReference { get; set; } = "";
 
         [StringLength(35)]
         [Display(Name = "Reference")]
-        public string PaymentReference { get; set; }
+        public string PaymentReference { get; set; } = "";
 
-        [Display(Name = "Meddelelse")]
-        public string Message { get; set; }
+        [Display(Name = "Meddelelse")] 
+        public string Message { get; set; } = "";
 
         [Display(Name = "DokumentId")]
         public Guid DocumentId { get; set; }

@@ -27,13 +27,13 @@ namespace AspireOrchestrator.Parsing.Business
 
         public static IDepositParser GetDepositParser(DocumentType documentType, ILoggerFactory loggerFactory)
         {
-            switch (documentType)
+            return documentType switch
             {
-                case DocumentType.PosteringsData:
-                    return new PosteringsDataParser(new PosteringsDataParserHelper(), new PosteringsDataMapper(loggerFactory), new PosteringsRecordMapper(loggerFactory));
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(documentType), documentType, null);
-            }
+                DocumentType.PosteringsData => new PosteringsDataParser(new PosteringsDataParserHelper(),
+                    new PosteringsDataMapper(loggerFactory), new PosteringsRecordMapper(loggerFactory)),
+                DocumentType.Camt53 => new Camt53Parser(loggerFactory),
+                _ => throw new ArgumentOutOfRangeException(nameof(documentType), documentType, null)
+            };
         }
     }
 }

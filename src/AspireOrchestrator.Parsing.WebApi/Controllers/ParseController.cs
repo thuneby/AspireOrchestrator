@@ -47,6 +47,7 @@ namespace AspireOrchestrator.Parsing.WebApi.Controllers
                 DocumentType.IpStandard => await ParseReceiptDetails(eventEntity, fileStream, fileId),
                 DocumentType.ReceiptDetailJson => await ParseReceiptDetails(eventEntity, fileStream, fileId),
                 DocumentType.PosteringsData => await ParseDeposits(eventEntity, fileStream, fileId),
+                DocumentType.Camt53 => await ParseDeposits(eventEntity, fileStream, fileId),
                 _ => string.Empty
             };
             eventEntity.UpdateProcessResult(jsonResult);
