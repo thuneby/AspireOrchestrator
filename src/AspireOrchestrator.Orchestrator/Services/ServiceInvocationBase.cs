@@ -15,7 +15,9 @@ namespace AspireOrchestrator.Orchestrator.Services
 
             var response = await httpClient.PostAsJsonAsync(requestUri, eventEntity, cancellationToken);
 
-            logger.LogInformation("Event handled successfully." + response);
+            logger.LogInformation("Request: " + response.RequestMessage);
+            logger.LogInformation("Response code: " + response.StatusCode);
+            logger.LogInformation("response reason: " + response.ReasonPhrase?? "");
 
             var result = await response.Content.ReadFromJsonAsync<EventEntity>(cancellationToken: cancellationToken);
             return result;

@@ -53,10 +53,15 @@ var validationapi = builder.AddProject<Projects.AspireOrchestrator_Validation_We
     .WaitForCompletion(domainmigrationservice)
     .WaitForCompletion(validationmigrationservice);
 
+var paymentapi = builder.AddProject<Projects.AspireOrchestrator_PaymentProcessing_WebApi>("paymentapi")
+    .WithReference(domaindb)
+    .WaitForCompletion(domainmigrationservice);
+
 var orchestratorapi = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestratorapi")
     .WithReference(orchestratordb)
     .WithReference(serviceBus)
     .WithReference(parseapi)
+    .WithReference(paymentapi)
     .WithReference(validationapi)
     .WaitForCompletion(migrationservice);
 
@@ -74,5 +79,6 @@ builder.AddProject<Projects.AspireOrchestrator_Administration>("administration")
     .WithReference(blobs)
     .WaitFor(blobs)
     .WithReference(orchestratorapi);
+
 
 builder.Build().Run();

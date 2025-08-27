@@ -1,6 +1,5 @@
 using AspireOrchestrator.ScenarioTests.Drivers;
 using Reqnroll;
-using System;
 using AspireOrchestrator.Core.OrchestratorModels;
 
 namespace AspireOrchestrator.ScenarioTests.StepDefinitions

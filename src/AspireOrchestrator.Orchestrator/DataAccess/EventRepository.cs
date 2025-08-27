@@ -1,5 +1,4 @@
-﻿using AspireOrchestrator.Core.Models;
-using AspireOrchestrator.Core.OrchestratorModels;
+﻿using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.DataAccess.Repositories;
 using AspireOrchestrator.Orchestrator.Interfaces;
 using Microsoft.Extensions.Logging;

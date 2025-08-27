@@ -1,12 +1,12 @@
 ﻿using AspireOrchestrator.Core.Models;
 using AspireOrchestrator.Core.OrchestratorModels;
-using AspireOrchestrator.DataAccess.Repositories;
 using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.DataAccess;
 using AspireOrchestrator.Parsing.Business;
 using AspireOrchestrator.Parsing.WebApi.Controllers;
 using AspireOrchestrator.PaymentProcessing.Business;
+using AspireOrchestrator.PaymentProcessing.WebApi.Controllers;
 using AspireOrchestrator.PersistenceTests.Common;
 using AspireOrchestrator.ScenarioTests.Helpers;
 using AspireOrchestrator.ScenarioTests.Processors;
@@ -42,9 +42,10 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             var validationErrorRepository = new ValidationErrorRepository(ValidationContext, TestLoggerFactory.CreateLogger<ValidationErrorRepository>());
             _parseController = new ParseController(_storageHelper, _receiptDetailRepository, _depositRepository, TestLoggerFactory);
             var validationController = new ValidationController(_receiptDetailRepository, validationErrorRepository, TestLoggerFactory);
-            var processorFactory = new TestProcessorFactory(_parseController, validationController, TestLoggerFactory);
-            _workFlowProcessor = new WorkFlowProcessor(processorFactory, _eventRepository, flowRepository, TestLoggerFactory);
             _paymentProcessor = new PaymentProcessor(DomainContext, TestLoggerFactory);
+            var paymentController = new PaymentProcessingController(_paymentProcessor, TestLoggerFactory);
+            var processorFactory = new TestProcessorFactory(_parseController, validationController, paymentController, TestLoggerFactory);
+            _workFlowProcessor = new WorkFlowProcessor(processorFactory, _eventRepository, flowRepository, TestLoggerFactory);
         }
 
         private async Task<BlobServiceClient> GetContainerClient()
@@ -174,7 +175,7 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
 
         public async Task WhenDocumentsMatched(DocumentType documentType)
         {
-            await _paymentProcessor.MatchPaymentAsync(documentType);
+            await _paymentProcessor.MatchDocumentTypeAsync(documentType);
         }
     }
 }

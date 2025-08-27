@@ -12,7 +12,7 @@ namespace AspireOrchestrator.PaymentProcessing.Business
         private readonly ReceiptDetailRepository _receiptDetailRepository = new ReceiptDetailRepository(context, loggerFactory.CreateLogger<ReceiptDetailRepository>());
         private readonly DepositRepository _depositRepository = new DepositRepository(context, loggerFactory.CreateLogger<DepositRepository>());
 
-        public async Task<List<MatchResult>> MatchPaymentAsync(DocumentType documentType)
+        public async Task<List<MatchResult>> MatchDocumentTypeAsync(DocumentType documentType)
         {
             var receiptDetails = _receiptDetailRepository.GetQueryList()
                 .Where(x => x.ReconcileStatus == ReconcileStatus.Open && x.DocumentType == documentType).ToList();

@@ -1,5 +1,3 @@
-using System.Net;
-
 namespace AspireOrchestrator.UnitTests.Tests
 {
     public class IntegrationTest1

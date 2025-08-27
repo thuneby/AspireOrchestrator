@@ -1,8 +1,6 @@
-using AspireOrchestrator.Orchestrator.BusinessLogic;
-using AspireOrchestrator.Orchestrator.DataAccess;
-using AspireOrchestrator.Orchestrator.Interfaces;
-using AspireOrchestrator.Orchestrator.Services;
-using AspireOrchestrator.Orchestrator.WebApi.Services;
+using AspireOrchestrator.Domain.DataAccess;
+using AspireOrchestrator.PaymentProcessing.Business;
+using AspireOrchestrator.PaymentProcessing.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,32 +8,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
-builder.Services.AddDbContextPool<OrchestratorContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("orchestratordb"), sqlOptions =>
+builder.Services.AddDbContextPool<DomainContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("domaindb"), sqlOptions =>
     {
+        sqlOptions.MigrationsAssembly("AspireOrchestrator.Domain.DatabaseMigrations");
         // Workaround for https://github.com/dotnet/aspire/issues/1023
         //sqlOptions.ExecutionStrategy(c => new RetryingSqlServerRetryingExecutionStrategy(c));
     }));
-builder.EnrichSqlServerDbContext<OrchestratorContext>(settings =>
+builder.EnrichSqlServerDbContext<DomainContext>(settings =>
     // Disable Aspire default retries as we're using a custom execution strategy
     settings.DisableRetry = true);
 
-builder.Services.AddScoped<IFlowRepository, FlowRepository>();
-builder.Services.AddScoped<IEventRepository, EventRepository>();
-builder.Services.AddScoped<TenantRepository>();
+builder.Services.AddScoped<IProcessPayment, PaymentProcessor>();
 
-builder.Services.AddHttpClient<ParseService>(
-    static client => client.BaseAddress = new("https://parseapi"));
-
-builder.Services.AddHttpClient<ValidateService>(
-    static client => client.BaseAddress = new Uri("https://validationapi"));
-
-builder.Services.AddHttpClient<PaymentProcessingService>(
-    static client => client.BaseAddress = new Uri("https://paymentapi"));
-
-builder.AddAzureServiceBusClient(connectionName: "servicebus");
-builder.Services.AddScoped<EventPublisherService>();
-builder.Services.AddScoped<IProcessorFactory, ProcessorFactory>();
+builder.Services.AddControllers();
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

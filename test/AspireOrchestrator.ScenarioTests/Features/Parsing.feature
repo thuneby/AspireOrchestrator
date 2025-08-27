@@ -15,4 +15,4 @@ Scenario: Parse Camt53
 	When filen er parset
 	Then Deposit tabel indeholder
 	| ReconcileStatus | Amount  | PaymentReference | AccountNumber  | TrxDate    | ValDate    | Currency |
-	| Paid            | 4796.56 | 000000100083286  | 22768976202121 | 2025-07-25 | 2025-07-25 | DKK      |
+	| Paid            | 4796.56 | 10008328         | 22768976202121 | 2025-07-25 | 2025-07-25 | DKK      |

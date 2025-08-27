@@ -1,7 +1,6 @@
 using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Validation.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 
 var builder = WebApplication.CreateBuilder(args);
