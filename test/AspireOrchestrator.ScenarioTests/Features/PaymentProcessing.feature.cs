@@ -17,21 +17,21 @@ namespace AspireOrchestrator.ScenarioTests.Features
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class ParsingFeature : object, Xunit.IClassFixture<ParsingFeature.FixtureData>, Xunit.IAsyncLifetime
+    public partial class PaymentProcessingFeature : object, Xunit.IClassFixture<PaymentProcessingFeature.FixtureData>, Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Parsing", "Parse different information and payment files", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "PaymentProcessing", "A short summary of the feature", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "Parsing.feature"
+#line 1 "PaymentProcessing.feature"
 #line hidden
         
-        public ParsingFeature(ParsingFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public PaymentProcessingFeature(PaymentProcessingFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -127,14 +127,14 @@ namespace AspireOrchestrator.ScenarioTests.Features
             await this.TestTearDownAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Parse IpStandard")]
-        [Xunit.TraitAttribute("FeatureTitle", "Parsing")]
-        [Xunit.TraitAttribute("Description", "Parse IpStandard")]
-        public async global::System.Threading.Tasks.Task ParseIpStandard()
+        [Xunit.SkippableFactAttribute(DisplayName="Match IpStandard")]
+        [Xunit.TraitAttribute("FeatureTitle", "PaymentProcessing")]
+        [Xunit.TraitAttribute("Description", "Match IpStandard")]
+        public async global::System.Threading.Tasks.Task MatchIpStandard()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Parse IpStandard", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Match IpStandard", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 5
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -145,13 +145,7 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 6
- await testRunner.WhenAsync("IpStandard fil \"IP-standard 2025.txt\" er i storage", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 7
- await testRunner.WhenAsync("filen er parset", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
                             "Cvr",
                             "Cpr",
                             "LaborAgreementNumber",
@@ -169,14 +163,14 @@ this.ScenarioInitialize(scenarioInfo);
                             "SubmissionDate",
                             "DocumentType",
                             "ReceiptType"});
-                table1.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "10008328",
                             "130250-0009",
                             "10000",
                             "2025-07-01",
                             "2025-07-31",
                             "2025-07-25",
-                            "10008328",
+                            "100083286",
                             "4796.56",
                             "Open",
                             "False",
@@ -187,38 +181,10 @@ this.ScenarioInitialize(scenarioInfo);
                             "2025-07-25",
                             "IpStandard",
                             "Payment"});
-#line 8
- await testRunner.ThenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table1, "Then ");
+#line 6
+await testRunner.GivenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table3, "Given ");
 #line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [Xunit.SkippableFactAttribute(DisplayName="Parse Camt53")]
-        [Xunit.TraitAttribute("FeatureTitle", "Parsing")]
-        [Xunit.TraitAttribute("Description", "Parse Camt53")]
-        public async global::System.Threading.Tasks.Task ParseCamt53()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Parse Camt53", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 13
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 14
- await testRunner.WhenAsync("Camt53 fil \"Camt53 IP 2025.xml\" er i storage", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 15
- await testRunner.WhenAsync("filen er parset", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "ReconcileStatus",
                             "Amount",
                             "PaymentReference",
@@ -226,16 +192,77 @@ this.ScenarioInitialize(scenarioInfo);
                             "TrxDate",
                             "ValDate",
                             "Currency"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Paid",
                             "4796.56",
-                            "000000100083286",
+                            "100083286",
                             "22768976202121",
                             "2025-07-25",
                             "2025-07-25",
                             "DKK"});
-#line 16
- await testRunner.ThenAsync("Deposit tabel indeholder", ((string)(null)), table2, "Then ");
+#line 10
+await testRunner.GivenAsync("Deposit tabel indeholder", ((string)(null)), table4, "Given ");
+#line hidden
+#line 14
+await testRunner.WhenAsync("IpStandard dokumenter er afstemt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
+                            "Cvr",
+                            "Cpr",
+                            "LaborAgreementNumber",
+                            "FromDate",
+                            "ToDate",
+                            "PaymentDate",
+                            "PaymentReference",
+                            "Amount",
+                            "ReconcileStatus",
+                            "Valid",
+                            "CustomerNumber",
+                            "TotalContributionRate",
+                            "ContributionRateFromDate",
+                            "EmploymentTerminationDate",
+                            "SubmissionDate",
+                            "DocumentType",
+                            "ReceiptType"});
+                table5.AddRow(new string[] {
+                            "10008328",
+                            "130250-0009",
+                            "10000",
+                            "2025-07-01",
+                            "2025-07-31",
+                            "2025-07-25",
+                            "100083286",
+                            "4796.56",
+                            "Paid",
+                            "False",
+                            "29247",
+                            "10.95",
+                            "2007-01-01",
+                            "2016-06-01",
+                            "2025-07-25",
+                            "IpStandard",
+                            "Payment"});
+#line 15
+await testRunner.ThenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table5, "Then ");
+#line hidden
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
+                            "ReconcileStatus",
+                            "Amount",
+                            "PaymentReference",
+                            "AccountNumber",
+                            "TrxDate",
+                            "ValDate",
+                            "Currency"});
+                table6.AddRow(new string[] {
+                            "Closed",
+                            "4796.56",
+                            "100083286",
+                            "22768976202121",
+                            "2025-07-25",
+                            "2025-07-25",
+                            "DKK"});
+#line 19
+await testRunner.ThenAsync("Deposit tabel indeholder", ((string)(null)), table6, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -248,12 +275,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             async global::System.Threading.Tasks.Task Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await ParsingFeature.FeatureSetupAsync();
+                await PaymentProcessingFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await ParsingFeature.FeatureTearDownAsync();
+                await PaymentProcessingFeature.FeatureTearDownAsync();
             }
         }
     }

@@ -6,25 +6,18 @@ using Reqnroll;
 namespace AspireOrchestrator.ScenarioTests.StepDefinitions
 {
     [Binding]
-    public class ParsingStepdefinitions
+    public class ParsingStepdefinitions(ScenarioDriver scenarioDriver)
     {
-        private readonly ScenarioDriver _scenarioDriver;
-
-        public ParsingStepdefinitions(ScenarioDriver scenarioDriver)
-        {
-            _scenarioDriver = scenarioDriver;
-        }
-
         [Given(@"^(ReceiptDetail|Deposit) tabel indeholder$")]
         public async Task GivenTheFollowingTableContains(string tableName, Table reqTable)
         {
             switch (tableName)
             {
                 case "ReceiptDetail":
-                    await _scenarioDriver.GivenTable<ReceiptDetail>(reqTable);
+                    await scenarioDriver.GivenTable<ReceiptDetail>(reqTable);
                     break;
                 case "Deposit":
-                    await _scenarioDriver.GivenTable<Deposit>(reqTable);
+                    await scenarioDriver.GivenTable<Deposit>(reqTable);
                     break;
                 default:
                     throw new ArgumentException($"Unknown table name: {tableName}");
@@ -34,13 +27,13 @@ namespace AspireOrchestrator.ScenarioTests.StepDefinitions
         [When(@"^(IpStandard|Camt53|PosteringsData) fil ""(.*)"" er i storage$")]
         public async Task WhenFileUploadedToStorage(DocumentType fileType, string fileName)
         {
-            await _scenarioDriver.WhenFileUploadedToStorage(fileType, fileName);
+            await scenarioDriver.WhenFileUploadedToStorage(fileType, fileName);
         }
 
         [When("filen er parset")]
         public async Task WhenFileParsed()
         {
-            await _scenarioDriver.WhenFileParsed();
+            await scenarioDriver.WhenFileParsed();
         }
 
 
@@ -50,10 +43,10 @@ namespace AspireOrchestrator.ScenarioTests.StepDefinitions
             switch (tableName)
             {
                 case "ReceiptDetail":
-                    _scenarioDriver.ThenTableContains<ReceiptDetail>(reqTable);
+                    scenarioDriver.ThenTableContains<ReceiptDetail>(reqTable);
                     break;
                 case "Deposit":
-                    _scenarioDriver.ThenTableContains<Deposit>(reqTable);
+                    scenarioDriver.ThenTableContains<Deposit>(reqTable);
                     break;
                 default:
                     throw new ArgumentException($"Unknown table name: {tableName}");

@@ -75,8 +75,8 @@ namespace AspireOrchestrator.PaymentProcessing.Business
 
         private static List<MatchResult> GetMatchList(List<Deposit> deposits, List<ReceiptDetail> receiptDetails)
         {
-            var depositReferences = deposits.Select(x => x.PaymentReference.ToUpperInvariant());
-            var receiptReferences = receiptDetails.Select(x => x.PaymentReference.ToUpperInvariant());
+            var depositReferences = deposits.Select(x => x.PaymentReference.ToUpperInvariant()).ToList();
+            var receiptReferences = receiptDetails.Select(x => x.PaymentReference.ToUpperInvariant()).ToList();
 
             var matches = depositReferences.Where(r => receiptReferences.Contains(r)).ToList();
             if (matches.Count == 0)

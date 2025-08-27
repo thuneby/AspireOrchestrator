@@ -6,6 +6,7 @@ using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.DataAccess;
 using AspireOrchestrator.Parsing.Business;
 using AspireOrchestrator.Parsing.WebApi.Controllers;
+using AspireOrchestrator.PaymentProcessing.Business;
 using AspireOrchestrator.PersistenceTests.Common;
 using AspireOrchestrator.ScenarioTests.Helpers;
 using AspireOrchestrator.ScenarioTests.Processors;
@@ -28,6 +29,7 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
         private readonly DepositRepository _depositRepository;
         private readonly TestStorageHelper _storageHelper = new();
         private readonly ParseController _parseController;
+        private readonly PaymentProcessor _paymentProcessor;
 
         public ScenarioDriver(ScenarioContext scenarioContext)
         {
@@ -42,6 +44,7 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             var validationController = new ValidationController(_receiptDetailRepository, validationErrorRepository, TestLoggerFactory);
             var processorFactory = new TestProcessorFactory(_parseController, validationController, TestLoggerFactory);
             _workFlowProcessor = new WorkFlowProcessor(processorFactory, _eventRepository, flowRepository, TestLoggerFactory);
+            _paymentProcessor = new PaymentProcessor(DomainContext, TestLoggerFactory);
         }
 
         private async Task<BlobServiceClient> GetContainerClient()
@@ -167,6 +170,11 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             var parser = ParserFactory.GetDepositParser(documentType, TestLoggerFactory);
             var deposits = await parser.ParseAsync(stream, documentType);
             await _depositRepository.AddRange(deposits);
+        }
+
+        public async Task WhenDocumentsMatched(DocumentType documentType)
+        {
+            await _paymentProcessor.MatchPaymentAsync(documentType);
         }
     }
 }
