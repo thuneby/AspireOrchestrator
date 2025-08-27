@@ -57,12 +57,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwagger(c => { c.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0; });
     app.UseSwaggerUI();
-
-    //using (var scope = app.Services.CreateScope())
-    //{
-    //    var context = scope.ServiceProvider.GetRequiredService<OrchestratorContext>();
-    //    context.Database.EnsureCreated();
-    //}
 }
 
 //app.UseHttpsRedirection();
