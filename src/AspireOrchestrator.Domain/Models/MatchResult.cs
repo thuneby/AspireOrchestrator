@@ -1,7 +1,6 @@
 ﻿using AspireOrchestrator.Core.Models;
-using AspireOrchestrator.Domain.Models;
 
-namespace AspireOrchestrator.PaymentProcessing.Models
+namespace AspireOrchestrator.Domain.Models
 {
     public class MatchResult: GuidModelBase
     {

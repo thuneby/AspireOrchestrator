@@ -2,7 +2,6 @@
 using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Domain.Models;
 using AspireOrchestrator.PaymentProcessing.Interfaces;
-using AspireOrchestrator.PaymentProcessing.Models;
 using Microsoft.Extensions.Logging;
 
 namespace AspireOrchestrator.PaymentProcessing.Business

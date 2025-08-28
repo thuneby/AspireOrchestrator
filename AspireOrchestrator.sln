@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Accounti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.PaymentProcessing.WebApi", "src\AspireOrchestrator.PaymentProcessing.WebApi\AspireOrchestrator.PaymentProcessing.WebApi.csproj", "{484FEAC0-111B-5387-BDE5-CC442B332CC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Transfer", "src\AspireOrchestrator.Transfer\AspireOrchestrator.Transfer.csproj", "{E8B5FF82-7856-4000-BEFD-2B1C379162D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -163,6 +165,10 @@ Global
 		{484FEAC0-111B-5387-BDE5-CC442B332CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{484FEAC0-111B-5387-BDE5-CC442B332CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{484FEAC0-111B-5387-BDE5-CC442B332CC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8B5FF82-7856-4000-BEFD-2B1C379162D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8B5FF82-7856-4000-BEFD-2B1C379162D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8B5FF82-7856-4000-BEFD-2B1C379162D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8B5FF82-7856-4000-BEFD-2B1C379162D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +199,7 @@ Global
 		{384C173A-49E0-4E9F-8DA2-B8BF803E10BD} = {A8562D58-773A-4868-9144-BE5889B347C8}
 		{667A4605-02CB-4605-A042-FFBC16C62C06} = {A8562D58-773A-4868-9144-BE5889B347C8}
 		{484FEAC0-111B-5387-BDE5-CC442B332CC3} = {A8562D58-773A-4868-9144-BE5889B347C8}
+		{E8B5FF82-7856-4000-BEFD-2B1C379162D8} = {A8562D58-773A-4868-9144-BE5889B347C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C21DF330-5DC3-4524-BFE0-15B1E4EB83EC}

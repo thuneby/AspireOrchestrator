@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Business\" />
-    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AspireOrchestrator.Core\AspireOrchestrator.Core.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Domain\AspireOrchestrator.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
-using AspireOrchestrator.PaymentProcessing.Models;
+using AspireOrchestrator.Domain.Models;
 
 namespace AspireOrchestrator.PaymentProcessing.Interfaces
 {
