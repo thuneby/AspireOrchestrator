@@ -15,5 +15,7 @@ namespace AspireOrchestrator.Domain.DataAccess
 
         public DbSet<Deposit> Deposit { get; set; }
 
+        public DbSet<PostingJournal> PostingJournal { get; set; }
+        public DbSet<PostingEntry> PostingEntry { get; set; }
     }
 }

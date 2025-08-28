@@ -23,6 +23,7 @@ builder.EnrichSqlServerDbContext<DomainContext>(settings =>
 
 builder.Services.AddScoped<ReceiptDetailRepository>();
 builder.Services.AddScoped<DepositRepository>();
+builder.Services.AddScoped<PostingRepository>();
 builder.Services.AddScoped<IStorageHelper, BlobStorageHelper>();
 
 builder.Services.AddControllers();

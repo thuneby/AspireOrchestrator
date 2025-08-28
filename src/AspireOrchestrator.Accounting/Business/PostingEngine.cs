@@ -1,5 +1,4 @@
 ﻿using AspireOrchestrator.Accounting.Business.Helpers;
-using AspireOrchestrator.Accounting.Models;
 using AspireOrchestrator.Domain.Models;
 
 namespace AspireOrchestrator.Accounting.Business
@@ -11,6 +10,7 @@ namespace AspireOrchestrator.Accounting.Business
             var journal = PostingJournalHelper.CreatePostingJournal(deposit.TrxDate, "Deposit received");
             journal.PostingEntries.Add(PostingEntryHelper.CreateDepositPosting(deposit));
             journal.PostingEntries.Add(PostingEntryHelper.CreateDepositOffsetPosting(deposit));
+            PostingJournalHelper.SetForeignKeys(journal);
             var valid = PostingJournalHelper.ValidateJournal(journal);
             return valid? journal : throw new ArgumentException("CreditDebitError : DepositId " + deposit.Id);
         }
@@ -18,16 +18,21 @@ namespace AspireOrchestrator.Accounting.Business
         public PostingJournal PostDepositReceiptDetailMatch(MatchResult matchResult)
         {
             var trxDate = matchResult.Deposits.Max(x => x.TrxDate);
+            var valDate = matchResult.Deposits.Max(x => x.ValDate);
+            var currency = matchResult.Deposits.First().Currency;
             var journal = PostingJournalHelper.CreatePostingJournal(trxDate, "Deposit received");
             foreach (var deposit in matchResult.Deposits)
             {
-                journal.PostingEntries.Add(PostingEntryHelper.CreateDepositClosingPostings(deposit));
+                var entry = PostingEntryHelper.CreateDepositClosingPostings(deposit);
+                journal.PostingEntries.Add(entry);
             }
 
             foreach (var receiptDetail in matchResult.ReceiptDetails)
             {
-                journal.PostingEntries.Add(PostingEntryHelper.CreateReceiptDetailPosting(receiptDetail));   
+                var entry = PostingEntryHelper.CreateReceiptDetailPosting(receiptDetail, trxDate, valDate, currency);
+                journal.PostingEntries.Add(entry);   
             }
+            PostingJournalHelper.SetForeignKeys(journal);
             var valid = PostingJournalHelper.ValidateJournal(journal);
             return valid ? journal : throw new ArgumentException("CreditDebitError : Match reference " + matchResult.PaymentReference);
         }

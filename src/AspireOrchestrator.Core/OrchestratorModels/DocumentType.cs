@@ -40,6 +40,10 @@ namespace AspireOrchestrator.Core.OrchestratorModels
         CompanyData = 20,
         [Display(Name = "JSON")]
         ReceiptDetailJson = 21,
+        Deposit = 90,
+        ReceiptDetail = 91,
+        PaymentAdvice = 92,
+        Transfer = 93,
         [Display(Name = "Ukendt")]
         Unknown = 99,
     }

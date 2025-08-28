@@ -1,4 +1,5 @@
-﻿using AspireOrchestrator.Core.OrchestratorModels;
+﻿using AspireOrchestrator.Accounting.Business;
+using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Domain.Models;
 using AspireOrchestrator.PaymentProcessing.Interfaces;
@@ -10,6 +11,8 @@ namespace AspireOrchestrator.PaymentProcessing.Business
     {
         private readonly ReceiptDetailRepository _receiptDetailRepository = new ReceiptDetailRepository(context, loggerFactory.CreateLogger<ReceiptDetailRepository>());
         private readonly DepositRepository _depositRepository = new DepositRepository(context, loggerFactory.CreateLogger<DepositRepository>());
+        private readonly PostingRepository _postingRepository = new PostingRepository(context, loggerFactory.CreateLogger<PostingRepository>());
+        private readonly PostingEngine _postingEngine = new PostingEngine();
 
         public async Task<List<MatchResult>> MatchDocumentTypeAsync(DocumentType documentType)
         {
@@ -64,6 +67,10 @@ namespace AspireOrchestrator.PaymentProcessing.Business
                 deposit.ReconcileStatus = ReconcileStatus.Closed;
             }
 
+            foreach (var journal in matchResult.Select(match => _postingEngine.PostDepositReceiptDetailMatch(match)))
+            {
+                await _postingRepository.AddPostingJournal(journal); // does not use Context.SaveChanges
+            }
             await using (var transaction = await context.Database.BeginTransactionAsync())
             {
                 await _receiptDetailRepository.UpdateRange(receiptDetails);

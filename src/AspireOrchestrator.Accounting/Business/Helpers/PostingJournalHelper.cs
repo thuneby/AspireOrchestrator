@@ -1,4 +1,4 @@
-﻿using AspireOrchestrator.Accounting.Models;
+﻿using AspireOrchestrator.Domain.Models;
 
 namespace AspireOrchestrator.Accounting.Business.Helpers
 {
@@ -11,6 +11,14 @@ namespace AspireOrchestrator.Accounting.Business.Helpers
                 PostingDate = postingDate,
                 PostingPurpose = postingPurpose
             };
+        }
+
+        internal static void SetForeignKeys(PostingJournal postingJournal)
+        {
+            foreach (var entry in postingJournal.PostingEntries)
+            {
+                entry.PostingJournalId = postingJournal.Id;
+            }
         }
 
         internal static bool ValidateJournal(PostingJournal journal)

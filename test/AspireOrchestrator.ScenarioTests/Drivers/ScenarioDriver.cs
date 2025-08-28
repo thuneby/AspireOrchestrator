@@ -28,7 +28,6 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
         private readonly ReceiptDetailRepository _receiptDetailRepository;
         private readonly DepositRepository _depositRepository;
         private readonly TestStorageHelper _storageHelper = new();
-        private readonly ParseController _parseController;
         private readonly PaymentProcessor _paymentProcessor;
 
         public ScenarioDriver(ScenarioContext scenarioContext)
@@ -39,12 +38,13 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             _eventRepository = new EventRepository(OrchestratorContext, logger);
             _receiptDetailRepository = new ReceiptDetailRepository(DomainContext, TestLoggerFactory.CreateLogger<ReceiptDetailRepository>());
             _depositRepository = new DepositRepository(DomainContext, TestLoggerFactory.CreateLogger<DepositRepository>());
+            var postingRepository = new PostingRepository(DomainContext, TestLoggerFactory.CreateLogger<PostingRepository>());
             var validationErrorRepository = new ValidationErrorRepository(ValidationContext, TestLoggerFactory.CreateLogger<ValidationErrorRepository>());
-            _parseController = new ParseController(_storageHelper, _receiptDetailRepository, _depositRepository, TestLoggerFactory);
+            var parseController = new ParseController(_storageHelper, _receiptDetailRepository, _depositRepository, postingRepository, TestLoggerFactory);
             var validationController = new ValidationController(_receiptDetailRepository, validationErrorRepository, TestLoggerFactory);
             _paymentProcessor = new PaymentProcessor(DomainContext, TestLoggerFactory);
             var paymentController = new PaymentProcessingController(_paymentProcessor, TestLoggerFactory);
-            var processorFactory = new TestProcessorFactory(_parseController, validationController, paymentController, TestLoggerFactory);
+            var processorFactory = new TestProcessorFactory(parseController, validationController, paymentController, TestLoggerFactory);
             _workFlowProcessor = new WorkFlowProcessor(processorFactory, _eventRepository, flowRepository, TestLoggerFactory);
         }
 

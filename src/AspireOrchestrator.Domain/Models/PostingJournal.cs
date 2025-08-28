@@ -1,8 +1,8 @@
-﻿using AspireOrchestrator.Core.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AspireOrchestrator.Core.Models;
 
-namespace AspireOrchestrator.Accounting.Models
+namespace AspireOrchestrator.Domain.Models
 {
     public class PostingJournal: GuidModelBase
     {
@@ -13,7 +13,7 @@ namespace AspireOrchestrator.Accounting.Models
 
         [Display(Name = "Formål")] public string PostingPurpose { get; set; } = "";
 
-        public ICollection<PostingEntry> PostingEntries { get; set; }
+        public ICollection<PostingEntry> PostingEntries { get; set; } = new HashSet<PostingEntry>();
 
     }
 }

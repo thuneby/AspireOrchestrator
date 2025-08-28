@@ -1,14 +1,9 @@
-﻿using AspireOrchestrator.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AspireOrchestrator.Core.Models;
 using AspireOrchestrator.Core.OrchestratorModels;
 
-namespace AspireOrchestrator.Accounting.Models
+namespace AspireOrchestrator.Domain.Models
 {
     public class PostingEntry: GuidModelBase
     {
@@ -19,7 +14,7 @@ namespace AspireOrchestrator.Accounting.Models
         public AccountType AccountType { get; set; }
 
         [Display(Name = "Dokumenttype")] 
-        public string PostingDocumentType { get; set; } = "";
+        public DocumentType PostingDocumentType { get; set; }
 
         [Display(Name = "Debit")]
         [DataType(DataType.Currency)]
@@ -51,5 +46,6 @@ namespace AspireOrchestrator.Accounting.Models
 
         public Guid? DocumentId { get; set; }
 
+        public Guid? PostingJournalId { get; set; }
     }
 }

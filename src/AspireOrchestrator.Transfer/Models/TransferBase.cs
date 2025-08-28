@@ -35,9 +35,6 @@ namespace AspireOrchestrator.Transfer.Models
         [Display(Name = "Policenummer")]
         public string PolicyNumber { get; set; } = "";
 
-        [Display(Name = "Aftalenummer")]
-        public string AgreementNumber { get; set; } = "";
-
         [StringLength(35)]
         [Display(Name = "Betalingsid")]
         public string PaymentReference { get; set; } = "";

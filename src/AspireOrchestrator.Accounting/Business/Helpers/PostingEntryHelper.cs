@@ -1,4 +1,4 @@
-﻿using AspireOrchestrator.Accounting.Models;
+﻿using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Domain.Models;
 
 namespace AspireOrchestrator.Accounting.Business.Helpers
@@ -8,17 +8,17 @@ namespace AspireOrchestrator.Accounting.Business.Helpers
         internal static PostingEntry CreateDepositPosting(Deposit deposit)
         {
             return CreatePostingEntry(deposit.AccountNumber, AccountType.BankAccount, deposit.TrxDate, deposit.ValDate,
-                0M, deposit.Amount, "Deposit", deposit.Currency, deposit.PaymentReference, deposit.Id);
+                0M, deposit.Amount, DocumentType.Deposit, deposit.Currency, deposit.PaymentReference, deposit.Id);
         }
 
         internal static PostingEntry CreateDepositOffsetPosting(Deposit deposit) 
         {
             return CreatePostingEntry("Offset", AccountType.OffsetAccount, deposit.TrxDate, deposit.ValDate,
-                deposit.Amount, 0M, "Deposit", deposit.Currency, deposit.PaymentReference, deposit.Id);
+                deposit.Amount, 0M, DocumentType.Deposit, deposit.Currency, deposit.PaymentReference, deposit.Id);
         }
 
         private static PostingEntry CreatePostingEntry(string account, AccountType accountType, DateTime trxDate, DateTime valDate, 
-            decimal credit, decimal debit, string documentType, string currency, string message, Guid documentId)
+            decimal credit, decimal debit, DocumentType documentType, string currency, string message, Guid documentId)
         {
             var entry = new PostingEntry
             {
@@ -26,8 +26,8 @@ namespace AspireOrchestrator.Accounting.Business.Helpers
                 AccountType = accountType,
                 BankTrxDate = trxDate,
                 BankValDate = valDate,
-                CreditAmount = credit,
-                DebitAmount = debit,
+                CreditAmount = credit > 0 ? credit: debit,
+                DebitAmount = debit > 0 ? debit : credit,
                 PostingDocumentType = documentType,
                 Currency = currency,
                 PostingMessage = message,
@@ -38,12 +38,24 @@ namespace AspireOrchestrator.Accounting.Business.Helpers
 
         public static PostingEntry CreateDepositClosingPostings(Deposit deposit)
         {
-            throw new NotImplementedException();
+            return CreatePostingEntry(deposit.AccountNumber, AccountType.BankAccount, deposit.TrxDate, deposit.ValDate,
+                deposit.Amount, 0M, DocumentType.Deposit, deposit.Currency, "Closing " + deposit.PaymentReference, deposit.Id);
         }
 
-        public static PostingEntry CreateReceiptDetailPosting(ReceiptDetail receiptDetail)
+        public static PostingEntry CreateReceiptDetailPosting(ReceiptDetail receiptDetail, DateTime trxDate, DateTime valDate, string currency)
         {
-            throw new NotImplementedException();
+            var accountNumber = GetPersonPostingAccount(receiptDetail);
+            return CreatePostingEntry(accountNumber, AccountType.Person, trxDate, valDate, 0M, receiptDetail.Amount, DocumentType.ReceiptDetail, currency, receiptDetail.PaymentReference, receiptDetail.Id);
+        }
+
+        private static string GetPersonPostingAccount(ReceiptDetail receiptDetail)
+        {
+            if (receiptDetail.PolicyNumber is > 0)
+            {
+                return receiptDetail.PolicyNumber.ToString();
+            }
+
+            return receiptDetail.PersonId > 0 ? receiptDetail.PersonId.ToString() : receiptDetail.Cpr;
         }
     }
 }

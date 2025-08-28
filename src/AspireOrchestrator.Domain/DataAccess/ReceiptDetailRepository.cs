@@ -9,9 +9,19 @@ namespace AspireOrchestrator.Domain.DataAccess
     {
         public async Task<IEnumerable<ReceiptDetail>> GetByDocumentIdAsync(Guid documentId)
         {
-            return await context.ReceiptDetail
-                .Where(rd => rd.DocumentId == documentId)
-                .ToListAsync();
+            return await Query().Where(x => x.DocumentId == documentId).ToListAsync();
         }
+
+
+        public async Task<IEnumerable<ReceiptDetail>> GetReceiptDetailsForTransfer()
+        {
+            return await GetByReconcileStatusAsync(ReconcileStatus.Paid).Where(x => x.TransferStatus == TransferStatus.New).ToListAsync();
+        }
+
+        private IQueryable<ReceiptDetail> GetByReconcileStatusAsync(ReconcileStatus reconcileStatus)
+        {
+            return Query().Where(x => x.ReconcileStatus == reconcileStatus);
+        }
+
     }
 }

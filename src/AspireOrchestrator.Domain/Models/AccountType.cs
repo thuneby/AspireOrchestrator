@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AspireOrchestrator.Accounting.Models
+namespace AspireOrchestrator.Domain.Models
 {
     public enum AccountType
     {
