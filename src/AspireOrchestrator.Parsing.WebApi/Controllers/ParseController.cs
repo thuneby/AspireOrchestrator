@@ -18,7 +18,6 @@ namespace AspireOrchestrator.Parsing.WebApi.Controllers
         ILoggerFactory loggerFactory) : ControllerBase
     {
         private readonly ILogger<ParseController> _logger = loggerFactory.CreateLogger<ParseController>();
-        private readonly PostingEngine _postingEngine = new PostingEngine();
 
         [HttpGet("[action]")]
         public ActionResult Welcome()
@@ -97,7 +96,7 @@ namespace AspireOrchestrator.Parsing.WebApi.Controllers
                     {
                         deposit.DocumentId = documentId;
                         deposit.TenantId = eventEntity.TenantId;
-                        var journal = _postingEngine.PostDeposit(deposit);
+                        var journal = PostingEngine.PostDeposit(deposit);
                         await postingRepository.AddPostingJournal(journal);
                     }
                     await depositRepository.AddRange(deposits);

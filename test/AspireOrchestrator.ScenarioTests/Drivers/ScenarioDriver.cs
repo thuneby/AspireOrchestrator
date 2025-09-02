@@ -10,6 +10,9 @@ using AspireOrchestrator.PaymentProcessing.WebApi.Controllers;
 using AspireOrchestrator.PersistenceTests.Common;
 using AspireOrchestrator.ScenarioTests.Helpers;
 using AspireOrchestrator.ScenarioTests.Processors;
+using AspireOrchestrator.Transfer.Business;
+using AspireOrchestrator.Transfer.DataAccess;
+using AspireOrchestrator.Transfer.WebApi.Controllers;
 using AspireOrchestrator.Validation.DataAccess;
 using AspireOrchestrator.Validation.WebApi.Controllers;
 using Azure.Identity;
@@ -44,7 +47,11 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             var validationController = new ValidationController(_receiptDetailRepository, validationErrorRepository, TestLoggerFactory);
             _paymentProcessor = new PaymentProcessor(DomainContext, TestLoggerFactory);
             var paymentController = new PaymentProcessingController(_paymentProcessor, TestLoggerFactory);
-            var processorFactory = new TestProcessorFactory(parseController, validationController, paymentController, TestLoggerFactory);
+            var transferRepository = new TransferRepository(TransferContext, TestLoggerFactory.CreateLogger<TransferRepository>());
+            var transferEngine = new TransferEngine(_receiptDetailRepository, postingRepository, transferRepository,
+                TestLoggerFactory);
+            var transferController = new TransferController(transferEngine, TestLoggerFactory);
+            var processorFactory = new TestProcessorFactory(parseController, validationController, paymentController, transferController, TestLoggerFactory);
             _workFlowProcessor = new WorkFlowProcessor(processorFactory, _eventRepository, flowRepository, TestLoggerFactory);
         }
 

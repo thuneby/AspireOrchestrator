@@ -28,6 +28,7 @@
     <ProjectReference Include="..\..\src\AspireOrchestrator.PaymentProcessing.WebApi\AspireOrchestrator.PaymentProcessing.WebApi.csproj" />
     <ProjectReference Include="..\..\src\AspireOrchestrator.PaymentProcessing\AspireOrchestrator.PaymentProcessing.csproj" />
     <ProjectReference Include="..\..\src\AspireOrchestrator.Storage\AspireOrchestrator.Storage.csproj" />
+    <ProjectReference Include="..\..\src\AspireOrchestrator.Transfer.WebApi\AspireOrchestrator.Transfer.WebApi.csproj" />
     <ProjectReference Include="..\..\src\AspireOrchestrator.Validation.WebApi\AspireOrchestrator.Validation.WebApi.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.PersistenceTests\AspireOrchestrator.PersistenceTests.csproj" />
   </ItemGroup>

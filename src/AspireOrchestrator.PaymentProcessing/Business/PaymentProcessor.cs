@@ -12,8 +12,7 @@ namespace AspireOrchestrator.PaymentProcessing.Business
         private readonly ReceiptDetailRepository _receiptDetailRepository = new ReceiptDetailRepository(context, loggerFactory.CreateLogger<ReceiptDetailRepository>());
         private readonly DepositRepository _depositRepository = new DepositRepository(context, loggerFactory.CreateLogger<DepositRepository>());
         private readonly PostingRepository _postingRepository = new PostingRepository(context, loggerFactory.CreateLogger<PostingRepository>());
-        private readonly PostingEngine _postingEngine = new PostingEngine();
-
+        
         public async Task<List<MatchResult>> MatchDocumentTypeAsync(DocumentType documentType)
         {
             var receiptDetails = _receiptDetailRepository.GetQueryList()
@@ -67,7 +66,7 @@ namespace AspireOrchestrator.PaymentProcessing.Business
                 deposit.ReconcileStatus = ReconcileStatus.Closed;
             }
 
-            foreach (var journal in matchResult.Select(match => _postingEngine.PostDepositReceiptDetailMatch(match)))
+            foreach (var journal in matchResult.Select(match => PostingEngine.PostDepositReceiptDetailMatch(match)))
             {
                 await _postingRepository.AddPostingJournal(journal); // does not use Context.SaveChanges
             }

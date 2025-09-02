@@ -38,8 +38,6 @@ namespace AspireOrchestrator.Domain.Models
         [Display(Name = "DokumentId")]
         public Guid DocumentId { get; set; }
 
-        public TransferStatus TransferStatus { get; set; }
-
         public string ValidationErrors { get; set; } = "";
     }
 }

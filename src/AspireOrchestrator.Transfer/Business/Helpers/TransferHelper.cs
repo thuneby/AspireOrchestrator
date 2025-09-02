@@ -16,7 +16,9 @@ namespace AspireOrchestrator.Transfer.Business.Helpers
                 FromDate = receiptDetail.FromDate,
                 ToDate = receiptDetail.ToDate,
                 PaymentReference = receiptDetail.PaymentReference,
-                TransferStatus = TransferStatus.Sent
+                TransferStatus = TransferStatus.Sent,
+                TransferCount = 1,
+                Parent = receiptDetail.Id
             };
         }
 

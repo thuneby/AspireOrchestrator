@@ -52,10 +52,29 @@ namespace AspireOrchestrator.Accounting.Business.Helpers
         {
             if (receiptDetail.PolicyNumber is > 0)
             {
-                return receiptDetail.PolicyNumber.ToString();
+                return receiptDetail.PolicyNumber?.ToString() ?? string.Empty;
             }
 
             return receiptDetail.PersonId > 0 ? receiptDetail.PersonId.ToString() : receiptDetail.Cpr;
+        }
+
+        public static PostingEntry CreateTransferOffsetPosting(DateTime trxDate, DateTime valDate, string currency, decimal credit, decimal debit, string message)
+        {
+            return CreatePostingEntry("Transfers", AccountType.SentAccount, trxDate, valDate, credit, debit,
+                DocumentType.Transfer, currency, message, Guid.Empty);
+        }
+
+        public static PostingEntry CreateReversePosting(PostingEntry posting, string transferSent, Guid documentId)
+        {
+            return CreatePostingEntry(posting.PostingAccount, posting.AccountType, posting.BankTrxDate,
+                posting.BankValDate, posting.DebitAmount, posting.CreditAmount, posting.PostingDocumentType,
+                posting.Currency, transferSent, documentId);
+        }
+
+        public static object CreateFinalizeTransferPosting(DateTime trxDate, DateTime valDate, string currency, decimal credit, decimal debit, string message)
+        {
+            return CreatePostingEntry("Offset", AccountType.OffsetAccount, trxDate, valDate,
+                credit, debit, DocumentType.Transfer, currency, message, Guid.Empty);
         }
     }
 }

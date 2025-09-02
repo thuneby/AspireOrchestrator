@@ -39,10 +39,14 @@ namespace AspireOrchestrator.Transfer.Models
         [Display(Name = "Betalingsid")]
         public string PaymentReference { get; set; } = "";
 
-        [Display(Name = "Besked")]
-        public string Payload { get; set; }
+        [Display(Name = "Svar")] 
+        public string Reply { get; set; } = "";
 
         public TransferStatus TransferStatus { get; set; }
+
+        public int TransferCount { get; set; }
+
+        public Guid Parent { get; set; }
 
     }
 }

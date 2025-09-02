@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AspireOrchestrator.Orchestrator.BusinessLogic
 {
-    public class ProcessorFactory(ParseService parseService, ValidateService validateService, PaymentProcessingService paymentService, ILoggerFactory loggerFactory): IProcessorFactory
+    public class ProcessorFactory(ParseService parseService, ValidateService validateService, PaymentProcessingService paymentService, TransferService transferService, ILoggerFactory loggerFactory): IProcessorFactory
     {
         public IProcessor? GetProcessor(EventEntity entity)
         {
@@ -17,7 +17,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
                 ProcessState.Validate => new ValidationProcessor(validateService, loggerFactory),
                 ProcessState.ProcessPayment => new ProcessPaymentProcessor(paymentService, loggerFactory),
                 ProcessState.GenerateReceipt => new GenerateReceiptProcessor(loggerFactory),
-                ProcessState.TransferResult => new TransferProcessor(loggerFactory),
+                ProcessState.TransferResult => new TransferProcessor(transferService, loggerFactory),
                 ProcessState.WorkFlowCompleted => null,
                 _ => null
             };

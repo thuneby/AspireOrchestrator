@@ -22,11 +22,8 @@ topic.AddServiceBusSubscription("eventsubscription")
     .WithProperties(subscription => subscription.DefaultMessageTimeToLive = TimeSpan.FromMinutes(10))
     .WithProperties(subscription => subscription.LockDuration = TimeSpan.FromMinutes(5));
 
-var blobs = builder.AddAzureStorage("storage").RunAsEmulator(
-    azurite =>
-    {
-        azurite.WithLifetime(ContainerLifetime.Persistent);
-    })
+var blobs = builder.AddAzureStorage("storage")
+    .RunAsEmulator()
     .AddBlobs("blobs");
 
 var domaindb = sqlserver.AddDatabase("domaindb");
@@ -57,11 +54,16 @@ var paymentapi = builder.AddProject<Projects.AspireOrchestrator_PaymentProcessin
     .WithReference(domaindb)
     .WaitForCompletion(domainmigrationservice);
 
+var transferapi = builder.AddProject<Projects.AspireOrchestrator_Transfer_WebApi>("transferapi")
+    .WithReference(domaindb)
+    .WaitForCompletion(domainmigrationservice);
+
 var orchestratorapi = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestratorapi")
     .WithReference(orchestratordb)
     .WithReference(serviceBus)
     .WithReference(parseapi)
     .WithReference(paymentapi)
+    .WithReference(transferapi)
     .WithReference(validationapi)
     .WaitForCompletion(migrationservice);
 
@@ -79,6 +81,8 @@ builder.AddProject<Projects.AspireOrchestrator_Administration>("administration")
     .WithReference(blobs)
     .WaitFor(blobs)
     .WithReference(orchestratorapi);
+
+
 
 
 builder.Build().Run();

@@ -2,10 +2,11 @@
 using Azure.Messaging.ServiceBus;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using AspireOrchestrator.Messaging.Interfaces;
 
 namespace AspireOrchestrator.Messaging.Business
 {
-    public abstract class EventPublisher(ServiceBusClient serviceBusClient)
+    public abstract class EventPublisher(ServiceBusClient serviceBusClient): IEventPublisher
     {
         private readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {

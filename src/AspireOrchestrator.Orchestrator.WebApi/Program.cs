@@ -33,6 +33,9 @@ builder.Services.AddHttpClient<ValidateService>(
 builder.Services.AddHttpClient<PaymentProcessingService>(
     static client => client.BaseAddress = new Uri("https://paymentapi"));
 
+builder.Services.AddHttpClient<TransferService>(
+    static client => client.BaseAddress = new Uri("https://transferapi"));
+
 builder.AddAzureServiceBusClient(connectionName: "servicebus");
 builder.Services.AddScoped<EventPublisherService>();
 builder.Services.AddScoped<IProcessorFactory, ProcessorFactory>();

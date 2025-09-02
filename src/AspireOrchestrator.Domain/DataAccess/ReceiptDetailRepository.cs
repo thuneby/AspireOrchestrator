@@ -15,7 +15,7 @@ namespace AspireOrchestrator.Domain.DataAccess
 
         public async Task<IEnumerable<ReceiptDetail>> GetReceiptDetailsForTransfer()
         {
-            return await GetByReconcileStatusAsync(ReconcileStatus.Paid).Where(x => x.TransferStatus == TransferStatus.New).ToListAsync();
+            return await GetByReconcileStatusAsync(ReconcileStatus.Paid).ToArrayAsync();
         }
 
         private IQueryable<ReceiptDetail> GetByReconcileStatusAsync(ReconcileStatus reconcileStatus)

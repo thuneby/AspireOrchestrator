@@ -1,5 +1,6 @@
 ﻿using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Orchestrator.DataAccess;
+using AspireOrchestrator.Transfer.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,8 @@ namespace AspireOrchestrator.PersistenceTests.Common
         protected readonly OrchestratorContext OrchestratorContext = InitializeOrchestratorContext();
         protected readonly DomainContext DomainContext = InitializeDomainContext();
         protected readonly ValidationContext ValidationContext = InitializeValidationContect();
+        protected readonly TransferContext TransferContext = InitializeTransferContext();
+
         protected readonly ILoggerFactory TestLoggerFactory = InitializeLoggerFactory();
 
         private static OrchestratorContext InitializeOrchestratorContext()
@@ -43,6 +46,17 @@ namespace AspireOrchestrator.PersistenceTests.Common
             var context = new ValidationContext(options);
             return context;
         }
+
+        private static TransferContext InitializeTransferContext()
+        {
+            var options = new DbContextOptionsBuilder<TransferContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+            var context = new TransferContext(options);
+            return context;
+        }
+
 
         private static ILoggerFactory InitializeLoggerFactory()
         {
