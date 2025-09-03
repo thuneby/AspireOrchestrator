@@ -1,4 +1,3 @@
-using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Validation.DataAccess;
 using AspireOrchestrator.Validation.DatabaseMigrations;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +14,7 @@ builder.Services.AddDbContextPool<ValidationContext>(options =>
         // Workaround for https://github.com/dotnet/aspire/issues/1023
         //sqlOptions.ExecutionStrategy(c => new RetryingSqlServerRetryingExecutionStrategy(c));
     }));
-builder.EnrichSqlServerDbContext<DomainContext>(settings =>
+builder.EnrichSqlServerDbContext<ValidationContext>(settings =>
     // Disable Aspire default retries as we're using a custom execution strategy
     settings.DisableRetry = true);
 

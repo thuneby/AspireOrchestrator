@@ -1,5 +1,4 @@
-﻿using System.Data;
-using AspireOrchestrator.Accounting.Business.Helpers;
+﻿using AspireOrchestrator.Accounting.Business.Helpers;
 using AspireOrchestrator.Domain.Models;
 
 namespace AspireOrchestrator.Accounting.Business
@@ -21,17 +20,15 @@ namespace AspireOrchestrator.Accounting.Business
             var trxDate = matchResult.Deposits.Max(x => x.TrxDate);
             var valDate = matchResult.Deposits.Max(x => x.ValDate);
             var currency = matchResult.Deposits.First().Currency;
-            var journal = PostingJournalHelper.CreatePostingJournal(trxDate, "Deposit received");
-            foreach (var deposit in matchResult.Deposits)
+            var journal = PostingJournalHelper.CreatePostingJournal(trxDate, "Deposit closed");
+            foreach (var entry in matchResult.Deposits.Select(deposit => PostingEntryHelper.CreateDepositClosingPostings(deposit)))
             {
-                var entry = PostingEntryHelper.CreateDepositClosingPostings(deposit);
                 journal.PostingEntries.Add(entry);
             }
 
-            foreach (var receiptDetail in matchResult.ReceiptDetails)
+            foreach (var entry in matchResult.ReceiptDetails.Select(receiptDetail => PostingEntryHelper.CreateReceiptDetailPosting(receiptDetail, trxDate, valDate, currency)))
             {
-                var entry = PostingEntryHelper.CreateReceiptDetailPosting(receiptDetail, trxDate, valDate, currency);
-                journal.PostingEntries.Add(entry);   
+                journal.PostingEntries.Add(entry);
             }
             PostingJournalHelper.SetForeignKeys(journal);
             var valid = PostingJournalHelper.ValidateJournal(journal);
@@ -41,15 +38,14 @@ namespace AspireOrchestrator.Accounting.Business
         public static PostingJournal PostTransfers(List<(PostingEntry, Guid)> postingSets)
         {
             const string message = "Transfer sent";
-            var postingEntries = postingSets.Select(_ => _.Item1).ToList();
+            var postingEntries = postingSets.Select(p => p.Item1).ToList();
             var trxDate = postingEntries.Max(x => x.BankTrxDate);
             var valDate = postingEntries.Max(x => x.BankValDate);
             var currency = postingEntries.First().Currency;
             var journal = PostingJournalHelper.CreatePostingJournal(trxDate, message);
             var totalDebit = postingEntries.Sum(x => x.DebitAmount) - postingEntries.Sum(x => x.CreditAmount);
-            foreach (var postingSet in postingSets)
+            foreach (var entry in postingSets.Select(postingSet => PostingEntryHelper.CreateReversePosting(postingSet.Item1, message, postingSet.Item2)))
             {
-                var entry = PostingEntryHelper.CreateReversePosting(postingSet.Item1, message, postingSet.Item2);
                 journal.PostingEntries.Add(entry);
             }
 
@@ -71,7 +67,7 @@ namespace AspireOrchestrator.Accounting.Business
             var transferPosting = PostingEntryHelper.CreateTransferOffsetPosting(trxDate, valDate, currency, totalDebit, 0M, message);
             var offset = PostingEntryHelper.CreateFinalizeTransferPosting(trxDate, valDate, currency, 0M, totalDebit, message);
             journal.PostingEntries.Add(transferPosting);
-
+            journal.PostingEntries.Add(offset);
             return journal;
         }
     }

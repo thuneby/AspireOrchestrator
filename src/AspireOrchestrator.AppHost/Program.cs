@@ -38,6 +38,12 @@ var validationmigrationservice = builder.AddProject<Projects.AspireOrchestrator_
     .WithReference(validationdb)
     .WaitFor(validationdb);
 
+var transferdb = sqlserver.AddDatabase("transferdb");
+
+var transferMigrationService = builder.AddProject<Projects.AspireOrchestrator_Transfer_DatabaseMigrations>("transfermigration")
+    .WithReference(transferdb)
+    .WaitFor(transferdb);
+
 var parseapi = builder.AddProject<Projects.AspireOrchestrator_Parsing_WebApi>("parseapi")
     .WithReference(domaindb)
     .WaitForCompletion(domainmigrationservice)
@@ -56,7 +62,9 @@ var paymentapi = builder.AddProject<Projects.AspireOrchestrator_PaymentProcessin
 
 var transferapi = builder.AddProject<Projects.AspireOrchestrator_Transfer_WebApi>("transferapi")
     .WithReference(domaindb)
-    .WaitForCompletion(domainmigrationservice);
+    .WaitForCompletion(domainmigrationservice)
+    .WithReference(transferdb)
+    .WaitForCompletion(transferMigrationService);
 
 var orchestratorapi = builder.AddProject<Projects.AspireOrchestrator_Orchestrator_WebApi>("orchestratorapi")
     .WithReference(orchestratordb)
@@ -81,6 +89,10 @@ builder.AddProject<Projects.AspireOrchestrator_Administration>("administration")
     .WithReference(blobs)
     .WaitFor(blobs)
     .WithReference(orchestratorapi);
+
+
+
+
 
 
 

@@ -2,7 +2,6 @@ using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Transfer.Business;
 using AspireOrchestrator.Transfer.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +20,15 @@ builder.EnrichSqlServerDbContext<DomainContext>(settings =>
     settings.DisableRetry = true);
 
 builder.Services.AddDbContext<TransferContext>(options =>
-    options.UseInMemoryDatabase(Guid.NewGuid().ToString())
-        .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning)));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("transferdb"), sqlOptions =>
+    {
+        sqlOptions.MigrationsAssembly("AspireOrchestrator.Transfer.DatabaseMigrations");
+        // Workaround for https://github.com/dotnet/aspire/issues/1023
+        //sqlOptions.ExecutionStrategy(c => new RetryingSqlServerRetryingExecutionStrategy(c));
+    }));
+builder.EnrichSqlServerDbContext<TransferContext>(settings =>
+    // Disable Aspire default retries as we're using a custom execution strategy
+    settings.DisableRetry = true);
 
 builder.Services.AddScoped<ReceiptDetailRepository>();
 builder.Services.AddScoped<PostingRepository>();

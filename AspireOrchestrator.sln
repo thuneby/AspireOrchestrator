@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Transfer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Transfer.WebApi", "src\AspireOrchestrator.Transfer.WebApi\AspireOrchestrator.Transfer.WebApi.csproj", "{1C2A4150-1F5B-C484-B561-F10CE042880A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireOrchestrator.Transfer.DatabaseMigrations", "src\AspireOrchestrator.Transfer.DatabaseMigrations\AspireOrchestrator.Transfer.DatabaseMigrations.csproj", "{149DC76B-D412-710F-4DC5-C5607D7D9E5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -175,6 +177,10 @@ Global
 		{1C2A4150-1F5B-C484-B561-F10CE042880A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C2A4150-1F5B-C484-B561-F10CE042880A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C2A4150-1F5B-C484-B561-F10CE042880A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{149DC76B-D412-710F-4DC5-C5607D7D9E5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{149DC76B-D412-710F-4DC5-C5607D7D9E5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{149DC76B-D412-710F-4DC5-C5607D7D9E5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{149DC76B-D412-710F-4DC5-C5607D7D9E5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,6 +213,7 @@ Global
 		{484FEAC0-111B-5387-BDE5-CC442B332CC3} = {A8562D58-773A-4868-9144-BE5889B347C8}
 		{E8B5FF82-7856-4000-BEFD-2B1C379162D8} = {A8562D58-773A-4868-9144-BE5889B347C8}
 		{1C2A4150-1F5B-C484-B561-F10CE042880A} = {A8562D58-773A-4868-9144-BE5889B347C8}
+		{149DC76B-D412-710F-4DC5-C5607D7D9E5A} = {A8562D58-773A-4868-9144-BE5889B347C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C21DF330-5DC3-4524-BFE0-15B1E4EB83EC}

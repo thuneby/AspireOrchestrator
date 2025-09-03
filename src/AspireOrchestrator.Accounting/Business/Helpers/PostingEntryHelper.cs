@@ -71,7 +71,7 @@ namespace AspireOrchestrator.Accounting.Business.Helpers
                 posting.Currency, transferSent, documentId);
         }
 
-        public static object CreateFinalizeTransferPosting(DateTime trxDate, DateTime valDate, string currency, decimal credit, decimal debit, string message)
+        public static PostingEntry CreateFinalizeTransferPosting(DateTime trxDate, DateTime valDate, string currency, decimal credit, decimal debit, string message)
         {
             return CreatePostingEntry("Offset", AccountType.OffsetAccount, trxDate, valDate,
                 credit, debit, DocumentType.Transfer, currency, message, Guid.Empty);
