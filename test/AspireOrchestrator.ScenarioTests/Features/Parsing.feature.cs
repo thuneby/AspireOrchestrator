@@ -151,7 +151,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
  await testRunner.WhenAsync("filen er parset", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
                             "Cvr",
                             "Cpr",
                             "LaborAgreementNumber",
@@ -169,7 +169,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "SubmissionDate",
                             "DocumentType",
                             "ReceiptType"});
-                table1.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "10008328",
                             "130250-0009",
                             "10000",
@@ -188,7 +188,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "IpStandard",
                             "Payment"});
 #line 8
- await testRunner.ThenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table1, "Then ");
+ await testRunner.ThenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table9, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -218,7 +218,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 15
  await testRunner.WhenAsync("filen er parset", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
                             "ReconcileStatus",
                             "Amount",
                             "PaymentReference",
@@ -226,7 +226,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "TrxDate",
                             "ValDate",
                             "Currency"});
-                table2.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "Paid",
                             "4796.56",
                             "10008328",
@@ -235,7 +235,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "2025-07-25",
                             "DKK"});
 #line 16
- await testRunner.ThenAsync("Deposit tabel indeholder", ((string)(null)), table2, "Then ");
+ await testRunner.ThenAsync("Deposit tabel indeholder", ((string)(null)), table10, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

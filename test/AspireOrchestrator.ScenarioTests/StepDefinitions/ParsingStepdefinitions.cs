@@ -37,7 +37,7 @@ namespace AspireOrchestrator.ScenarioTests.StepDefinitions
         }
 
 
-        [Then(@"^(ReceiptDetail|Deposit) tabel indeholder$")]
+        [Then(@"^(ReceiptDetail|Deposit|PostingJournal|PostingEntry) tabel indeholder$")]
         public void ThenTheFollowingTableContains(string tableName, Table reqTable)
         {
             switch (tableName)
@@ -47,6 +47,12 @@ namespace AspireOrchestrator.ScenarioTests.StepDefinitions
                     break;
                 case "Deposit":
                     scenarioDriver.ThenTableContains<Deposit>(reqTable);
+                    break;
+                case "PostingJournal":
+                    scenarioDriver.ThenTableContains<PostingJournal>(reqTable);
+                    break;
+                case "PostingEntry":
+                    scenarioDriver.ThenTableContains<PostingEntry>(reqTable);
                     break;
                 default:
                     throw new ArgumentException($"Unknown table name: {tableName}");

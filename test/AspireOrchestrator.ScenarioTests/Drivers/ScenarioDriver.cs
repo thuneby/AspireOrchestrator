@@ -1,4 +1,5 @@
-﻿using AspireOrchestrator.Core.Models;
+﻿using AspireOrchestrator.Accounting.Business;
+using AspireOrchestrator.Core.Models;
 using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Orchestrator.BusinessLogic;
@@ -32,6 +33,7 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
         private readonly DepositRepository _depositRepository;
         private readonly TestStorageHelper _storageHelper = new();
         private readonly PaymentProcessor _paymentProcessor;
+        private readonly PostingRepository _postingRepository;
 
         public ScenarioDriver(ScenarioContext scenarioContext)
         {
@@ -41,14 +43,14 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             _eventRepository = new EventRepository(OrchestratorContext, logger);
             _receiptDetailRepository = new ReceiptDetailRepository(DomainContext, TestLoggerFactory.CreateLogger<ReceiptDetailRepository>());
             _depositRepository = new DepositRepository(DomainContext, TestLoggerFactory.CreateLogger<DepositRepository>());
-            var postingRepository = new PostingRepository(DomainContext, TestLoggerFactory.CreateLogger<PostingRepository>());
+            _postingRepository = new PostingRepository(DomainContext, TestLoggerFactory.CreateLogger<PostingRepository>());
             var validationErrorRepository = new ValidationErrorRepository(ValidationContext, TestLoggerFactory.CreateLogger<ValidationErrorRepository>());
-            var parseController = new ParseController(_storageHelper, _receiptDetailRepository, _depositRepository, postingRepository, TestLoggerFactory);
+            var parseController = new ParseController(_storageHelper, _receiptDetailRepository, _depositRepository, _postingRepository, TestLoggerFactory);
             var validationController = new ValidationController(_receiptDetailRepository, validationErrorRepository, TestLoggerFactory);
             _paymentProcessor = new PaymentProcessor(DomainContext, TestLoggerFactory);
             var paymentController = new PaymentProcessingController(_paymentProcessor, TestLoggerFactory);
             var transferRepository = new TransferRepository(TransferContext, TestLoggerFactory.CreateLogger<TransferRepository>());
-            var transferEngine = new TransferEngine(_receiptDetailRepository, postingRepository, transferRepository,
+            var transferEngine = new TransferEngine(_receiptDetailRepository, _postingRepository, transferRepository,
                 TestLoggerFactory);
             var transferController = new TransferController(transferEngine, TestLoggerFactory);
             var processorFactory = new TestProcessorFactory(parseController, validationController, paymentController, transferController, TestLoggerFactory);
@@ -175,9 +177,18 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
 
         private async Task WhenDepositParsed(DocumentType documentType, Stream stream)
         {
+            // ToDo: change to calling API
             var parser = ParserFactory.GetDepositParser(documentType, TestLoggerFactory);
-            var deposits = await parser.ParseAsync(stream, documentType);
-            await _depositRepository.AddRange(deposits);
+            var deposits = (await parser.ParseAsync(stream, documentType)).ToList();
+            if (deposits.Count > 0)
+            {
+                foreach (var deposit in deposits)
+                {
+                    var journal = PostingEngine.PostDeposit(deposit); 
+                    await _postingRepository.AddPostingJournal(journal);
+                }
+                await _depositRepository.AddRange(deposits);
+            }
         }
 
         public async Task WhenDocumentsMatched(DocumentType documentType)

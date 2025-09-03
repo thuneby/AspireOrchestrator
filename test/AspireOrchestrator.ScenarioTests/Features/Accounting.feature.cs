@@ -17,21 +17,21 @@ namespace AspireOrchestrator.ScenarioTests.Features
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class PaymentProcessingFeature : object, Xunit.IClassFixture<PaymentProcessingFeature.FixtureData>, Xunit.IAsyncLifetime
+    public partial class AccountingFeature : object, Xunit.IClassFixture<AccountingFeature.FixtureData>, Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "PaymentProcessing", "A short summary of the feature", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Accounting", "A short summary of the feature", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "PaymentProcessing.feature"
+#line 1 "Accounting.feature"
 #line hidden
         
-        public PaymentProcessingFeature(PaymentProcessingFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public AccountingFeature(AccountingFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -127,14 +127,14 @@ namespace AspireOrchestrator.ScenarioTests.Features
             await this.TestTearDownAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Match IpStandard")]
-        [Xunit.TraitAttribute("FeatureTitle", "PaymentProcessing")]
-        [Xunit.TraitAttribute("Description", "Match IpStandard")]
-        public async global::System.Threading.Tasks.Task MatchIpStandard()
+        [Xunit.SkippableFactAttribute(DisplayName="Full Accounting Flow")]
+        [Xunit.TraitAttribute("FeatureTitle", "Accounting")]
+        [Xunit.TraitAttribute("Description", "Full Accounting Flow")]
+        public async global::System.Threading.Tasks.Task FullAccountingFlow()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Match IpStandard", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Full Accounting Flow", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 5
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -145,7 +145,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
+#line 6
+ await testRunner.WhenAsync("IpStandard fil \"IP-standard 2025.txt\" er i storage", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 7
+ await testRunner.WhenAsync("filen er parset", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                             "Cvr",
                             "Cpr",
                             "LaborAgreementNumber",
@@ -163,7 +169,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "SubmissionDate",
                             "DocumentType",
                             "ReceiptType"});
-                table11.AddRow(new string[] {
+                table1.AddRow(new string[] {
                             "10008328",
                             "130250-0009",
                             "10000",
@@ -181,32 +187,82 @@ this.ScenarioInitialize(scenarioInfo);
                             "2025-07-25",
                             "IpStandard",
                             "Payment"});
-#line 6
-await testRunner.GivenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table11, "Given ");
+#line 8
+ await testRunner.ThenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table1, "Then ");
 #line hidden
-                global::Reqnroll.Table table12 = new global::Reqnroll.Table(new string[] {
+#line 13
+ await testRunner.WhenAsync("Camt53 fil \"Camt53 IP 2025.xml\" er i storage", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 14
+ await testRunner.WhenAsync("filen er parset", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "ReconcileStatus",
                             "Amount",
                             "PaymentReference",
                             "AccountNumber",
                             "TrxDate",
                             "ValDate",
-                            "Currency"});
-                table12.AddRow(new string[] {
+                            "Currency",
+                            "ReconcileStatus"});
+                table2.AddRow(new string[] {
                             "Paid",
                             "4796.56",
                             "10008328",
                             "22768976202121",
                             "2025-07-25",
                             "2025-07-25",
-                            "DKK"});
-#line 10
-await testRunner.GivenAsync("Deposit tabel indeholder", ((string)(null)), table12, "Given ");
+                            "DKK",
+                            "Paid"});
+#line 15
+ await testRunner.ThenAsync("Deposit tabel indeholder", ((string)(null)), table2, "Then ");
 #line hidden
-#line 14
-await testRunner.WhenAsync("IpStandard dokumenter er afstemt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                            "PostingDate",
+                            "PostingPurpose"});
+                table3.AddRow(new string[] {
+                            "2025-07-25",
+                            "Deposit received"});
+#line 19
+ await testRunner.ThenAsync("PostingJournal tabel indeholder", ((string)(null)), table3, "Then ");
 #line hidden
-                global::Reqnroll.Table table13 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                            "PostingAccount",
+                            "AccountType",
+                            "BankTrxDate",
+                            "BankValDate",
+                            "CreditAmount",
+                            "DebitAmount",
+                            "PostingDocumentType",
+                            "Currency",
+                            "PostingMessage"});
+                table4.AddRow(new string[] {
+                            "22768976202121",
+                            "BankAccount",
+                            "2025-07-25",
+                            "2025-07-25",
+                            "0",
+                            "4796.56",
+                            "Deposit",
+                            "DKK",
+                            "10008328"});
+                table4.AddRow(new string[] {
+                            "Offset",
+                            "OffsetAccount",
+                            "2025-07-25",
+                            "2025-07-25",
+                            "4796.56",
+                            "0",
+                            "Deposit",
+                            "DKK",
+                            "10008328"});
+#line 23
+ await testRunner.ThenAsync("PostingEntry tabel indeholder", ((string)(null)), table4, "Then ");
+#line hidden
+#line 28
+ await testRunner.WhenAsync("IpStandard dokumenter er afstemt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                             "Cvr",
                             "Cpr",
                             "LaborAgreementNumber",
@@ -215,16 +271,8 @@ await testRunner.WhenAsync("IpStandard dokumenter er afstemt", ((string)(null)),
                             "PaymentDate",
                             "PaymentReference",
                             "Amount",
-                            "ReconcileStatus",
-                            "Valid",
-                            "CustomerNumber",
-                            "TotalContributionRate",
-                            "ContributionRateFromDate",
-                            "EmploymentTerminationDate",
-                            "SubmissionDate",
-                            "DocumentType",
-                            "ReceiptType"});
-                table13.AddRow(new string[] {
+                            "ReconcileStatus"});
+                table5.AddRow(new string[] {
                             "10008328",
                             "130250-0009",
                             "10000",
@@ -233,36 +281,95 @@ await testRunner.WhenAsync("IpStandard dokumenter er afstemt", ((string)(null)),
                             "2025-07-25",
                             "10008328",
                             "4796.56",
-                            "Paid",
-                            "False",
-                            "29247",
-                            "10.95",
-                            "2007-01-01",
-                            "2016-06-01",
-                            "2025-07-25",
-                            "IpStandard",
-                            "Payment"});
-#line 15
-await testRunner.ThenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table13, "Then ");
+                            "Paid"});
+#line 29
+ await testRunner.ThenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table5, "Then ");
 #line hidden
-                global::Reqnroll.Table table14 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "ReconcileStatus",
                             "Amount",
                             "PaymentReference",
                             "AccountNumber",
                             "TrxDate",
                             "ValDate",
-                            "Currency"});
-                table14.AddRow(new string[] {
+                            "Currency",
+                            "ReconcileStatus"});
+                table6.AddRow(new string[] {
                             "Closed",
                             "4796.56",
                             "10008328",
                             "22768976202121",
                             "2025-07-25",
                             "2025-07-25",
-                            "DKK"});
-#line 19
-await testRunner.ThenAsync("Deposit tabel indeholder", ((string)(null)), table14, "Then ");
+                            "DKK",
+                            "Closed"});
+#line 33
+ await testRunner.ThenAsync("Deposit tabel indeholder", ((string)(null)), table6, "Then ");
+#line hidden
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
+                            "PostingDate",
+                            "PostingPurpose"});
+                table7.AddRow(new string[] {
+                            "2025-07-25",
+                            "Deposit received"});
+                table7.AddRow(new string[] {
+                            "2025-07-25",
+                            "Deposit closed"});
+#line 37
+ await testRunner.ThenAsync("PostingJournal tabel indeholder", ((string)(null)), table7, "Then ");
+#line hidden
+                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
+                            "PostingAccount",
+                            "AccountType",
+                            "BankTrxDate",
+                            "BankValDate",
+                            "CreditAmount",
+                            "DebitAmount",
+                            "PostingDocumentType",
+                            "Currency",
+                            "PostingMessage"});
+                table8.AddRow(new string[] {
+                            "22768976202121",
+                            "BankAccount",
+                            "2025-07-25",
+                            "2025-07-25",
+                            "0",
+                            "4796.56",
+                            "Deposit",
+                            "DKK",
+                            "10008328"});
+                table8.AddRow(new string[] {
+                            "Offset",
+                            "OffsetAccount",
+                            "2025-07-25",
+                            "2025-07-25",
+                            "4796.56",
+                            "0",
+                            "Deposit",
+                            "DKK",
+                            "10008328"});
+                table8.AddRow(new string[] {
+                            "130250-0009",
+                            "Person",
+                            "2025-07-25",
+                            "2025-07-25",
+                            "0",
+                            "4796.56",
+                            "ReceiptDetail",
+                            "DKK",
+                            "10008328"});
+                table8.AddRow(new string[] {
+                            "22768976202121",
+                            "BankAccount",
+                            "2025-07-25",
+                            "2025-07-25",
+                            "4796.56",
+                            "0",
+                            "Deposit",
+                            "DKK",
+                            "Closing 10008328"});
+#line 42
+ await testRunner.ThenAsync("PostingEntry tabel indeholder", ((string)(null)), table8, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -275,12 +382,12 @@ await testRunner.ThenAsync("Deposit tabel indeholder", ((string)(null)), table14
             
             async global::System.Threading.Tasks.Task Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await PaymentProcessingFeature.FeatureSetupAsync();
+                await AccountingFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await PaymentProcessingFeature.FeatureTearDownAsync();
+                await AccountingFeature.FeatureTearDownAsync();
             }
         }
     }
