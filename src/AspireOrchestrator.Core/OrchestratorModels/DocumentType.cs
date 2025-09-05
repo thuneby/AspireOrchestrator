@@ -44,6 +44,7 @@ namespace AspireOrchestrator.Core.OrchestratorModels
         ReceiptDetail = 91,
         PaymentAdvice = 92,
         Transfer = 93,
+        TransferReply = 94,
         [Display(Name = "Ukendt")]
         Unknown = 99,
     }

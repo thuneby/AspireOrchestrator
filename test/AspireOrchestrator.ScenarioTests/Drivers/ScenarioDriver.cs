@@ -1,7 +1,9 @@
-﻿using AspireOrchestrator.Accounting.Business;
+﻿using System.Text.Json;
+using AspireOrchestrator.Accounting.Business;
 using AspireOrchestrator.Core.Models;
 using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Domain.DataAccess;
+using AspireOrchestrator.Domain.Models;
 using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.DataAccess;
 using AspireOrchestrator.Parsing.Business;
@@ -13,6 +15,7 @@ using AspireOrchestrator.ScenarioTests.Helpers;
 using AspireOrchestrator.ScenarioTests.Processors;
 using AspireOrchestrator.Transfer.Business;
 using AspireOrchestrator.Transfer.DataAccess;
+using AspireOrchestrator.Transfer.Models;
 using AspireOrchestrator.Transfer.WebApi.Controllers;
 using AspireOrchestrator.Validation.DataAccess;
 using AspireOrchestrator.Validation.WebApi.Controllers;
@@ -34,6 +37,11 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
         private readonly TestStorageHelper _storageHelper = new();
         private readonly PaymentProcessor _paymentProcessor;
         private readonly PostingRepository _postingRepository;
+        private readonly TransferRepository _transferRepository;
+        private readonly TransferEngine _transferEngine;
+        private readonly TestReplyQueueManager _replyQueueManager;
+        private readonly TransferQueueManager _transferQueueManager;
+
 
         public ScenarioDriver(ScenarioContext scenarioContext)
         {
@@ -49,12 +57,14 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             var validationController = new ValidationController(_receiptDetailRepository, validationErrorRepository, TestLoggerFactory);
             _paymentProcessor = new PaymentProcessor(DomainContext, TestLoggerFactory);
             var paymentController = new PaymentProcessingController(_paymentProcessor, TestLoggerFactory);
-            var transferRepository = new TransferRepository(TransferContext, TestLoggerFactory.CreateLogger<TransferRepository>());
-            var transferEngine = new TransferEngine(_receiptDetailRepository, _postingRepository, transferRepository,
+            _transferRepository = new TransferRepository(TransferContext, TestLoggerFactory.CreateLogger<TransferRepository>());
+            _transferEngine = new TransferEngine(_receiptDetailRepository, _postingRepository, _transferRepository,
                 TestLoggerFactory);
-            var transferController = new TransferController(transferEngine, TestLoggerFactory);
+            var transferController = new TransferController(_transferEngine, TestLoggerFactory);
             var processorFactory = new TestProcessorFactory(parseController, validationController, paymentController, transferController, TestLoggerFactory);
             _workFlowProcessor = new WorkFlowProcessor(processorFactory, _eventRepository, flowRepository, TestLoggerFactory);
+            _replyQueueManager = new TestReplyQueueManager(TestLoggerFactory);
+            _transferQueueManager = new TransferQueueManager(TestLoggerFactory);
         }
 
         private async Task<BlobServiceClient> GetContainerClient()
@@ -195,5 +205,31 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
         {
             await _paymentProcessor.MatchDocumentTypeAsync(documentType);
         }
+
+        public async Task TransferAll()
+        {
+            _ = await _transferEngine.TransferAllAsync();
+        }
+
+        public async Task CreateReplies()
+        {
+            var transfers = await _transferRepository.GetQueryList().Where(x => x.TransferStatus == TransferStatus.Sent)
+                .ToListAsync();
+            foreach (var reply in transfers.Select(transfer => new BackendReply
+                     {
+                         TransferId = transfer.Id,
+                         Success = true,
+                         Message = "OK"
+                     }))
+            {
+                _replyQueueManager.Put(reply, "Replies");
+            }
+        }
+
+        public async Task HandleReplies()
+        {
+            _ = await _transferEngine.HandleReplies();
+        }
+
     }
 }

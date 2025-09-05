@@ -1,4 +1,5 @@
 ﻿using AspireOrchestrator.Accounting.Business.Helpers;
+using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Domain.Models;
 
 namespace AspireOrchestrator.Accounting.Business
@@ -21,7 +22,7 @@ namespace AspireOrchestrator.Accounting.Business
             var valDate = matchResult.Deposits.Max(x => x.ValDate);
             var currency = matchResult.Deposits.First().Currency;
             var journal = PostingJournalHelper.CreatePostingJournal(trxDate, "Deposit closed");
-            foreach (var entry in matchResult.Deposits.Select(deposit => PostingEntryHelper.CreateDepositClosingPostings(deposit)))
+            foreach (var entry in matchResult.Deposits.Select(deposit => PostingEntryHelper.CreateDepositClosingPostings(deposit, DocumentType.ReceiptDetail)))
             {
                 journal.PostingEntries.Add(entry);
             }
@@ -44,12 +45,12 @@ namespace AspireOrchestrator.Accounting.Business
             var currency = postingEntries.First().Currency;
             var journal = PostingJournalHelper.CreatePostingJournal(trxDate, message);
             var totalDebit = postingEntries.Sum(x => x.DebitAmount) - postingEntries.Sum(x => x.CreditAmount);
-            foreach (var entry in postingSets.Select(postingSet => PostingEntryHelper.CreateReversePosting(postingSet.Item1, message, postingSet.Item2)))
+            foreach (var entry in postingSets.Select(postingSet => PostingEntryHelper.CreateReversePosting(postingSet.Item1, DocumentType.Transfer, message, postingSet.Item2)))
             {
                 journal.PostingEntries.Add(entry);
             }
 
-            var offset = PostingEntryHelper.CreateTransferOffsetPosting(trxDate, valDate, currency, 0M, totalDebit, "Transfers Sent");
+            var offset = PostingEntryHelper.CreateTransferOffsetPosting(trxDate, valDate, currency, 0M, totalDebit, DocumentType.Transfer, "Transfers sent");
             journal.PostingEntries.Add(offset);
             PostingJournalHelper.SetForeignKeys(journal);
             var valid = PostingJournalHelper.ValidateJournal(journal);
@@ -64,8 +65,8 @@ namespace AspireOrchestrator.Accounting.Business
             var currency = postingEntries.First().Currency;
             var journal = PostingJournalHelper.CreatePostingJournal(trxDate, message);
             var totalDebit = postingEntries.Sum(x => x.DebitAmount) - postingEntries.Sum(x => x.CreditAmount);
-            var transferPosting = PostingEntryHelper.CreateTransferOffsetPosting(trxDate, valDate, currency, totalDebit, 0M, message);
-            var offset = PostingEntryHelper.CreateFinalizeTransferPosting(trxDate, valDate, currency, 0M, totalDebit, message);
+            var transferPosting = PostingEntryHelper.CreateTransferOffsetPosting(trxDate, valDate, currency, 0M, totalDebit, DocumentType.TransferReply, message);
+            var offset = PostingEntryHelper.CreateFinalizeTransferPosting(trxDate, valDate, currency, totalDebit, 0M, message);
             journal.PostingEntries.Add(transferPosting);
             journal.PostingEntries.Add(offset);
             return journal;

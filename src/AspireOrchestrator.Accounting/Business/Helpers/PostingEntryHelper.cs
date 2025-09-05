@@ -26,20 +26,24 @@ namespace AspireOrchestrator.Accounting.Business.Helpers
                 AccountType = accountType,
                 BankTrxDate = trxDate,
                 BankValDate = valDate,
-                CreditAmount = credit >= 0 ? credit: debit,
-                DebitAmount = debit >= 0 ? debit : credit,
+                CreditAmount = credit,
+                DebitAmount = debit,
                 PostingDocumentType = documentType,
                 Currency = currency,
                 PostingMessage = message,
                 DocumentId = documentId
             };
+            if (credit >= 0 && debit >= 0) return entry;
+            var temp = entry.CreditAmount;
+            entry.CreditAmount = - entry.DebitAmount;
+            entry.DebitAmount = - temp;
             return entry;
         }
 
-        public static PostingEntry CreateDepositClosingPostings(Deposit deposit)
+        public static PostingEntry CreateDepositClosingPostings(Deposit deposit, DocumentType documentType)
         {
             return CreatePostingEntry(deposit.AccountNumber, AccountType.BankAccount, deposit.TrxDate, deposit.ValDate,
-                deposit.Amount, 0M, DocumentType.Deposit, deposit.Currency, "Closing " + deposit.PaymentReference, deposit.Id);
+                deposit.Amount, 0M, documentType, deposit.Currency, "Closing " + deposit.PaymentReference, deposit.Id);
         }
 
         public static PostingEntry CreateReceiptDetailPosting(ReceiptDetail receiptDetail, DateTime trxDate, DateTime valDate, string currency)
@@ -58,23 +62,23 @@ namespace AspireOrchestrator.Accounting.Business.Helpers
             return receiptDetail.PersonId > 0 ? receiptDetail.PersonId.ToString() : receiptDetail.Cpr;
         }
 
-        public static PostingEntry CreateTransferOffsetPosting(DateTime trxDate, DateTime valDate, string currency, decimal credit, decimal debit, string message)
+        public static PostingEntry CreateTransferOffsetPosting(DateTime trxDate, DateTime valDate, string currency, decimal credit, decimal debit, DocumentType documentType, string message)
         {
             return CreatePostingEntry("Transfers", AccountType.SentAccount, trxDate, valDate, credit, debit,
-                DocumentType.Transfer, currency, message, Guid.Empty);
+                documentType, currency, message, Guid.Empty);
         }
 
-        public static PostingEntry CreateReversePosting(PostingEntry posting, string transferSent, Guid documentId)
+        public static PostingEntry CreateReversePosting(PostingEntry posting, DocumentType documentType, string message, Guid documentId)
         {
             return CreatePostingEntry(posting.PostingAccount, posting.AccountType, posting.BankTrxDate,
-                posting.BankValDate, posting.DebitAmount, posting.CreditAmount, posting.PostingDocumentType,
-                posting.Currency, transferSent, documentId);
+                posting.BankValDate, posting.DebitAmount, posting.CreditAmount, documentType,
+                posting.Currency, message, documentId);
         }
 
         public static PostingEntry CreateFinalizeTransferPosting(DateTime trxDate, DateTime valDate, string currency, decimal credit, decimal debit, string message)
         {
             return CreatePostingEntry("Offset", AccountType.OffsetAccount, trxDate, valDate,
-                credit, debit, DocumentType.Transfer, currency, message, Guid.Empty);
+                credit, debit, DocumentType.TransferReply, currency, message, Guid.Empty);
         }
     }
 }

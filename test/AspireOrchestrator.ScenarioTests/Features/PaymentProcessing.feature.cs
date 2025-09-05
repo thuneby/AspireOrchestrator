@@ -145,7 +145,7 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table17 = new global::Reqnroll.Table(new string[] {
                             "Cvr",
                             "Cpr",
                             "LaborAgreementNumber",
@@ -163,7 +163,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "SubmissionDate",
                             "DocumentType",
                             "ReceiptType"});
-                table11.AddRow(new string[] {
+                table17.AddRow(new string[] {
                             "10008328",
                             "130250-0009",
                             "10000",
@@ -182,9 +182,9 @@ this.ScenarioInitialize(scenarioInfo);
                             "IpStandard",
                             "Payment"});
 #line 6
-await testRunner.GivenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table11, "Given ");
+await testRunner.GivenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table17, "Given ");
 #line hidden
-                global::Reqnroll.Table table12 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table18 = new global::Reqnroll.Table(new string[] {
                             "ReconcileStatus",
                             "Amount",
                             "PaymentReference",
@@ -192,7 +192,7 @@ await testRunner.GivenAsync("ReceiptDetail tabel indeholder", ((string)(null)), 
                             "TrxDate",
                             "ValDate",
                             "Currency"});
-                table12.AddRow(new string[] {
+                table18.AddRow(new string[] {
                             "Paid",
                             "4796.56",
                             "10008328",
@@ -201,12 +201,12 @@ await testRunner.GivenAsync("ReceiptDetail tabel indeholder", ((string)(null)), 
                             "2025-07-25",
                             "DKK"});
 #line 10
-await testRunner.GivenAsync("Deposit tabel indeholder", ((string)(null)), table12, "Given ");
+await testRunner.GivenAsync("Deposit tabel indeholder", ((string)(null)), table18, "Given ");
 #line hidden
 #line 14
 await testRunner.WhenAsync("IpStandard dokumenter er afstemt", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-                global::Reqnroll.Table table13 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table19 = new global::Reqnroll.Table(new string[] {
                             "Cvr",
                             "Cpr",
                             "LaborAgreementNumber",
@@ -224,7 +224,7 @@ await testRunner.WhenAsync("IpStandard dokumenter er afstemt", ((string)(null)),
                             "SubmissionDate",
                             "DocumentType",
                             "ReceiptType"});
-                table13.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "10008328",
                             "130250-0009",
                             "10000",
@@ -243,9 +243,9 @@ await testRunner.WhenAsync("IpStandard dokumenter er afstemt", ((string)(null)),
                             "IpStandard",
                             "Payment"});
 #line 15
-await testRunner.ThenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table13, "Then ");
+await testRunner.ThenAsync("ReceiptDetail tabel indeholder", ((string)(null)), table19, "Then ");
 #line hidden
-                global::Reqnroll.Table table14 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table20 = new global::Reqnroll.Table(new string[] {
                             "ReconcileStatus",
                             "Amount",
                             "PaymentReference",
@@ -253,7 +253,7 @@ await testRunner.ThenAsync("ReceiptDetail tabel indeholder", ((string)(null)), t
                             "TrxDate",
                             "ValDate",
                             "Currency"});
-                table14.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "Closed",
                             "4796.56",
                             "10008328",
@@ -262,7 +262,7 @@ await testRunner.ThenAsync("ReceiptDetail tabel indeholder", ((string)(null)), t
                             "2025-07-25",
                             "DKK"});
 #line 19
-await testRunner.ThenAsync("Deposit tabel indeholder", ((string)(null)), table14, "Then ");
+await testRunner.ThenAsync("Deposit tabel indeholder", ((string)(null)), table20, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
