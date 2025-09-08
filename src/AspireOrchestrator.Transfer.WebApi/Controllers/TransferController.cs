@@ -45,6 +45,13 @@ namespace AspireOrchestrator.Transfer.WebApi.Controllers
             return Ok(eventEntity);
         }
 
+        [HttpGet("[action]")]
+        public async Task<ActionResult<int>> ProcessReplies()
+        {
+            var count = await transferEngine.HandleReplies();
+            return Ok(count);
+        }
+
         [HttpPost("[action]")]
         public async Task<ActionResult<EventEntity>> HandleRepliesAsync([FromBody] EventEntity eventEntity)
         {

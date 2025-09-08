@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\tools\AspireOrchestrator.BackendSimulator\AspireOrchestrator.BackendSimulator.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.Administration\AspireOrchestrator.Administration.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.DatabaseMigrations\AspireOrchestrator.DatabaseMigrations.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.Domain.DatabaseMigrations\AspireOrchestrator.Domain.DatabaseMigrations.csproj" />
