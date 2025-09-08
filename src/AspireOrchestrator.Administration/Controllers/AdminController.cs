@@ -23,7 +23,7 @@ namespace AspireOrchestrator.Administration.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> UploadFile(IFormFile file, int type)
         {
-            if (file.Length is <= 0)
+            if (file == null || file.Length is <= 0)
             {
                 ModelState.AddModelError("file", "File is empty or too large.");
                 return View("Index");
