@@ -1,107 +1,32 @@
-﻿@model IEnumerable<AspireOrchestrator.Domain.Models.Deposit>
+﻿@model IQueryable<AspireOrchestrator.Domain.Models.Deposit>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Indbetalinger";
 }
 
-<h1>Index</h1>
+<h1>Indbetalinger</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AccountNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrxDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ValDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReconcileStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Belob)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Currency)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccountReference)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PaymentReference)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Message)
-            </th>
-@*             <th>
-                @Html.DisplayNameFor(model => model.DocumentId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TenantId)
-            </th>
- *@            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccountNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrxDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ValDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReconcileStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Belob)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Currency)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccountReference)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentReference)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-@*             <td>
-                @Html.DisplayFor(modelItem => item.DocumentId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenantId)
-            </td>
- *@            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.AccountNumber);
+        columns.Add(model => model.TrxDate).Formatted("{0: dd-MM-yyyy}");
+    columns.Add(model => model.ValDate).Formatted("{0: dd-MM-yyyy}");
+    columns.Add(model => model.ReconcileStatus);
+        columns.Add(model => model.Amount);
+    columns.Add(model => model.Currency);
+    columns.Add(model => model.AccountReference);
+    columns.Add(model => model.PaymentReference);
+    columns.Add(model => model.Message);
+    columns.Add(model => model.CreatedDate).Formatted("{0: dd-MM-yyyy}");
+    })
+    .Filterable()
+    .Pageable()
+    .Sortable()
+    .Empty("Ingen indbetalinger fundet")
+    .Css("table-hover")
+)
+
+

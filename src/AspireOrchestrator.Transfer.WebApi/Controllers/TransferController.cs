@@ -46,7 +46,7 @@ namespace AspireOrchestrator.Transfer.WebApi.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<ActionResult<int>> ProcessReplies()
+        public async Task<ActionResult<int>> HandleReplies()
         {
             var count = await transferEngine.HandleReplies();
             return Ok(count);
