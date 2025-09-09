@@ -47,5 +47,7 @@ namespace AspireOrchestrator.Domain.Models
         public Guid? DocumentId { get; set; }
 
         public Guid? PostingJournalId { get; set; }
+
+        public virtual PostingJournal? PostingJournal { get; set; }
     }
 }

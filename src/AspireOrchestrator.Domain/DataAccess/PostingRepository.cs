@@ -26,5 +26,37 @@ namespace AspireOrchestrator.Domain.DataAccess
                 x.PostingDocumentType == DocumentType.ReceiptDetail && ids.Contains(x.DocumentId.Value)).ToListAsync();
         }
 
+        public IQueryable<PostingSummary> GetPostingSummary()
+        {
+            var query = Query()
+                .GroupBy(x => new { x.AccountType, x.Currency })
+                .Select(g => new PostingSummary
+                {
+                    AccountType = g.Key.AccountType,
+                    Currency = g.Key.Currency,
+                    DebitBalance = g.Sum(x => x.DebitAmount),
+                    CreditBalance = g.Sum(x => x.CreditAmount),
+                    TotalBalance = g.Sum(x => x.DebitAmount - x.CreditAmount)
+                });
+            return query;
+        }
+
+        public IQueryable<PostingAccountSummary> GetPostingAccountSummary(DateTime balanceDate)
+        {
+            var query = Query()
+                .Where(x => x.PostingJournal.PostingDate <= balanceDate)
+                .GroupBy(x => new { x.AccountType, x.Currency, x.PostingAccount })
+                .Select(g => new PostingAccountSummary
+                {
+                    AccountType = g.Key.AccountType,
+                    Currency = g.Key.Currency,
+                    PostingAccount = g.Key.PostingAccount,
+                    DebitBalance = g.Sum(x => x.DebitAmount),
+                    CreditBalance = g.Sum(x => x.CreditAmount),
+                    TotalBalance = g.Sum(x => x.DebitAmount - x.CreditAmount),
+                    BalanceDate = balanceDate
+                });
+            return query;
+        }
     }
 }

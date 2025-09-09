@@ -91,13 +91,7 @@ builder.AddProject<Projects.AspireOrchestrator_Administration>("administration")
     .WithReference(orchestratorapi);
 
 
-
-
-
-
-
-
-builder.AddProject<Projects.AspireOrchestrator_BackendSimulator>("aspireorchestrator-backendsimulator");
+builder.AddProject<Projects.AspireOrchestrator_BackendSimulator>("backendsimulator");
 
 
 
