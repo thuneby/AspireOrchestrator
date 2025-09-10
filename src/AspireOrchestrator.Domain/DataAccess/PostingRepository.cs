@@ -58,5 +58,12 @@ namespace AspireOrchestrator.Domain.DataAccess
                 });
             return query;
         }
+
+        public IQueryable<PostingEntry> GetPostingEntries(AccountType type, string postingAccount) 
+        {
+            var query = context.PostingEntry.Include(x => x.PostingJournal)
+                .Where(x => x.AccountType == type && x.PostingAccount == postingAccount);
+            return query;
+        }
     }
 }

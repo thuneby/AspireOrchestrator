@@ -26,6 +26,7 @@ builder.EnrichSqlServerDbContext<DomainContext>(settings =>
 
 builder.Services.AddScoped<ReceiptDetailRepository>();
 builder.Services.AddScoped<DepositRepository>();
+builder.Services.AddScoped<PostingRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -35,7 +36,7 @@ builder.Services.AddHttpClient<OrchestratorApiService>(
 
 var app = builder.Build();
 
-app.MapDefaultEndpoints();
+//app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

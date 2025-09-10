@@ -94,10 +94,4 @@ builder.AddProject<Projects.AspireOrchestrator_Administration>("administration")
 builder.AddProject<Projects.AspireOrchestrator_BackendSimulator>("backendsimulator");
 
 
-
-
-
-
-
-
 builder.Build().Run();
