@@ -1,4 +1,5 @@
-﻿using AspireOrchestrator.Domain.Models;
+﻿using AspireOrchestrator.Core.Mappers;
+using AspireOrchestrator.Domain.Models;
 using AspireOrchestrator.Parsing.Business.Helpers;
 using AspireOrchestrator.Parsing.Models.Nordea;
 using AutoMapper;

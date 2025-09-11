@@ -44,6 +44,22 @@ protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 
             // Start processing
             await processor.StartProcessingAsync(stoppingToken);
+
+            logger.LogInformation("""
+                                  Wait for a minute and then press any key to end the processing
+                                  """);
+
+            Console.ReadKey();
+
+            // Stop processing
+            logger.LogInformation("""
+
+                                  Stopping the receiver...
+                                  """);
+
+            await processor.StopProcessingAsync();
+
+            logger.LogInformation("Stopped receiving messages");
         }
     }
 

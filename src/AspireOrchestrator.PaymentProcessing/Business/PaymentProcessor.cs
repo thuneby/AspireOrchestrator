@@ -11,7 +11,7 @@ namespace AspireOrchestrator.PaymentProcessing.Business
     {
         private readonly ReceiptDetailRepository _receiptDetailRepository = new ReceiptDetailRepository(context, loggerFactory.CreateLogger<ReceiptDetailRepository>());
         private readonly DepositRepository _depositRepository = new DepositRepository(context, loggerFactory.CreateLogger<DepositRepository>());
-        private readonly PostingRepository _postingRepository = new PostingRepository(context, loggerFactory.CreateLogger<PostingRepository>());
+        private readonly PostingRepository _postingRepository = new PostingRepository(context, loggerFactory.CreateLogger<PostingRepository>(), loggerFactory);
         
         public async Task<List<MatchResult>> MatchDocumentTypeAsync(DocumentType documentType)
         {

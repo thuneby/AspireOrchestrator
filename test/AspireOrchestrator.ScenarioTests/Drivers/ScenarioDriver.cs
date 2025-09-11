@@ -51,7 +51,7 @@ namespace AspireOrchestrator.ScenarioTests.Drivers
             _eventRepository = new EventRepository(OrchestratorContext, logger);
             _receiptDetailRepository = new ReceiptDetailRepository(DomainContext, TestLoggerFactory.CreateLogger<ReceiptDetailRepository>());
             _depositRepository = new DepositRepository(DomainContext, TestLoggerFactory.CreateLogger<DepositRepository>());
-            _postingRepository = new PostingRepository(DomainContext, TestLoggerFactory.CreateLogger<PostingRepository>());
+            _postingRepository = new PostingRepository(DomainContext, TestLoggerFactory.CreateLogger<PostingRepository>(), TestLoggerFactory);
             var validationErrorRepository = new ValidationErrorRepository(ValidationContext, TestLoggerFactory.CreateLogger<ValidationErrorRepository>());
             var parseController = new ParseController(_storageHelper, _receiptDetailRepository, _depositRepository, _postingRepository, TestLoggerFactory);
             var validationController = new ValidationController(_receiptDetailRepository, validationErrorRepository, TestLoggerFactory);

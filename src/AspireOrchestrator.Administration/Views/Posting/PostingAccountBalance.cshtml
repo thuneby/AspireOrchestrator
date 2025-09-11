@@ -1,1 +1,58 @@
-﻿
+﻿@using System.Globalization
+@model PostingAccountBalanceViewModel
+
+@{
+    var host = Context.Request.Host.Value;
+    var day = Model.BalanceDate.Day;
+    var month = Model.BalanceDate.Month - 1; // JavaScript months are 0-11
+    var year = Model.BalanceDate.Year;
+    ViewData["Title"] = "Kontobalancer";
+}
+
+<h2>Kontobalancer</h2>
+
+<form asp-action="PostingAccountBalance">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label asp-for="BalanceDate" class="col-md-2 control-label">Vælg balancedato (@day/@month/@year):</label>
+            <div class="col-md-11">
+                <input id="balanceDate" name="balanceDate" type="date" class="form-control" value="@Model.BalanceDate.Date" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-11">
+                <input type="submit" value="Se balancer" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="col-md-12">
+    @(Html
+        .Grid(Model.AccountBalances)
+        .Build(columns =>
+        {
+            columns.Add(model => model.AccountType).Titled("Kontotype");
+            columns.Add(model => model.PostingAccount).Titled("Konto");
+            columns.Add(model => model.Currency).Titled("Valuta");
+            columns.Add(model => model.DebitBalance).Css("text-right").Titled("Debet").Formatted("{0:N}");
+            columns.Add(model => model.CreditBalance).Css("text-right").Titled("Kredit").Formatted("{0:N}");
+            columns.Add(model => model.TotalBalance).Css("text-right").Titled("Balance").Formatted("{0:N}");
+            columns.Add(model => model.BalanceDate).Titled("Balancedato").Css("text-center").Formatted("{0: dd-MM-yyyy}");
+            columns.Add(model => model.PostingAccount).Titled("")
+            .Filterable(false).Encoded(false).RenderedAs(model => Html.ActionLink("Vis posteringer med balance",
+            "PostingEntryBalances", "Posting", "", host, "", new { type = model.AccountType, postingAccount = model.PostingAccount, balanceDate = Model.BalanceDate }, null));
+        })
+        .Empty("Ingen posteringer fundet")
+        .Css("table-hover")
+        )
+</div>
+<p>&nbsp;</p>
+
+<p>
+    <a asp-action="PostingAccountSummary" asp-controller="Posting">Tilbage til kontobalancer</a>
+</p>
+
+<p>
+    <a asp-action="PostingSummary" asp-controller="Posting">Tilbage til overblik</a>
+</p>

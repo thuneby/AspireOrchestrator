@@ -2,7 +2,7 @@
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 
-namespace AspireOrchestrator.Parsing.Business.Mappers
+namespace AspireOrchestrator.Core.Mappers
 {
     public abstract class GuidMapperBase<T1, T2>
         where T1 : GuidModelBase

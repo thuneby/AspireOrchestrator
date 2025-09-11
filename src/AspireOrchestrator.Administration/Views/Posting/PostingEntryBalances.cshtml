@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<AspireOrchestrator.Domain.Models.PostingEntryBalance>
+
+@{
+    ViewData["Title"] = "Posteringer";
+}
+
+<h2>Posteringer med balance</h2>
+
+<div class="col-lg-12">
+    @(Html
+        .Grid(Model)
+        .Build(columns =>
+        {
+            columns.Add(model => model.PostingJournal.CreatedDate.Date).Formatted("{0: dd-MM-yyyy}").Titled("Registreringsdato");
+            columns.Add(model => model.AccountType).Titled("Kontotype");
+            columns.Add(model => model.PostingAccount).Titled("Konto");
+            columns.Add(model => model.PostingJournal.PostingDate).Formatted("{0: dd-MM-yyyy}").Titled("Bogføringsdato");
+            columns.Add(model => model.BankValDate).Formatted("{0: dd-MM-yyyy}").Titled("Valørdato");
+            columns.Add(model => model.Currency).Titled("Valuta");
+            columns.Add(model => model.DebitAmount).Css("text-right").Titled("Debet").Formatted("{0:N}");
+            columns.Add(model => model.CreditAmount).Css("text-right").Titled("Kredit").Formatted("{0:N}");
+            columns.Add(model => model.Balance).Css("text-right").Titled("Balance").Formatted("{0:N}");
+            columns.Add(model => model.PostingDocumentType).Titled("Dokumenttype");
+            columns.Add(model => model.PostingJournal.PostingPurpose).Titled("Formål");
+        })
+        .Empty("Ingen posteringer fundet")
+        .Css("table-hover")
+    )
+</div>
+<p>&nbsp;</p>
+
+<p>
+    <a asp-action="PostingAccountSummary" asp-controller="Posting">Tilbage til kontooversigt</a>
+</p>
+<p>
+    <a asp-action="PostingSummary" asp-controller="Posting">Tilbage til overblik</a>
+</p>

@@ -1,6 +1,8 @@
-﻿using AspireOrchestrator.Domain.DataAccess;
+﻿using AspireOrchestrator.Administration.Models;
+using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspireOrchestrator.Administration.Controllers
 {
@@ -25,6 +27,26 @@ namespace AspireOrchestrator.Administration.Controllers
         public IActionResult PostingEntries(AccountType type, string postingAccount)
         {
             var result = repository.GetPostingEntries(type, postingAccount);
+            return View(result);
+        }
+
+        [HttpGet]
+        [HttpPost]
+        public IActionResult PostingAccountBalance(DateTime balanceDate)
+        {
+            balanceDate = balanceDate == DateTime.MinValue ? DateTime.Now : balanceDate;
+            var result = repository.GetPostingAccountSummary(balanceDate).Where(x => x.TotalBalance != 0M);
+            var model = new PostingAccountBalanceViewModel
+            {
+                AccountBalances = result,
+                BalanceDate = balanceDate
+            };
+            return View("PostingAccountBalance", model);
+        }
+
+        public IActionResult PostingEntryBalances(AccountType type, string postingAccount, DateTime balanceDate)
+        {
+            var result = repository.GetPostingEntryBalances(type, postingAccount, balanceDate);
             return View(result);
         }
     }

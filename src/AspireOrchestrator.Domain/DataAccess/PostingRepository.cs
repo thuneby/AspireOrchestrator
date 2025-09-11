@@ -1,13 +1,16 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.DataAccess.Repositories;
+using AspireOrchestrator.Domain.Mappers;
 using AspireOrchestrator.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AspireOrchestrator.Domain.DataAccess
 {
-    public class PostingRepository(DomainContext context, ILogger<GuidRepositoryBase<PostingEntry>> logger) : GuidRepositoryBase<PostingEntry>(context, logger)
+    public class PostingRepository(DomainContext context, ILogger<PostingRepository> logger, ILoggerFactory loggerFactory) : GuidRepositoryBase<PostingEntry>(context, logger)
     {
+        private readonly PostingEntryBalanceMapper _balanceMapper = new PostingEntryBalanceMapper(loggerFactory);
+
         public async Task AddPostingJournal(PostingJournal journal)
         {
             context.PostingJournal.Add(journal);
@@ -64,6 +67,22 @@ namespace AspireOrchestrator.Domain.DataAccess
             var query = context.PostingEntry.Include(x => x.PostingJournal)
                 .Where(x => x.AccountType == type && x.PostingAccount == postingAccount);
             return query;
+        }
+
+        public List<PostingEntryBalance> GetPostingEntryBalances(AccountType type, string postingAccount, DateTime balanceDate)
+        {
+            var query = GetPostingEntries(type, postingAccount).Where(x => x.PostingJournal.PostingDate >= balanceDate)
+                .OrderBy(x => x.BankTrxDate).ThenBy(x => x.PostingJournal.PostingDate).ToList();
+            var result = new List<PostingEntryBalance>();
+            var runningBalance = 0M;
+            foreach (var postingEntry in query)
+            {
+                var balanceEntry = _balanceMapper.Map(postingEntry);
+                runningBalance += postingEntry.DebitAmount - postingEntry.CreditAmount;
+                balanceEntry.Balance = runningBalance;
+                result.Add(balanceEntry);
+            }
+            return result;
         }
     }
 }
