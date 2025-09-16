@@ -4,12 +4,26 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
 {
     public static class ProcessHelper
     {
-        public static DocumentType GetDocumentType(EventType eventType)
+        public static EventType GetEventType(DocumentType documentType)
         {
-            return eventType switch
+            return documentType switch
             {
-                EventType.HandleReceipt => DocumentType.Pdf,
-                _ => throw new ArgumentOutOfRangeException(nameof(eventType), eventType, null)
+                DocumentType.ManualEntry => EventType.HandleReceipt,
+                DocumentType.IpStandard => EventType.HandleReceipt,
+                DocumentType.IpUdvidet => EventType.HandleReceipt,
+                DocumentType.NordeaStandard => EventType.HandleReceipt,
+                DocumentType.NetsIs => EventType.HandleReceipt,
+                DocumentType.NetsOs => EventType.HandleReceipt,
+                DocumentType.NetsBs602 => EventType.HandleInvoice,
+                DocumentType.Excel => EventType.HandleReceipt,
+                DocumentType.ExcelLine => EventType.HandleReceipt,
+                DocumentType.Invoice => EventType.HandleInvoice,
+                DocumentType.Pa41 => EventType.HandleReceipt,
+                DocumentType.Camt53 => EventType.HandleDeposit,
+                DocumentType.Camt54 => EventType.HandleDeposit,
+                DocumentType.PosteringsData => EventType.HandleDeposit,
+                DocumentType.ReceiptDetailJson => EventType.HandleReceipt,
+                _ => throw new ArgumentOutOfRangeException(nameof(documentType), documentType, null)
             };
         }
     }

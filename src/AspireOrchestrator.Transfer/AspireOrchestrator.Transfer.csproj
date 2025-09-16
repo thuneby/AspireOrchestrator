@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AspireOrchestrator.Accounting\AspireOrchestrator.Accounting.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Core\AspireOrchestrator.Core.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.DataAccess\AspireOrchestrator.DataAccess.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Domain\AspireOrchestrator.Domain.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Messaging\AspireOrchestrator.Messaging.csproj" />
+  </ItemGroup>
+
+</Project>

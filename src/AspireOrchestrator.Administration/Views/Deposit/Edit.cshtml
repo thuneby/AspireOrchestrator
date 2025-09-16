@@ -1,0 +1,91 @@
+﻿@model AspireOrchestrator.Domain.Models.Deposit
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Deposit</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AccountNumber" class="control-label"></label>
+                <input asp-for="AccountNumber" class="form-control" />
+                <span asp-validation-for="AccountNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrxDate" class="control-label"></label>
+                <input asp-for="TrxDate" class="form-control" />
+                <span asp-validation-for="TrxDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ValDate" class="control-label"></label>
+                <input asp-for="ValDate" class="form-control" />
+                <span asp-validation-for="ValDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReconcileStatus" class="control-label"></label>
+                <select asp-for="ReconcileStatus" class="form-control"></select>
+                <span asp-validation-for="ReconcileStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Belob" class="control-label"></label>
+                <input asp-for="Belob" class="form-control" />
+                <span asp-validation-for="Belob" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Currency" class="control-label"></label>
+                <input asp-for="Currency" class="form-control" />
+                <span asp-validation-for="Currency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccountReference" class="control-label"></label>
+                <input asp-for="AccountReference" class="form-control" />
+                <span asp-validation-for="AccountReference" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentReference" class="control-label"></label>
+                <input asp-for="PaymentReference" class="form-control" />
+                <span asp-validation-for="PaymentReference" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <input asp-for="Message" class="form-control" />
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocumentId" class="control-label"></label>
+                <input asp-for="DocumentId" class="form-control" />
+                <span asp-validation-for="DocumentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenantId" class="control-label"></label>
+                <input asp-for="TenantId" class="form-control" />
+                <span asp-validation-for="TenantId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

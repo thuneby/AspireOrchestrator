@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
-using AspireOrchestrator.Core.Models;
+﻿using AspireOrchestrator.Core.Models;
+using System.Text.Json;
 
 namespace AspireOrchestrator.Core.OrchestratorModels
 {
@@ -11,15 +10,24 @@ namespace AspireOrchestrator.Core.OrchestratorModels
             CreatedDate = DateTime.UtcNow;
         }
 
-        public void UpdateProcessResult(EventState state = EventState.Completed)
+        public void UpdateProcessResult(string result, EventState state = EventState.Completed)
         {
             EventState = state;
+            Result = result;
             if (state == EventState.Completed)
             {
                 if (!string.IsNullOrWhiteSpace(ErrorMessage))
                     ErrorMessage = "Last known error: " + ErrorMessage;
             }
             EndTime = DateTime.UtcNow;
+        }
+
+        public Dictionary<string, string> GetParameterDictionary()
+        {
+            if (string.IsNullOrWhiteSpace(Parameters))
+                return new Dictionary<string, string>();
+            var dictionary = JsonSerializer.Deserialize<Dictionary<string, string>>(Parameters);
+            return dictionary ?? new Dictionary<string, string>();
         }
 
         public void StartEvent()
@@ -36,7 +44,7 @@ namespace AspireOrchestrator.Core.OrchestratorModels
             ErrorMessage = result.ErrorMessage;
         }
 
-        public long FlowId { get; set; }
+        public Guid? FlowId { get; set; }
 
         public EventType EventType { get; set; }
         public EventState EventState { get; set; } = EventState.New;

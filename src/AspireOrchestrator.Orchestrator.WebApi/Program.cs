@@ -1,6 +1,8 @@
+using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.DataAccess;
 using AspireOrchestrator.Orchestrator.Interfaces;
-using Azure.Messaging.ServiceBus;
+using AspireOrchestrator.Orchestrator.Services;
+using AspireOrchestrator.Orchestrator.WebApi.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +24,21 @@ builder.Services.AddScoped<IFlowRepository, FlowRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<TenantRepository>();
 
+builder.Services.AddHttpClient<ParseService>(
+    static client => client.BaseAddress = new("https://parseapi"));
+
+builder.Services.AddHttpClient<ValidateService>(
+    static client => client.BaseAddress = new Uri("https://validationapi"));
+
+builder.Services.AddHttpClient<PaymentProcessingService>(
+    static client => client.BaseAddress = new Uri("https://paymentapi"));
+
+builder.Services.AddHttpClient<TransferService>(
+    static client => client.BaseAddress = new Uri("https://transferapi"));
+
 builder.AddAzureServiceBusClient(connectionName: "servicebus");
+builder.Services.AddScoped<EventPublisherService>();
+builder.Services.AddScoped<IProcessorFactory, ProcessorFactory>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -41,12 +57,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwagger(c => { c.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0; });
     app.UseSwaggerUI();
-
-    //using (var scope = app.Services.CreateScope())
-    //{
-    //    var context = scope.ServiceProvider.GetRequiredService<OrchestratorContext>();
-    //    context.Database.EnsureCreated();
-    //}
 }
 
 //app.UseHttpsRedirection();

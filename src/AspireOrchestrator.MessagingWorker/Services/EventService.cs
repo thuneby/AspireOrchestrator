@@ -9,6 +9,9 @@ namespace AspireOrchestrator.MessagingWorker.Services
         {
             logger.LogInformation("Handling event: {EventId}", eventEntity.Id);
 
+            // for debugging purposes, increase timeout from default 30 seconds to 5 minutes
+            //httpClient.Timeout = TimeSpan.FromMinutes(5);
+
             // call orchestrator
             //var test = await httpClient.GetAsync("/api/event/GetAll");
             var response = await httpClient.PostAsJsonAsync("/api/event/SaveAndExecuteEvent", eventEntity, cancellationToken);

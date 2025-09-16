@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AspireOrchestrator.Core.Models;
 using AspireOrchestrator.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +10,12 @@ namespace AspireOrchestrator.Domain.DataAccess
         {
         }
 
+        public DbSet<Tenant> Tenant { get; set; }
         public DbSet<ReceiptDetail> ReceiptDetail { get; set; }
 
+        public DbSet<Deposit> Deposit { get; set; }
+
+        public DbSet<PostingJournal> PostingJournal { get; set; }
+        public DbSet<PostingEntry> PostingEntry { get; set; }
     }
 }

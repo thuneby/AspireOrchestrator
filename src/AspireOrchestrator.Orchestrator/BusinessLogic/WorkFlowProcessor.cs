@@ -4,13 +4,11 @@ using Microsoft.Extensions.Logging;
 
 namespace AspireOrchestrator.Orchestrator.BusinessLogic
 {
-    public class WorkFlowProcessor(IEventRepository eventRepository, IFlowRepository flowRepository, ILoggerFactory loggerFactory)
+    public class WorkFlowProcessor(IProcessorFactory processorFactory, IEventRepository eventRepository, IFlowRepository flowRepository, ILoggerFactory loggerFactory)
     {
         private readonly ILogger<WorkFlowProcessor> _logger = loggerFactory.CreateLogger<WorkFlowProcessor>();
-        private readonly ProcessorFactory _processorFactory = new(loggerFactory);
 
-
-        public async Task<EventEntity> ProcessFlow(long flowId)
+        public async Task<EventEntity> ProcessFlow(Guid flowId)
         {
             var eventEntity = eventRepository.GetNextEvent(flowId);
             if (eventEntity == null)
@@ -75,7 +73,7 @@ namespace AspireOrchestrator.Orchestrator.BusinessLogic
                 return entity;
             entity.StartEvent();
             eventRepository.Update(entity); // make sure nobody else takes it
-            var processor = _processorFactory.GetProcessor(entity);
+            var processor = processorFactory.GetProcessor(entity);
             if (processor == null)
             {
                 entity.ErrorMessage = "Processor not found for event!";

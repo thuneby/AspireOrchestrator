@@ -8,16 +8,17 @@ namespace AspireOrchestrator.Orchestrator.WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class FlowController(
+        IProcessorFactory processorFactory,
         IEventRepository eventRepository,
         IFlowRepository flowRepository,
         ILoggerFactory loggerFactory)
         : ControllerBase
     {
-        private readonly WorkFlowProcessor _workflowProcessor = new(eventRepository, flowRepository, loggerFactory);
+        private readonly WorkFlowProcessor _workflowProcessor = new(processorFactory, eventRepository, flowRepository, loggerFactory);
         private readonly ILogger<FlowController> _logger = loggerFactory.CreateLogger<FlowController>();
 
         [HttpGet("{id}")]
-        public ActionResult<Flow> Get(long id)
+        public ActionResult<Flow> Get(Guid id)
         {
             var flow = flowRepository.Get(id);
             if (flow != null) return flow;
@@ -26,7 +27,7 @@ namespace AspireOrchestrator.Orchestrator.WebApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult<EventEntity>> ExecuteFlow(long flowId)
+        public async Task<ActionResult<EventEntity>> ExecuteFlow(Guid flowId)
         {
             var entity = await _workflowProcessor.ProcessFlow(flowId);
             return entity;

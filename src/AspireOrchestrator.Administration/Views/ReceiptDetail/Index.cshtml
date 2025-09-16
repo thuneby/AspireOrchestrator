@@ -1,0 +1,33 @@
+﻿@model IQueryable<AspireOrchestrator.Domain.Models.ReceiptDetail>
+
+@{
+    ViewData["Title"] = "Indberetninger";
+}
+
+<h1>Indberetninger</h1>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        //columns.Add(model => model.ReceivedDate);
+        //columns.Add(model => model.LaborAgreementNumber);
+        columns.Add(model => model.Cvr);
+        columns.Add(model => model.PersonFullName);
+        //columns.Add(model => model.PaymentReference); 
+        columns.Add(model => model.PaymentDate).Formatted("{0: dd-MM-yyyy}");
+        columns.Add(model => model.ReceiptType);
+        columns.Add(model => model.FromDate).Formatted("{0: dd-MM-yyyy}");
+        columns.Add(model => model.ToDate).Formatted("{0: dd-MM-yyyy}");
+        columns.Add(model => model.Cpr);
+        columns.Add(model => model.Amount);
+        columns.Add(model => model.Valid).Titled("Valid").RenderedAs(model => Html.CheckBoxFor(a => model.Valid)).Css("text-center");
+        columns.Add(model => model.ReconcileStatus);
+        columns.Add(model => model.CreatedDate).Formatted("{0: dd-MM-yyyy}");
+    })
+    .Filterable()
+    .Pageable()
+    .Sortable()
+    .Empty("Ingen indberetninger fundet")
+    .Css("table-hover")
+)

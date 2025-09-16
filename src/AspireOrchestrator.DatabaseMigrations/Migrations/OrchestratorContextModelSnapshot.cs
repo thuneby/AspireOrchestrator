@@ -17,7 +17,7 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.5")
+                .HasAnnotation("ProductVersion", "9.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -85,8 +85,8 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
                     b.Property<short>("ExecutionCount")
                         .HasColumnType("smallint");
 
-                    b.Property<long>("FlowId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("FlowId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Parameters")
                         .IsRequired()
@@ -117,11 +117,9 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
 
             modelBuilder.Entity("AspireOrchestrator.Core.OrchestratorModels.Flow", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -141,9 +139,7 @@ namespace AspireOrchestrator.DatabaseMigrations.Migrations
                 {
                     b.HasOne("AspireOrchestrator.Core.OrchestratorModels.Flow", null)
                         .WithMany("Events")
-                        .HasForeignKey("FlowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FlowId");
                 });
 
             modelBuilder.Entity("AspireOrchestrator.Core.OrchestratorModels.Flow", b =>

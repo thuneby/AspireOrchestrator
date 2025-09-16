@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Azure.Storage.Blobs" Version="9.4.2" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.1" />
+    <PackageReference Include="Aspire.Azure.Messaging.ServiceBus" Version="9.4.2" />
+    <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.4.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+	  <PackageReference Include="NonFactors.Grid.Core.Mvc6" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AspireOrchestrator.Core\AspireOrchestrator.Core.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Domain\AspireOrchestrator.Domain.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Messaging\AspireOrchestrator.Messaging.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Orchestrator\AspireOrchestrator.Orchestrator.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.ServiceDefaults\AspireOrchestrator.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Storage\AspireOrchestrator.Storage.csproj" />
+  </ItemGroup>
+
+</Project>

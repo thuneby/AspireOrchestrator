@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-AspireOrchestrator.Transfer.DatabaseMigrations-5ce2bdb6-9901-4447-b849-23b4874c658c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.4.2" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AspireOrchestrator.Core\AspireOrchestrator.Core.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.DataAccess\AspireOrchestrator.DataAccess.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.ServiceDefaults\AspireOrchestrator.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Transfer\AspireOrchestrator.Transfer.csproj" />
+  </ItemGroup>
+</Project>

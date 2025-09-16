@@ -12,17 +12,27 @@
 	</PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Azure.Messaging.ServiceBus" Version="9.3.1" />
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.1" />
-    <PackageReference Include="Aspire.Hosting.Azure.ServiceBus" Version="9.3.1" />
-    <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.3.2" />
+    <PackageReference Include="Aspire.Azure.Messaging.ServiceBus" Version="9.4.2" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.2" />
+    <PackageReference Include="Aspire.Hosting.Azure.ServiceBus" Version="9.4.2" />
+    <PackageReference Include="Aspire.Hosting.Azure.Storage" Version="9.4.2" />
+    <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.4.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\tools\AspireOrchestrator.BackendSimulator\AspireOrchestrator.BackendSimulator.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Administration\AspireOrchestrator.Administration.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.DatabaseMigrations\AspireOrchestrator.DatabaseMigrations.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Domain.DatabaseMigrations\AspireOrchestrator.Domain.DatabaseMigrations.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.MessagingWorker\AspireOrchestrator.MessagingWorker.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.Orchestrator.WebApi\AspireOrchestrator.Orchestrator.WebApi.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Parsing.WebApi\AspireOrchestrator.Parsing.WebApi.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.PaymentProcessing.WebApi\AspireOrchestrator.PaymentProcessing.WebApi.csproj" />
     <ProjectReference Include="..\AspireOrchestrator.ServiceDefaults\AspireOrchestrator.ServiceDefaults.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="..\AspireOrchestrator.Transfer.DatabaseMigrations\AspireOrchestrator.Transfer.DatabaseMigrations.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Transfer.WebApi\AspireOrchestrator.Transfer.WebApi.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Validation.DatabaseMigrations\AspireOrchestrator.Validation.DatabaseMigrations.csproj" />
+    <ProjectReference Include="..\AspireOrchestrator.Validation.WebApi\AspireOrchestrator.Validation.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

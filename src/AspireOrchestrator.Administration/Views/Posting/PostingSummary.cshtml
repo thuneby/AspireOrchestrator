@@ -1,0 +1,28 @@
+﻿@model IQueryable<AspireOrchestrator.Domain.Models.PostingSummary>
+
+@{
+    ViewData["Title"] = "Afstemningsoversigt";
+}
+
+<h2>Afstemningsoversigt</h2>
+
+<div class="col-md-12">
+    @(Html
+        .Grid(Model)
+        .Build(columns =>
+        {
+            columns.Add(model => model.AccountType).Titled("Kontotype");
+            columns.Add(model => model.Currency).Titled("Valuta");
+            columns.Add(model => model.DebitBalance.ToString("N")).Css("text-right").Titled("Debet").Formatted("{0:N}");
+            columns.Add(model => model.CreditBalance.ToString("N")).Css("text-right").Titled("Kredit").Formatted("{0:N}");
+            columns.Add(model => model.TotalBalance.ToString("N")).Css("text-right").Titled("Balance").Formatted("{0:N}");
+
+        })
+        .Css("table-hover")
+        .Empty("Ingen posteringer fundet")
+    )
+</div>
+<p>&nbsp;</p>
+<p>
+    <a asp-action="PostingAccountSummary" asp-controller="Posting">Se kontobalancer</a>
+</p>

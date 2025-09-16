@@ -1,0 +1,32 @@
+﻿@model IQueryable<AspireOrchestrator.Domain.Models.Deposit>
+
+@{
+    ViewData["Title"] = "Indbetalinger";
+}
+
+<h1>Indbetalinger</h1>
+
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.AccountNumber);
+        columns.Add(model => model.TrxDate).Formatted("{0: dd-MM-yyyy}");
+    columns.Add(model => model.ValDate).Formatted("{0: dd-MM-yyyy}");
+    columns.Add(model => model.ReconcileStatus);
+        columns.Add(model => model.Amount);
+    columns.Add(model => model.Currency);
+    columns.Add(model => model.AccountReference);
+    columns.Add(model => model.PaymentReference);
+    columns.Add(model => model.Message);
+    columns.Add(model => model.CreatedDate).Formatted("{0: dd-MM-yyyy}");
+    })
+    .Filterable()
+    .Pageable()
+    .Sortable()
+    .Empty("Ingen indbetalinger fundet")
+    .Css("table-hover")
+)
+
+

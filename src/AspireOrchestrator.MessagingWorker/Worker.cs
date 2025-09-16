@@ -43,7 +43,7 @@ protected override async Task ExecuteAsync(CancellationToken stoppingToken)
             processor.ProcessErrorAsync += ErrorHandler;
 
             // Start processing
-            await processor.StartProcessingAsync();
+            await processor.StartProcessingAsync(stoppingToken);
 
             logger.LogInformation("""
                                   Wait for a minute and then press any key to end the processing

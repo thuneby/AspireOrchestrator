@@ -1,0 +1,39 @@
+﻿using AspireOrchestrator.Core.OrchestratorModels;
+using AspireOrchestrator.Parsing.Business.Helpers;
+using AspireOrchestrator.Parsing.Business.Mappers.DepositMappers;
+using AspireOrchestrator.Parsing.Business.Mappers.ReceiptDetailMappers;
+using AspireOrchestrator.Parsing.Business.Mappers.TestMappers;
+using AspireOrchestrator.Parsing.Interfaces;
+using Microsoft.Extensions.Logging;
+
+namespace AspireOrchestrator.Parsing.Business
+{
+    public static class ParserFactory
+    {
+        public static IReceiptDetailParser GetReceiptDetailParser(DocumentType documentType, ILoggerFactory loggerFactory)
+        {
+            switch (documentType)
+            {
+                case DocumentType.ReceiptDetailJson:
+                    return new JsonParser();
+                case DocumentType.IpStandard:
+                    return new IpStandardParser(new IpStandardParserHelper(), new IpStandardMapper(loggerFactory), new IpRecordMapper(loggerFactory));
+                //case DocumentType.NetsIs:
+                //    return new NetsIsParser();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(documentType), documentType, null);
+            }
+        }
+
+        public static IDepositParser GetDepositParser(DocumentType documentType, ILoggerFactory loggerFactory)
+        {
+            return documentType switch
+            {
+                DocumentType.PosteringsData => new PosteringsDataParser(new PosteringsDataParserHelper(),
+                    new PosteringsDataMapper(loggerFactory), new PosteringsRecordMapper(loggerFactory)),
+                DocumentType.Camt53 => new Camt53Parser(loggerFactory),
+                _ => throw new ArgumentOutOfRangeException(nameof(documentType), documentType, null)
+            };
+        }
+    }
+}

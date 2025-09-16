@@ -3,7 +3,7 @@ using AspireOrchestrator.DataAccess.Interfaces;
 
 namespace AspireOrchestrator.Orchestrator.Interfaces
 {
-    public interface IFlowRepository: IRepository<Flow, long>
+    public interface IFlowRepository: IGuidRepository<Flow>
     {
     }
 }

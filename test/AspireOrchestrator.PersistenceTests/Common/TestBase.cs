@@ -1,4 +1,6 @@
-﻿using AspireOrchestrator.Orchestrator.DataAccess;
+﻿using AspireOrchestrator.Domain.DataAccess;
+using AspireOrchestrator.Orchestrator.DataAccess;
+using AspireOrchestrator.Transfer.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
@@ -9,7 +11,31 @@ namespace AspireOrchestrator.PersistenceTests.Common
     public class TestBase
     {
         protected readonly OrchestratorContext OrchestratorContext = InitializeOrchestratorContext();
+        protected readonly DomainContext DomainContext = InitializeDomainContext();
         protected readonly ValidationContext ValidationContext = InitializeValidationContect();
+        protected readonly TransferContext TransferContext = InitializeTransferContext();
+
+        protected readonly ILoggerFactory TestLoggerFactory = InitializeLoggerFactory();
+
+        private static OrchestratorContext InitializeOrchestratorContext()
+        {
+            var options = new DbContextOptionsBuilder<OrchestratorContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+            var context = new OrchestratorContext(options);
+            return context;
+        }
+
+        private static DomainContext InitializeDomainContext()
+        {
+            var options = new DbContextOptionsBuilder<DomainContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+            var context = new DomainContext(options);
+            return context;
+        }
 
         private static ValidationContext InitializeValidationContect()
         {
@@ -21,18 +47,16 @@ namespace AspireOrchestrator.PersistenceTests.Common
             return context;
         }
 
-        protected ILoggerFactory TestLoggerFactory = InitializeLoggerFactory();
-
-
-        private static OrchestratorContext InitializeOrchestratorContext()
+        private static TransferContext InitializeTransferContext()
         {
-            var options = new DbContextOptionsBuilder<OrchestratorContext>()
+            var options = new DbContextOptionsBuilder<TransferContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                 .Options;
-            var context = new OrchestratorContext(options);
+            var context = new TransferContext(options);
             return context;
         }
+
 
         private static ILoggerFactory InitializeLoggerFactory()
         {

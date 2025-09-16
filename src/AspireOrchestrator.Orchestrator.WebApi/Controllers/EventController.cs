@@ -1,10 +1,10 @@
 ﻿using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Orchestrator.BusinessLogic;
 using AspireOrchestrator.Orchestrator.Interfaces;
-using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using AspireOrchestrator.Orchestrator.WebApi.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,15 +16,16 @@ namespace AspireOrchestrator.Orchestrator.WebApi.Controllers
     {
         private readonly IEventRepository _eventRepository;
         private readonly WorkFlowProcessor _workflowProcessor;
-        private readonly ServiceBusClient _serviceBusClient;
+        private readonly EventPublisherService _eventPublisherService;
         private readonly ILogger<EventController> _logger;
         private readonly JsonSerializerOptions _options;
 
-        public EventController(IEventRepository eventRepository, IFlowRepository flowRepository, ServiceBusClient client, ILoggerFactory loggerFactory)
+        public EventController(IProcessorFactory processorFactory, IEventRepository eventRepository, IFlowRepository flowRepository, EventPublisherService service, ILoggerFactory loggerFactory)
         {
+            
             _eventRepository = eventRepository;
-            _workflowProcessor = new WorkFlowProcessor(_eventRepository, flowRepository, loggerFactory);
-            _serviceBusClient = client;
+            _workflowProcessor = new WorkFlowProcessor(processorFactory, _eventRepository, flowRepository, loggerFactory);
+            _eventPublisherService = service;
             _logger = loggerFactory.CreateLogger<EventController>();
             _options = new JsonSerializerOptions
             {
@@ -122,14 +123,7 @@ namespace AspireOrchestrator.Orchestrator.WebApi.Controllers
         [HttpPost("[action]")]
         public async Task PublishEvent(EventEntity eventEntity, string topicName = "events")
         {
-            var sender = _serviceBusClient.CreateSender(topicName);
-
-            var messageJson = JsonSerializer.Serialize(eventEntity, _options);
-            // create a message that we can send
-            var sbMessage = new ServiceBusMessage(messageJson);
-
-            // send the message
-            await sender.SendMessageAsync(sbMessage);
+            await _eventPublisherService.PublishEvent(eventEntity, topicName);
         }
 
     }

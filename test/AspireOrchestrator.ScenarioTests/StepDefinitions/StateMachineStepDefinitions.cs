@@ -8,7 +8,7 @@ namespace AspireOrchestrator.ScenarioTests.StepDefinitions
     public class StateMachineStepDefinitions(ScenarioContext scenarioContext)
     {
         private readonly ScenarioContext _scenarioContext = scenarioContext;
-        private EventEntity _eventEntity = new() {Id = Guid.NewGuid()};
+        private EventEntity _eventEntity = new();
 
         [When(@"the event with EventType (.*) and ProcessState (.*)")]
         public void WhenTheEventWithEventTypeHandleOsInfoAndProcessStateReceive(EventType eventType, ProcessState processState)
