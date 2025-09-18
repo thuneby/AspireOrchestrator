@@ -1,5 +1,6 @@
 using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Validation.DataAccess;
+using AspireOrchestrator.Validation.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -34,7 +35,7 @@ builder.EnrichSqlServerDbContext<DomainContext>(settings =>
 
 
 builder.Services.AddScoped<ReceiptDetailRepository>();
-builder.Services.AddScoped<ValidationErrorRepository>();
+builder.Services.AddScoped<IValidationErrorRepository, ValidationErrorRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

@@ -3,6 +3,7 @@ using AspireOrchestrator.Core.OrchestratorModels;
 using AspireOrchestrator.Domain.DataAccess;
 using AspireOrchestrator.Validation.Business;
 using AspireOrchestrator.Validation.DataAccess;
+using AspireOrchestrator.Validation.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using static System.String;
 
@@ -12,7 +13,7 @@ namespace AspireOrchestrator.Validation.WebApi.Controllers
     [ApiController]
     public class ValidationController(
         ReceiptDetailRepository receiptDetailRepository,
-        ValidationErrorRepository validationErrorRepository,
+        IValidationErrorRepository validationErrorRepository,
         ILoggerFactory loggerFactory) : ControllerBase
     {
         private readonly ILogger<ValidationController> _logger = loggerFactory.CreateLogger<ValidationController>();

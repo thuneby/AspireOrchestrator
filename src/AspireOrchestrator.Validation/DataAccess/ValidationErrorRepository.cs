@@ -1,10 +1,11 @@
 ﻿using AspireOrchestrator.DataAccess.Repositories;
+using AspireOrchestrator.Validation.Interfaces;
 using AspireOrchestrator.Validation.Models;
 using Microsoft.Extensions.Logging;
 
 namespace AspireOrchestrator.Validation.DataAccess
 {
-    public class ValidationErrorRepository(ValidationContext context, ILogger<ValidationErrorRepository> logger) : GuidRepositoryBase<ValidationError>(context, logger)
+    public class ValidationErrorRepository(ValidationContext context, ILogger<ValidationErrorRepository> logger) : GuidRepositoryBase<ValidationError>(context, logger), IValidationErrorRepository
     {
         public List<ValidationError> GetByReceiptDetailId(Guid receiptDetailId)
         {

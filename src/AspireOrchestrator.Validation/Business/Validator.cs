@@ -1,15 +1,14 @@
 ﻿using System.Collections.Concurrent;
 using System.Text.Json;
 using AspireOrchestrator.Domain.Models;
-using AspireOrchestrator.Validation.DataAccess;
 using AspireOrchestrator.Validation.Interfaces;
 using AspireOrchestrator.Validation.Models;
 
 namespace AspireOrchestrator.Validation.Business
 {
-    public class Validator(ValidationErrorRepository validationErrorRepository) : IValidator
+    public class Validator(IValidationErrorRepository validationErrorRepository) : IValidator
     {
-        private readonly ValidationErrorRepository _validationErrorRepository = validationErrorRepository;
+        private readonly IValidationErrorRepository _validationErrorRepository = validationErrorRepository;
 
         private async Task<object> LoadMasterDate(ReceiptDetail receiptDetail)
         {
